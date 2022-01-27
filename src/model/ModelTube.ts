@@ -1,4 +1,4 @@
-import ModelCapture from './ModelCapture';
+import ModelCapture from '@/model/ModelCapture';
 
 export default class ModelTube {
   public name: string;

@@ -2,7 +2,7 @@
     <div class="tube">
         <div class="header">
             <h2 class="tube_title">{{ tube.name }}</h2>
-            <button class="btn_remove_tube">-</button>
+            <button class="btn_remove_tube" @click="removeTube()">-</button>
         </div>
         <div class="all_captures">
             <div class="header">
@@ -36,6 +36,14 @@ export default defineComponent({
   name: 'Tube',
   props: {
     tube: ModelTube,
+  },
+  methods: {
+    removeTube(): void {
+      if (this.$props.tube !== undefined) {
+        const { tube } = this.$props;
+        this.$store.dispatch('REMOVE_TUBE', { tube });
+      }
+    },
   },
 });
 </script>

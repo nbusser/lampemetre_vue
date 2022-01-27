@@ -5,14 +5,15 @@ import ModelTube from '../model/ModelTube';
 
 // Augmented ActionContext
 type AAC = {
-    commit<K extends keyof Mutations>(
-      key: K,
-      payload: Parameters<Mutations[K]>[1]
-    ): ReturnType<Mutations[K]>
-  } & Omit<ActionContext<State, State>, 'commit'>;
+  commit<K extends keyof Mutations>(
+    key: K,
+    payload: Parameters<Mutations[K]>[1]
+  ): ReturnType<Mutations[K]>
+} & Omit<ActionContext<State, State>, 'commit'>;
 
 export interface Actions {
-    ADD_TUBE(ctx: AAC, payload: { tube: ModelTube }): void;
+  ADD_TUBE(ctx: AAC, payload: { tube: ModelTube }): void;
+  REMOVE_TUBE(ctx: AAC, payload: { tube: ModelTube }): void;
 }
 
 export type ActionTypes = keyof Actions;
