@@ -2,14 +2,23 @@
   <div>
     <p>Test</p>
     <p>{{ msg }}</p>
+    <Tube :tube="yo"/>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import Tube from './Tube.vue';
+import ModelTube from '../model/ModelTube';
 
+const yo: ModelTube = new ModelTube('test');
+yo.createCapture([1, 2, 3], 1, [1, 2, 3]);
 export default defineComponent({
   name: 'Workspace',
+  data: () => ({ yo }),
+  components: {
+    Tube,
+  },
   props: {
     msg: String,
   },
