@@ -7,7 +7,7 @@
         <div class="all_captures">
             <div class="header">
                 <h3 class="title">Captures</h3>
-                <button class="add_capture">+</button>
+                <button class="add_capture" @click="runCapture()">+</button>
             </div>
             <ul class="captures_list">
                 <li class="item_capture"
@@ -15,11 +15,14 @@
                 >
                     <div>
                         <label class="radio_select_capture">
-                            <input type="radio" v-model="selectedCapture" :value="uGrid">
+                            <input type="radio"
+                            v-model="selectedCapture"
+                            :value="capture"
+                            v-on:change="selectedCaptureChanged()">
                         </label>
                         <div>
                             <span>{{ capture.toString() }}</span>
-                            <button class="remove_capture">-</button>
+                            <button class="remove_capture" @click="removeCapture(uGrid)">-</button>
                         </div>
                     </div>
                 </li>
@@ -37,11 +40,44 @@ export default defineComponent({
   props: {
     tube: ModelTube,
   },
+  data: () => ({
+    selectedCapture: -1,
+  }),
   methods: {
+    runCapture(): void {
+      if (this.$props.tube !== undefined) {
+        // eslint-disable-next-line no-alert
+        const uGridText = prompt('Tension grille');
+        if (uGridText === null) { return; }
+        const uGrid = Number.parseFloat(uGridText);
+        if (Number.isNaN(uGrid)) { return; }
+
+        this.$store.dispatch('CREATE_CAPTURE', {
+          tube: this.$props.tube,
+          uAnode: [1, 2, 3, 4],
+          uGrid,
+          iCathode: [5, 6, 7, 8],
+        });
+      }
+    },
+    removeCapture(uGrid: number): void {
+      if (this.$props.tube !== undefined) {
+        this.$store.dispatch('DELETE_CAPTURE', {
+          tube: this.$props.tube,
+          uGrid,
+        });
+      }
+    },
     removeTube(): void {
       if (this.$props.tube !== undefined) {
         const { tube } = this.$props;
         this.$store.dispatch('REMOVE_TUBE', { tube });
+      }
+    },
+    selectedCaptureChanged(): void {
+      if (this.$props.tube !== undefined) {
+        const { tube } = this.$props;
+        this.$store.dispatch('SELECT_CAPTURE_TUBE', { tube, uGrid: this.selectedCapture });
       }
     },
   },
