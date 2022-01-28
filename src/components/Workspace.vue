@@ -3,10 +3,14 @@
     <p>Test</p>
     <p>{{ msg }}</p>
 
+    <div>
+    </div>
+
     <div class="tubes">
       <div class="header">
         <h2>Tubes</h2>
         <button @click="addTube()">+</button>
+        <button @click="clearTubes()">Vider</button>
       </div>
       <ul class="tubes">
         <li class="tube" v-for="tube in this.tubes" :key="tube">
@@ -38,6 +42,9 @@ export default defineComponent({
         const tube: ModelTube = new ModelTube(tubeName);
         this.$store.dispatch('ADD_TUBE', { tube });
       }
+    },
+    clearTubes(): void {
+      this.$store.dispatch('EMPTY_TUBES');
     },
   },
   computed: {

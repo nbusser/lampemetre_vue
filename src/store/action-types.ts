@@ -12,6 +12,7 @@ type AAC = {
 } & Omit<ActionContext<State, State>, 'commit'>;
 
 export interface Actions {
+  EMPTY_TUBES(ctx: AAC): void;
   ADD_TUBE(ctx: AAC, payload: { tube: ModelTube }): void;
   REMOVE_TUBE(ctx: AAC, payload: { tube: ModelTube }): void;
   CREATE_TUBE(ctx: AAC, payload: { name: string }): void

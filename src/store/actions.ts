@@ -1,9 +1,11 @@
-import ModelTube from '@/model/ModelTube';
 import { ActionTree } from 'vuex';
 import { Actions } from './action-types';
 import { State } from './state';
 
 const actions: ActionTree<State, State> & Actions = {
+  EMPTY_TUBES(context) {
+    context.commit('EMPTY_TUBES', undefined);
+  },
   ADD_TUBE(context, payload) {
     context.commit('ADD_TUBE', payload.tube);
   },

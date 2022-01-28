@@ -2,6 +2,7 @@ import ModelTube from '../model/ModelTube';
 import { State } from './state';
 
 export type Mutations<S = State> = {
+  EMPTY_TUBES(state: S): void
   ADD_TUBE(state: S, tube: ModelTube): void
   REMOVE_TUBE(state: S, tube: ModelTube): void
   CREATE_TUBE(state: S, name: string): void
