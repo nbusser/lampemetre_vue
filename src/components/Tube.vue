@@ -18,7 +18,7 @@
                             <input type="radio"
                             v-model="selectedCapture"
                             :value="capture"
-                            v-on:change="selectedCaptureChanged()">
+                            @change="selectedCaptureChanged()">
                         </label>
                         <div>
                             <span>{{ capture.toString() }}</span>
