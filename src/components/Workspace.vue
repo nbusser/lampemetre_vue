@@ -8,7 +8,7 @@
         <h2>Tubes</h2>
         <button @click="addTube()">+</button>
       </div>
-      <ul>
+      <ul class="tubes">
         <li class="tube" v-for="tube in this.tubes" :key="tube">
           <Tube :tube="tube"/>
         </li>
@@ -59,6 +59,10 @@ export default defineComponent({
     margin-left: 1em;
     vertical-align: text-bottom;
   }
+}
+
+.tubes {
+  list-style: none;
 }
 
 </style>
