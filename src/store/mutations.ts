@@ -48,16 +48,24 @@ const mutations: MutationTree<State> & Mutations = {
 
   SELECT_CAPTURE_TUBE(
     state,
-    payload: {
-      tube: ModelTube,
-      uGrid: number
+    {
+      tube,
+      uGrid,
     },
   ) {
-    const foundTube = state.tubes.find((t: ModelTube) => t === payload.tube);
+    const foundTube = state.tubes.find((t: ModelTube) => t === tube);
     if (foundTube === undefined) { return; }
-    const capture = foundTube.captures.get(payload.uGrid);
+    const capture = foundTube.captures.get(uGrid);
     if (capture === undefined) { return; }
-    foundTube.changeSelectedCapture(capture);
+    foundTube.changeSelectedUgrid(uGrid);
+  },
+  CHANGE_SMOOTHING_FACTOR(state, {
+    tube,
+    smoothingFactor,
+  }) {
+    const foundTube = state.tubes.find((t: ModelTube) => t === tube);
+    if (foundTube === undefined) { return; }
+    foundTube.changeSmoothingFactor(smoothingFactor);
   },
 };
 

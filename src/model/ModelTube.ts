@@ -1,11 +1,16 @@
 import ModelCapture from '@/model/ModelCapture';
 
+export const minSmoothingFactor = 0;
+export const maxSmoothingFactor = 10;
+
 export default class ModelTube {
   public name: string;
 
   public captures: Map<number, ModelCapture> = new Map();
 
-  public selectedCapture: ModelCapture | null = null;
+  public selectedUgrid: number | null = null;
+
+  public smoothingFactor = 4;
 
   constructor(name: string) {
     this.name = name;
@@ -23,8 +28,8 @@ export default class ModelTube {
 
   deleteCapture(capture: ModelCapture): void {
     this.deleteCaptureByUgrid(capture.uGrid);
-    if (capture === this.selectedCapture) {
-      this.selectedCapture = null;
+    if (capture.uGrid === this.selectedUgrid) {
+      this.selectedUgrid = null;
     }
   }
 
@@ -37,10 +42,24 @@ export default class ModelTube {
     this.captures.delete(uGrid);
   }
 
-  changeSelectedCapture(newSelectedCapture: ModelCapture): void {
-    if (!this.captures.has(newSelectedCapture.uGrid)) {
-      throw Error(`No capture ${newSelectedCapture.toString()} for tube ${this.name}`);
+  changeSelectedUgrid(newSelectedUgrid: number): void {
+    if (!this.captures.has(newSelectedUgrid)) {
+      throw Error(`No capture ${newSelectedUgrid.toString()} for tube ${this.name}`);
     }
-    this.selectedCapture = newSelectedCapture;
+    this.selectedUgrid = newSelectedUgrid;
+  }
+
+  changeSmoothingFactor(newSmoothingFactor: number): void {
+    if (newSmoothingFactor < minSmoothingFactor || newSmoothingFactor > maxSmoothingFactor) {
+      throw Error(`Smoothing factor must be between ${minSmoothingFactor} and ${maxSmoothingFactor}`);
+    }
+    if (this.captures.size > 0) {
+      throw Error('Smoothing factor can only be changed if no capture is registered');
+    }
+    this.smoothingFactor = newSmoothingFactor;
+  }
+
+  canChangeSmoothingFactor(): boolean {
+    return this.captures.size === 0;
   }
 }

@@ -24,6 +24,9 @@ const actions: ActionTree<State, State> & Actions = {
   SELECT_CAPTURE_TUBE(context, payload) {
     context.commit('SELECT_CAPTURE_TUBE', payload);
   },
+  CHANGE_SMOOTHING_FACTOR(context, payload) {
+    context.commit('CHANGE_SMOOTHING_FACTOR', payload);
+  },
 };
 
 export default actions;

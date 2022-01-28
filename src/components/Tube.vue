@@ -16,24 +16,36 @@
                     <div>
                         <label class="radio_select_capture">
                             <input type="radio"
-                            v-model="selectedCapture"
-                            :value="capture"
-                            @change="selectedCaptureChanged()">
+                            :checked="tube.selectedUgrid === uGrid"
+                            :value="uGrid"
+                            @change="selectedCaptureChanged">
+                            <div>
+                                <span>{{ capture.toString() }}</span>
+                                <button class="remove_capture" @click="removeCapture(uGrid)">
+                                  -
+                                </button>
+                            </div>
                         </label>
-                        <div>
-                            <span>{{ capture.toString() }}</span>
-                            <button class="remove_capture" @click="removeCapture(uGrid)">-</button>
-                        </div>
                     </div>
                 </li>
             </ul>
+        </div>
+        <div class="slider">
+            <span>Lissage:</span>
+            <input type="range"
+            :min="minSmoothingFactor"
+            :max="maxSmoothingFactor"
+            :value="tube.smoothingFactor"
+            :disabled="!tube.canChangeSmoothingFactor()"
+            @change="smoothingFactorChanged"
+            >
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import ModelTube from '../model/ModelTube';
+import ModelTube, { minSmoothingFactor, maxSmoothingFactor } from '@/model/ModelTube';
 
 export default defineComponent({
   name: 'Tube',
@@ -41,44 +53,33 @@ export default defineComponent({
     tube: ModelTube,
   },
   data: () => ({
-    selectedCapture: -1,
+    minSmoothingFactor,
+    maxSmoothingFactor,
   }),
   methods: {
     runCapture(): void {
       if (this.$props.tube !== undefined) {
-        // eslint-disable-next-line no-alert
         const uGridText = prompt('Tension grille');
         if (uGridText === null) { return; }
         const uGrid = Number.parseFloat(uGridText);
         if (Number.isNaN(uGrid)) { return; }
 
-        this.$store.dispatch('CREATE_CAPTURE', {
-          tube: this.$props.tube,
-          uAnode: [1, 2, 3, 4],
-          uGrid,
-          iCathode: [5, 6, 7, 8],
-        });
+        this.$emit('captureRequested', uGrid);
       }
     },
     removeCapture(uGrid: number): void {
-      if (this.$props.tube !== undefined) {
-        this.$store.dispatch('DELETE_CAPTURE', {
-          tube: this.$props.tube,
-          uGrid,
-        });
-      }
+      this.$emit('captureRemoved', uGrid);
     },
     removeTube(): void {
-      if (this.$props.tube !== undefined) {
-        const { tube } = this.$props;
-        this.$store.dispatch('REMOVE_TUBE', { tube });
-      }
+      this.$emit('tubeRemoved');
     },
-    selectedCaptureChanged(): void {
-      if (this.$props.tube !== undefined) {
-        const { tube } = this.$props;
-        this.$store.dispatch('SELECT_CAPTURE_TUBE', { tube, uGrid: this.selectedCapture });
-      }
+    selectedCaptureChanged(evt: Event): void {
+      const newValue = Number.parseFloat((evt.target as any).value);
+      this.$emit('selectedCaptureChanged', newValue);
+    },
+    smoothingFactorChanged(evt: Event): void {
+      const newValue = Number.parseInt((evt.target as any).value, 10);
+      this.$emit('smoothingFactorChanged', newValue);
     },
   },
 });
@@ -107,6 +108,17 @@ export default defineComponent({
 button {
     margin-left: 1em;
     vertical-align: text-bottom;
+}
+
+.slider {
+    margin-top: 0.5em;
+    width: min-content;
+
+    input {
+        display: inline-block;
+        max-width: 50%;
+        vertical-align: bottom;
+    }
 }
 
 </style>

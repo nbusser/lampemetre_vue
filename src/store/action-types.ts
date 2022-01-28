@@ -19,6 +19,7 @@ export interface Actions {
   CREATE_CAPTURE(ctx: AAC, payload: { tube: ModelTube, uAnode: number[], uGrid: number, iCathode: number[] }): void
   DELETE_CAPTURE(ctx: AAC, payload: { tube: ModelTube, uGrid: number }): void
   SELECT_CAPTURE_TUBE(ctx: AAC, payload: { tube: ModelTube, uGrid: number }): void
+  CHANGE_SMOOTHING_FACTOR(ctx: AAC, payload: { tube: ModelTube, smoothingFactor: number }): void
 }
 
 export type ActionTypes = keyof Actions;

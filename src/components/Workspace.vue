@@ -14,7 +14,13 @@
       </div>
       <ul class="tubes">
         <li class="tube" v-for="tube in this.tubes" :key="tube">
-          <Tube :tube="tube"/>
+          <Tube :tube="tube"
+          @selectedCaptureChanged="selectCaptureTube(tube, $event)"
+          @captureRequested="runCapture(tube, $event)"
+          @captureRemoved="removeCapture(tube, $event)"
+          @tubeRemoved="removeTube(tube)"
+          @smoothingFactorChanged="changeSmoothingFactor(tube, $event)"
+          />
         </li>
       </ul>
     </div>
@@ -36,7 +42,6 @@ export default defineComponent({
   },
   methods: {
     addTube(): void {
-      // eslint-disable-next-line no-alert
       const tubeName = prompt('Nom du tube');
       if (tubeName !== null) {
         const tube: ModelTube = new ModelTube(tubeName);
@@ -45,6 +50,29 @@ export default defineComponent({
     },
     clearTubes(): void {
       this.$store.dispatch('EMPTY_TUBES');
+    },
+    selectCaptureTube(tube: ModelTube, uGrid: number) {
+      this.$store.dispatch('SELECT_CAPTURE_TUBE', { tube, uGrid });
+    },
+    runCapture(tube: ModelTube, uGrid: number) {
+      this.$store.dispatch('CREATE_CAPTURE', {
+        tube,
+        uAnode: [1, 2, 3, 4],
+        uGrid,
+        iCathode: [5, 6, 7, 8],
+      });
+    },
+    removeCapture(tube: ModelTube, uGrid: number) {
+      this.$store.dispatch('DELETE_CAPTURE', {
+        tube,
+        uGrid,
+      });
+    },
+    removeTube(tube: ModelTube) {
+      this.$store.dispatch('REMOVE_TUBE', { tube });
+    },
+    changeSmoothingFactor(tube: ModelTube, smoothingFactor: number) {
+      this.$store.dispatch('CHANGE_SMOOTHING_FACTOR', { tube, smoothingFactor });
     },
   },
   computed: {
