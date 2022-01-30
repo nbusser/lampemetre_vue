@@ -3,8 +3,7 @@
     <p>Test</p>
     <p>{{ msg }}</p>
 
-    <div>
-    </div>
+    <Chart/>
 
     <div class="tubes">
       <div class="header">
@@ -30,11 +29,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import ModelTube from '@/model/ModelTube';
-import Tube from './Tube.vue';
+import Chart from '@/components/Chart.vue';
+import Tube from '@/components/Tube.vue';
 
 export default defineComponent({
   name: 'Workspace',
   components: {
+    Chart,
     Tube,
   },
   props: {
