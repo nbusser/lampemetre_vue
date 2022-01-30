@@ -127,6 +127,20 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
+.tubes {
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+  }
+}
+
+.tube {
+  border: 2px solid black;
+  border-radius: 2%;
+  padding: 1.5em;
+}
+
 .measurements {
   display: block;
 }

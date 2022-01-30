@@ -1,45 +1,43 @@
 <template>
-    <div class="tube">
+    <div class="header">
+        <h2 class="tube_title">{{ tube.name }}</h2>
+        <button class="btn_remove_tube" @click="removeTube()">-</button>
+    </div>
+    <div class="all_captures">
         <div class="header">
-            <h2 class="tube_title">{{ tube.name }}</h2>
-            <button class="btn_remove_tube" @click="removeTube()">-</button>
+            <h3 class="title">Captures</h3>
+            <button class="add_capture" @click="runCapture()">+</button>
         </div>
-        <div class="all_captures">
-            <div class="header">
-                <h3 class="title">Captures</h3>
-                <button class="add_capture" @click="runCapture()">+</button>
-            </div>
-            <ul class="captures_list">
-                <li class="item_capture"
-                    v-for="[uGrid, capture] in tube.captures" :key="uGrid"
-                >
-                    <div>
-                        <label class="radio_select_capture">
-                            <input type="radio"
-                            :checked="tube.selectedUgrid === uGrid"
-                            :value="uGrid"
-                            @change="selectedCaptureChanged">
-                            <div>
-                                <span>{{ capture.toString() }}</span>
-                                <button class="remove_capture" @click="removeCapture(uGrid)">
-                                  -
-                                </button>
-                            </div>
-                        </label>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="slider">
-            <span>Lissage:</span>
-            <input type="range"
-            :min="minSmoothingFactor"
-            :max="maxSmoothingFactor"
-            :value="tube.smoothingFactor"
-            :disabled="!tube.canChangeSmoothingFactor()"
-            @change="smoothingFactorChanged"
+        <ul class="captures_list">
+            <li class="item_capture"
+                v-for="[uGrid, capture] in tube.captures" :key="uGrid"
             >
-        </div>
+                <div>
+                    <label class="radio_select_capture">
+                        <input type="radio"
+                        :checked="tube.selectedUgrid === uGrid"
+                        :value="uGrid"
+                        @change="selectedCaptureChanged">
+                        <div>
+                            <span>{{ capture.toString() }}</span>
+                            <button class="remove_capture" @click="removeCapture(uGrid)">
+                              -
+                            </button>
+                        </div>
+                    </label>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="slider">
+        <span>Lissage:</span>
+        <input type="range"
+        :min="minSmoothingFactor"
+        :max="maxSmoothingFactor"
+        :value="tube.smoothingFactor"
+        :disabled="!tube.canChangeSmoothingFactor()"
+        @change="smoothingFactorChanged"
+        >
     </div>
 </template>
 
