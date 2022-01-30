@@ -14,7 +14,7 @@
         <button @click="addTube()">+</button>
         <button @click="clearTubes()">Vider</button>
       </div>
-      <ul class="tubes">
+      <ul>
         <li class="tube" v-for="tube, i in this.tubes" :key="i">
           <Tube :tube="tube"
           @selectedCaptureChanged="selectCaptureTube(tube, $event)"
@@ -33,8 +33,8 @@
         <button @click="promptMeasurement()">+</button>
         <button @click="clearMeasurements()">Vider</button>
       </div>
-      <ul class="measurements">
-        <li class="tube" v-for="uAnode in this.measurements" :key="uAnode">
+      <ul>
+        <li class="measurement" v-for="uAnode in this.measurements" :key="uAnode">
           <Measurement :uAnode="uAnode"
           @measurementRemoved="removeMeasurement(uAnode)"
           />
@@ -127,7 +127,16 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-.tubes {
+.measurements {
+  display: block;
+}
+
+.measurement {
+  display: inline-block;
+  margin: 1%;
+}
+
+ul {
   list-style: none;
 }
 

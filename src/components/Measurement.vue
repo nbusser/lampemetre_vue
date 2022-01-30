@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <h3>{{ uAnode }}</h3>
+        <h3>{{ uAnode }} V</h3>
         <button @click="removeMeasurement()">-</button>
     </div>
 
@@ -84,11 +84,23 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-  td {
+  .header {
     text-align: center;
+  }
+
+  table {
+    border-collapse: collapse;
+    display: inline;
+  }
+
+  th, td {
     border-style: solid;
     border-width: 0.1em;
     padding: 0.3em;
+  }
+
+  td {
+    text-align: center;
 
     img {
       height: 1em;
