@@ -1,28 +1,14 @@
-import { Stack } from 'stack-typescript';
 import { MutationTree } from 'vuex';
 import { Color, colorBible } from '@/Color';
+import ColorStack from '@/ColorStack';
 import ModelTube from '../model/ModelTube';
 import { Mutations } from './mutation-types';
 import { State } from './state';
 
-const defaultColor = new Color(0, 0, 0, 1.0);
+const brandNewColorStack = () : ColorStack => new ColorStack(...colorBible);
 
-// TODO: create class ColorStack
-const brandNewColorStack = () : Stack<Color> => new Stack(...colorBible);
-const popColor = (stack: Stack<Color>): Color => {
-  if (stack.size === 0) {
-    return defaultColor;
-  }
-  return stack.pop();
-};
-const pushColor = (stack: Stack<Color>, toPush: Color) => {
-  if (!toPush.equals(defaultColor)) {
-    stack.push(toPush);
-  }
-};
-
-let tubeColorStack = brandNewColorStack();
-let measurementsColorStack = brandNewColorStack();
+let tubeColorStack: ColorStack = brandNewColorStack();
+let measurementsColorStack: ColorStack = brandNewColorStack();
 
 const mutations: MutationTree<State> & Mutations = {
   EMPTY_TUBES(state) {
@@ -32,7 +18,7 @@ const mutations: MutationTree<State> & Mutations = {
   ADD_TUBE(state, tube: ModelTube) {
     state.tubes.push(tube);
 
-    state.tubeColors.set(tube, popColor(tubeColorStack));
+    state.tubeColors.set(tube, tubeColorStack.pop());
   },
   REMOVE_TUBE(state, tube: ModelTube) {
     const tubeIndex = state.tubes.findIndex((t) => t === tube);
@@ -40,7 +26,7 @@ const mutations: MutationTree<State> & Mutations = {
       state.tubes.splice(tubeIndex, 1);
 
       const color: Color = state.tubeColors.get(tube) as Color;
-      pushColor(tubeColorStack, color);
+      tubeColorStack.push(color);
     }
   },
   CREATE_TUBE(state, name: string) {
@@ -97,13 +83,13 @@ const mutations: MutationTree<State> & Mutations = {
   ADD_MEASUREMENT(state, uAnode: number) {
     state.measurements.add(uAnode);
 
-    state.measurementsColors.set(uAnode, popColor(measurementsColorStack));
+    state.measurementsColors.set(uAnode, measurementsColorStack.pop());
   },
   REMOVE_MEASUREMENT(state, uAnode: number) {
     state.measurements.delete(uAnode);
 
     const color: Color = state.measurementsColors.get(uAnode) as Color;
-    pushColor(measurementsColorStack, color);
+    measurementsColorStack.push(color);
   },
   CLEAR_MEASUREMENTS(state) {
     state.measurements.clear();
