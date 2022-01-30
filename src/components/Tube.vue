@@ -47,6 +47,13 @@ import ModelTube, { minSmoothingFactor, maxSmoothingFactor } from '@/model/Model
 
 export default defineComponent({
   name: 'Tube',
+  emits: [
+    'selectedCaptureChanged',
+    'captureRequested',
+    'captureRemoved',
+    'tubeRemoved',
+    'smoothingFactorChanged',
+  ],
   props: {
     tube: ModelTube,
   },

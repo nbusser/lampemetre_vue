@@ -15,6 +15,7 @@ interface PlotHTMLElement extends HTMLElement {
 
 export default defineComponent({
   name: 'Chart',
+  emits: ['addMeasurement', 'removeMeasurement'],
   data: () => {
     const rootHtml = null as PlotHTMLElement | null;
     const curves = [] as Data[];
