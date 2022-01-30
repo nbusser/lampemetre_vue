@@ -15,7 +15,7 @@
         <button @click="clearTubes()">Vider</button>
       </div>
       <ul class="tubes">
-        <li class="tube" v-for="tube in this.tubes" :key="tube">
+        <li class="tube" v-for="tube, i in this.tubes" :key="i">
           <Tube :tube="tube"
           @selectedCaptureChanged="selectCaptureTube(tube, $event)"
           @captureRequested="runCapture(tube, $event)"

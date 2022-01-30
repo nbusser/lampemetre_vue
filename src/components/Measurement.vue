@@ -13,7 +13,7 @@
                 <th>Transductance</th>
                 <th>μ (coef)</th>
             </tr>
-            <tr v-for="tube in this.tubes" :key="tube">
+            <tr v-for="tube, i in this.tubes" :key="i">
                 <th>{{ tube.name }}</th>
                 <td>?</td>
                 <td>?</td>
