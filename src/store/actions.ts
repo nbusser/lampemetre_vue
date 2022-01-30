@@ -33,6 +33,9 @@ const actions: ActionTree<State, State> & Actions = {
   REMOVE_MEASUREMENT(context, payload) {
     context.commit('REMOVE_MEASUREMENT', payload.uAnode);
   },
+  CLEAR_MEASUREMENTS(context) {
+    context.commit('CLEAR_MEASUREMENTS', undefined);
+  },
 };
 
 export default actions;

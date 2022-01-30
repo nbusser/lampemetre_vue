@@ -26,6 +26,21 @@
         </li>
       </ul>
     </div>
+
+    <div class="measurements">
+      <div class="header">
+        <h2>Mesures</h2>
+        <button @click="addMeasurement()">+</button>
+        <button @click="clearMeasurements()">Vider</button>
+      </div>
+      <ul class="measurements">
+        <li class="tube" v-for="uAnode in this.measurements" :key="uAnode">
+          <Measurement :uAnode="uAnode"
+          @measurementRemoved="removeMeasurement(uAnode)"
+          />
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -34,12 +49,14 @@ import { defineComponent } from 'vue';
 import ModelTube from '@/model/ModelTube';
 import Chart from '@/components/Chart.vue';
 import Tube from '@/components/Tube.vue';
+import Measurement from '@/components/Measurement.vue';
 
 export default defineComponent({
   name: 'Workspace',
   components: {
     Chart,
     Tube,
+    Measurement,
   },
   props: {
     msg: String,
@@ -78,16 +95,28 @@ export default defineComponent({
     changeSmoothingFactor(tube: ModelTube, smoothingFactor: number) {
       this.$store.dispatch('CHANGE_SMOOTHING_FACTOR', { tube, smoothingFactor });
     },
-    addMeasurement(uAnode: number) {
-      this.$store.dispatch('ADD_MEASUREMENT', { uAnode });
+    addMeasurement() {
+      const promptedUanode = prompt('Tension anode de mesure');
+      if (promptedUanode !== null) {
+        const uAnode = Number.parseFloat(promptedUanode);
+        if (!Number.isNaN(uAnode)) {
+          this.$store.dispatch('ADD_MEASUREMENT', { uAnode });
+        }
+      }
     },
     removeMeasurement(uAnode: number) {
       this.$store.dispatch('REMOVE_MEASUREMENT', { uAnode });
+    },
+    clearMeasurements() {
+      this.$store.dispatch('CLEAR_MEASUREMENTS');
     },
   },
   computed: {
     tubes(): ModelTube[] {
       return this.$store.state.tubes;
+    },
+    measurements(): Set<number> {
+      return this.$store.state.measurements;
     },
   },
 });

@@ -12,6 +12,7 @@ export type Mutations<S = State> = {
   CHANGE_SMOOTHING_FACTOR(state: S, payload: { tube: ModelTube, smoothingFactor: number }): void
   ADD_MEASUREMENT(state: S, uAnode: number): void
   REMOVE_MEASUREMENT(state: S, uAnode: number): void
+  CLEAR_MEASUREMENTS(state: S): void
 };
 
 export type MurationTypes = keyof Mutations;

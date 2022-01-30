@@ -73,6 +73,9 @@ const mutations: MutationTree<State> & Mutations = {
   REMOVE_MEASUREMENT(state, uAnode: number) {
     state.measurements.delete(uAnode);
   },
+  CLEAR_MEASUREMENTS(state) {
+    state.measurements.clear();
+  },
 };
 
 export default mutations;

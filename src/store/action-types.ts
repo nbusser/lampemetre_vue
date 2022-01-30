@@ -22,6 +22,7 @@ export interface Actions {
   CHANGE_SMOOTHING_FACTOR(ctx: AAC, payload: { tube: ModelTube, smoothingFactor: number }): void
   ADD_MEASUREMENT(ctx: AAC, payload: { uAnode: number }): void;
   REMOVE_MEASUREMENT(ctx: AAC, payload: { uAnode: number }): void;
+  CLEAR_MEASUREMENTS(ctx: AAC): void;
 }
 
 export type ActionTypes = keyof Actions;
