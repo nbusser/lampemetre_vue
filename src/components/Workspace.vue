@@ -124,17 +124,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-.header {
-  > * {
-    display: inline;
-  }
-
-  button {
-    margin-left: 1em;
-    vertical-align: text-bottom;
-  }
-}
-
 .tubes {
   list-style: none;
 }

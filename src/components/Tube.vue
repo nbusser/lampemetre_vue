@@ -91,10 +91,6 @@ export default defineComponent({
     display: inline-block;
 }
 
-.header > * {
-    display: inline;
-}
-
 .item_capture {
     div {
         display: inline;
