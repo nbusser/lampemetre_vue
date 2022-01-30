@@ -1,6 +1,6 @@
 <template>
   <h1>Lampemetre</h1>
-  <Workspace msg="Ceci est un prop"/>
+  <Workspace/>
 </template>
 
 <script lang="ts">

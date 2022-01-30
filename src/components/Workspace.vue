@@ -1,8 +1,5 @@
 <template>
   <div>
-    <p>Test</p>
-    <p>{{ msg }}</p>
-
     <Chart
     @addMeasurement="addMeasurement"
     @removeMeasurement="removeMeasurement"
@@ -57,9 +54,6 @@ export default defineComponent({
     Chart,
     Tube,
     Measurement,
-  },
-  props: {
-    msg: String,
   },
   methods: {
     addTube(): void {
