@@ -13,12 +13,12 @@
                 <th>Transductance</th>
                 <th>μ (coef)</th>
             </tr>
-            <tr v-for="tube, i in this.tubes" :key="i">
-                <th>{{ tube.name }}</th>
-                <td>{{ getSelectedIcathode(tube) }}</td>
-                <td>{{ getInternalResistance(tube) }}</td>
-                <td>{{ getTransductance(tube) }}</td>
-                <td>{{ getAmplificationFactor(tube) }}</td>
+            <tr v-for="tube, i in measurementResults" :key="i">
+                <th>{{ tube.tubeName }}</th>
+                <td v-for="result, j in tube.results" :key="j">
+                  <span v-if="typeof result === 'number'">{{ result }} {{ units[j] }}</span>
+                  <img src="@/assets/warning.svg" :title="result" v-else/>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -34,33 +34,65 @@ import {
   computeTransductance,
 } from '@/MeasurementFunctions';
 
+interface MeasurementResults {
+  tubeName: string,
+  results: (number | string)[]
+}
+
 export default defineComponent({
   name: 'Measurement',
   emits: ['measurementRemoved'],
   props: {
     uAnode: Number,
   },
+  data: () => ({
+    units: [
+      'mA',
+      'kOhm',
+      'mA/V (mS)',
+      '',
+    ] as string[],
+  }),
   computed: {
     tubes(): ModelTube[] {
       return this.$store.state.tubes;
+    },
+    measurementResults(): MeasurementResults[] {
+      const computedTubes: MeasurementResults[] = [];
+      this.$store.state.tubes.forEach((tube) => {
+        const uAnode = this.uAnode as number;
+        const computedTube: MeasurementResults = {
+          tubeName: tube.name,
+          results: [
+            computeSelectedIcathode(tube, uAnode),
+            computeInternalResistance(tube, uAnode),
+            computeTransductance(tube, uAnode),
+            computeAmplificationFactor(tube, uAnode),
+          ],
+        };
+        computedTubes.push(computedTube);
+      });
+      return computedTubes;
     },
   },
   methods: {
     removeMeasurement(): void {
       this.$emit('measurementRemoved');
     },
-    getSelectedIcathode(tube: ModelTube) {
-      return computeSelectedIcathode(tube, this.uAnode as number);
-    },
-    getInternalResistance(tube: ModelTube) {
-      return computeInternalResistance(tube, this.uAnode as number);
-    },
-    getTransductance(tube: ModelTube) {
-      return computeTransductance(tube, this.uAnode as number);
-    },
-    getAmplificationFactor(tube: ModelTube) {
-      return computeAmplificationFactor(tube, this.uAnode as number);
-    },
   },
 });
 </script>
+
+<style lang="scss" scoped>
+  td {
+    text-align: center;
+    border-style: solid;
+    border-width: 0.1em;
+    padding: 0.3em;
+
+    img {
+      height: 1em;
+      width: 1em;
+    }
+  }
+</style>
