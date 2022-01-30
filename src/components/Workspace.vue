@@ -47,6 +47,7 @@ import ModelTube from '@/model/ModelTube';
 import Chart from '@/components/Chart.vue';
 import Tube from '@/components/Tube.vue';
 import Measurement from '@/components/Measurement.vue';
+import { colorBible } from '@/Color';
 
 export default defineComponent({
   name: 'Workspace',
@@ -55,6 +56,9 @@ export default defineComponent({
     Tube,
     Measurement,
   },
+  data: () => ({
+    colorBible,
+  }),
   methods: {
     addTube(): void {
       const tubeName = prompt('Nom du tube');

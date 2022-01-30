@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <h2 class="tube_title">{{ tube.name }}</h2>
+        <h2 class="tube_title" :style="setColor()">{{ tube.name }}</h2>
         <button class="btn_remove_tube" @click="removeTube()">-</button>
     </div>
     <div class="all_captures">
@@ -44,6 +44,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import ModelTube, { minSmoothingFactor, maxSmoothingFactor } from '@/model/ModelTube';
+import { Color } from '@/Color';
 
 export default defineComponent({
   name: 'Tube',
@@ -85,6 +86,15 @@ export default defineComponent({
     smoothingFactorChanged(evt: Event): void {
       const newValue = Number.parseInt((evt.target as any).value, 10);
       this.$emit('smoothingFactorChanged', newValue);
+    },
+    setColor() {
+      let stringColor = 'rgba(0, 0, 0, 1)';
+      if (this.tube !== undefined) {
+        stringColor = (this.$store.state.tubeColors.get(this.tube) as Color).toString();
+      }
+      return {
+        color: stringColor,
+      };
     },
   },
 });

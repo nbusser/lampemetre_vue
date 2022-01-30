@@ -7,6 +7,7 @@ import { defineComponent } from 'vue';
 import {
   Layout, Shape, Data, PlotMouseEvent, newPlot, redraw, PlotData,
 } from 'plotly.js';
+import { Color } from '@/Color';
 
 interface PlotHTMLElement extends HTMLElement {
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -100,6 +101,8 @@ export default defineComponent({
     refreshTubes() {
       this.curves.splice(0, this.curves.length);
       this.$store.state.tubes.forEach((tube) => {
+        const tubeColor = this.$store.state.tubeColors.get(tube) as Color;
+
         tube.captures.forEach((capture) => {
           const trace: PlotData = {
             x: capture.uAnode,
@@ -107,7 +110,7 @@ export default defineComponent({
             mode: 'lines+markers',
             type: 'scatter',
             marker: {
-              color: 'rgba(255, 0, 0, 1.0)',
+              color: tubeColor.toString(),
             },
             name: capture.toString(),
           } as PlotData;
@@ -120,6 +123,7 @@ export default defineComponent({
     refreshMeasurements() {
       this.annotations.splice(0, this.annotations.length);
       this.$store.state.measurements.forEach((uAnode) => {
+        const measurementColor = this.$store.state.measurementsColors.get(uAnode) as Color;
         const shape = {
           type: 'line',
           x0: uAnode,
@@ -128,7 +132,7 @@ export default defineComponent({
           yref: 'paper',
           y1: 1,
           line: {
-            color: 'rgba(255, 0, 0, 1.0)',
+            color: measurementColor.toString(),
             width: 2,
             dash: 'dot',
           },

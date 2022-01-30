@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <h3>{{ uAnode }} V</h3>
+        <h3 :style="setColor()">{{ uAnode }} V</h3>
         <button @click="removeMeasurement()">-</button>
     </div>
 
@@ -33,6 +33,7 @@ import {
   computeSelectedIcathode,
   computeTransductance,
 } from '@/MeasurementFunctions';
+import { Color } from '@/Color';
 
 interface MeasurementResults {
   tubeName: string,
@@ -78,6 +79,15 @@ export default defineComponent({
   methods: {
     removeMeasurement(): void {
       this.$emit('measurementRemoved');
+    },
+    setColor() {
+      let stringColor = 'rgba(0, 0, 0, 1)';
+      if (this.uAnode !== undefined) {
+        stringColor = (this.$store.state.measurementsColors.get(this.uAnode) as Color).toString();
+      }
+      return {
+        color: stringColor,
+      };
     },
   },
 });

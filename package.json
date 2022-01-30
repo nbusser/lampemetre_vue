@@ -11,7 +11,8 @@
     "core-js": "^3.6.5",
     "plotly.js": "npm:plotly.js-dist@^2.3.1",
     "vue": "^3.0.0",
-    "vuex": "^4.0.0-0"
+    "vuex": "^4.0.0-0",
+    "stack-typescript": "^1.0.4"
   },
   "devDependencies": {
     "@types/plotly.js": "^1.54.13",

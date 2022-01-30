@@ -1,23 +1,50 @@
+import { Stack } from 'stack-typescript';
 import { MutationTree } from 'vuex';
+import { Color, colorBible } from '@/Color';
 import ModelTube from '../model/ModelTube';
 import { Mutations } from './mutation-types';
 import { State } from './state';
 
+const defaultColor = new Color(0, 0, 0, 1.0);
+
+// TODO: create class ColorStack
+const brandNewColorStack = () : Stack<Color> => new Stack(...colorBible);
+const popColor = (stack: Stack<Color>): Color => {
+  if (stack.size === 0) {
+    return defaultColor;
+  }
+  return stack.pop();
+};
+const pushColor = (stack: Stack<Color>, toPush: Color) => {
+  if (!toPush.equals(defaultColor)) {
+    stack.push(toPush);
+  }
+};
+
+let tubeColorStack = brandNewColorStack();
+let measurementsColorStack = brandNewColorStack();
+
 const mutations: MutationTree<State> & Mutations = {
   EMPTY_TUBES(state) {
     state.tubes = [];
+    tubeColorStack = brandNewColorStack();
   },
   ADD_TUBE(state, tube: ModelTube) {
     state.tubes.push(tube);
+
+    state.tubeColors.set(tube, popColor(tubeColorStack));
   },
   REMOVE_TUBE(state, tube: ModelTube) {
     const tubeIndex = state.tubes.findIndex((t) => t === tube);
     if (tubeIndex !== -1) {
       state.tubes.splice(tubeIndex, 1);
+
+      const color: Color = state.tubeColors.get(tube) as Color;
+      pushColor(tubeColorStack, color);
     }
   },
   CREATE_TUBE(state, name: string) {
-    state.tubes.push(new ModelTube(name));
+    this.ADD_TUBE(state, new ModelTube(name));
   },
 
   CREATE_CAPTURE(
@@ -69,12 +96,18 @@ const mutations: MutationTree<State> & Mutations = {
   },
   ADD_MEASUREMENT(state, uAnode: number) {
     state.measurements.add(uAnode);
+
+    state.measurementsColors.set(uAnode, popColor(measurementsColorStack));
   },
   REMOVE_MEASUREMENT(state, uAnode: number) {
     state.measurements.delete(uAnode);
+
+    const color: Color = state.measurementsColors.get(uAnode) as Color;
+    pushColor(measurementsColorStack, color);
   },
   CLEAR_MEASUREMENTS(state) {
     state.measurements.clear();
+    measurementsColorStack = brandNewColorStack();
   },
 };
 
