@@ -30,7 +30,7 @@
     <div class="measurements">
       <div class="header">
         <h2>Mesures</h2>
-        <button @click="addMeasurement()">+</button>
+        <button @click="promptMeasurement()">+</button>
         <button @click="clearMeasurements()">Vider</button>
       </div>
       <ul class="measurements">
@@ -95,14 +95,17 @@ export default defineComponent({
     changeSmoothingFactor(tube: ModelTube, smoothingFactor: number) {
       this.$store.dispatch('CHANGE_SMOOTHING_FACTOR', { tube, smoothingFactor });
     },
-    addMeasurement() {
+    promptMeasurement() {
       const promptedUanode = prompt('Tension anode de mesure');
       if (promptedUanode !== null) {
         const uAnode = Number.parseFloat(promptedUanode);
         if (!Number.isNaN(uAnode)) {
-          this.$store.dispatch('ADD_MEASUREMENT', { uAnode });
+          this.addMeasurement(uAnode);
         }
       }
+    },
+    addMeasurement(uAnode: number) {
+      this.$store.dispatch('ADD_MEASUREMENT', { uAnode });
     },
     removeMeasurement(uAnode: number) {
       this.$store.dispatch('REMOVE_MEASUREMENT', { uAnode });
