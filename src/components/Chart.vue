@@ -3,7 +3,6 @@
 </template>
 
 <script lang="ts">
-import ModelTube from '@/model/ModelTube';
 import { defineComponent } from 'vue';
 import {
   Layout, Shape, Data, PlotMouseEvent, newPlot, redraw, PlotData,
@@ -52,6 +51,18 @@ export default defineComponent({
     this.rootHtml = document.getElementById('chart') as PlotHTMLElement;
     newPlot(this.rootHtml, this.curves as Data[], this.layout as Partial<Layout>);
 
+    this.rootHtml.on('plotly_click', (data: PlotMouseEvent) => {
+      const xClicked: number = data.points[0].x as number;
+
+      if (this.$store.state.measurements.has(xClicked)) {
+        this.$emit('removeMeasurement', xClicked);
+      } else {
+        this.$emit('addMeasurement', xClicked);
+      }
+    });
+
+    this.refresh();
+
     // Maybe listen to all single mutation
     // this.$store.subscribe((mutation, state) => {
     //   console.log(mutation.type);
@@ -62,17 +73,30 @@ export default defineComponent({
     tubes() {
       return this.$store.state.tubes;
     },
+    measurements() {
+      return this.$store.state.measurements;
+    },
   },
   watch: {
     tubes: {
       handler() {
-        this.refresh();
+        this.refreshTubes();
+      },
+      deep: true,
+    },
+    measurements: {
+      handler() {
+        this.refreshMeasurements();
       },
       deep: true,
     },
   },
   methods: {
     refresh() {
+      this.refreshTubes();
+      this.refreshMeasurements();
+    },
+    refreshTubes() {
       this.curves.splice(0, this.curves.length);
       this.$store.state.tubes.forEach((tube) => {
         tube.captures.forEach((capture) => {
@@ -89,6 +113,26 @@ export default defineComponent({
 
           this.curves.push(trace);
         });
+      });
+      redraw(this.rootHtml as PlotHTMLElement);
+    },
+    refreshMeasurements() {
+      this.annotations.splice(0, this.annotations.length);
+      this.$store.state.measurements.forEach((uAnode) => {
+        const shape = {
+          type: 'line',
+          x0: uAnode,
+          y0: 0,
+          x1: uAnode,
+          yref: 'paper',
+          y1: 1,
+          line: {
+            color: 'rgba(255, 0, 0, 1.0)',
+            width: 2,
+            dash: 'dot',
+          },
+        } as Shape;
+        this.annotations.push(shape);
       });
       redraw(this.rootHtml as PlotHTMLElement);
     },

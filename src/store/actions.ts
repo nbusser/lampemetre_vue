@@ -27,6 +27,12 @@ const actions: ActionTree<State, State> & Actions = {
   CHANGE_SMOOTHING_FACTOR(context, payload) {
     context.commit('CHANGE_SMOOTHING_FACTOR', payload);
   },
+  ADD_MEASUREMENT(context, payload) {
+    context.commit('ADD_MEASUREMENT', payload.uAnode);
+  },
+  REMOVE_MEASUREMENT(context, payload) {
+    context.commit('REMOVE_MEASUREMENT', payload.uAnode);
+  },
 };
 
 export default actions;

@@ -3,7 +3,10 @@
     <p>Test</p>
     <p>{{ msg }}</p>
 
-    <Chart/>
+    <Chart
+    @addMeasurement="addMeasurement"
+    @removeMeasurement="removeMeasurement"
+    />
 
     <div class="tubes">
       <div class="header">
@@ -74,6 +77,12 @@ export default defineComponent({
     },
     changeSmoothingFactor(tube: ModelTube, smoothingFactor: number) {
       this.$store.dispatch('CHANGE_SMOOTHING_FACTOR', { tube, smoothingFactor });
+    },
+    addMeasurement(uAnode: number) {
+      this.$store.dispatch('ADD_MEASUREMENT', { uAnode });
+    },
+    removeMeasurement(uAnode: number) {
+      this.$store.dispatch('REMOVE_MEASUREMENT', { uAnode });
     },
   },
   computed: {

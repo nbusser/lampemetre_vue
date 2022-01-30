@@ -67,6 +67,12 @@ const mutations: MutationTree<State> & Mutations = {
     if (foundTube === undefined) { return; }
     foundTube.changeSmoothingFactor(smoothingFactor);
   },
+  ADD_MEASUREMENT(state, uAnode: number) {
+    state.measurements.add(uAnode);
+  },
+  REMOVE_MEASUREMENT(state, uAnode: number) {
+    state.measurements.delete(uAnode);
+  },
 };
 
 export default mutations;

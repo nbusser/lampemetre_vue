@@ -10,6 +10,8 @@ export type Mutations<S = State> = {
   DELETE_CAPTURE(state: S, payload: { tube: ModelTube, uGrid: number }): void
   SELECT_CAPTURE_TUBE(state: S, payload: { tube: ModelTube, uGrid: number }): void
   CHANGE_SMOOTHING_FACTOR(state: S, payload: { tube: ModelTube, smoothingFactor: number }): void
+  ADD_MEASUREMENT(state: S, uAnode: number): void
+  REMOVE_MEASUREMENT(state: S, uAnode: number): void
 };
 
 export type MurationTypes = keyof Mutations;
