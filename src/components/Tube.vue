@@ -8,31 +8,29 @@
             <h3 class="title">Captures</h3>
             <button class="add_capture" @click="runCapture()">+</button>
         </div>
-        <ul class="captures_list">
-            <li class="item_capture"
-                v-for="[uGrid, capture] in tube.captures" :key="uGrid"
-            >
-                <div>
-                    <label class="radio_select_capture">
-                        <input type="radio"
-                        :checked="tube.selectedUgrid === uGrid"
-                        :value="uGrid"
-                        @change="selectedCaptureChanged">
-                        <div>
-                            <span>{{ capture.toString() }}</span>
-                            <button class="remove_capture" @click="removeCapture(uGrid)">
-                              -
-                            </button>
-                        </div>
-                    </label>
-                </div>
+        <ul class="captures">
+            <li class="capture" v-for="[uGrid, capture] in tube.captures" :key="uGrid">
+              <div>
+                <label>
+                    <input type="radio"
+                    :checked="tube.selectedUgrid === uGrid"
+                    :value="uGrid"
+                    @change="selectedCaptureChanged">
+                    <div>
+                        <span>{{ capture.toString() }}</span>
+                        <button @click="removeCapture(uGrid)">
+                          -
+                        </button>
+                    </div>
+                </label>
+              </div>
             </li>
         </ul>
         <ul class="pending_captures">
           <li v-for="uGrid in pendingCaptures" :key="uGrid">
             <img src="@/assets/ghost.png">
             <span>-{{ uGrid }}V</span>
-            <button class="remove_pending_capture" @click="cancelPendingCapture(uGrid)">
+            <button @click="cancelPendingCapture(uGrid)">
               -
             </button>
           </li>
@@ -41,7 +39,7 @@
           <li v-for="crashLog, i in crashedCaptures" :key="i">
             <img src="@/assets/warning.svg" :title="crashLog.error">
               <span>-{{ crashLog.uGrid }}V</span>
-              <button class="remove_pending_capture" @click="removeCrashedCapture(crashLog.uGrid)">
+              <button @click="removeCrashedCapture(crashLog.uGrid)">
                 -
               </button>
           </li>
@@ -162,10 +160,10 @@ export default defineComponent({
     display: inline-block;
 }
 
-.item_capture {
-    div {
-        display: inline;
-    }
+.capture {
+  div {
+    display: inline;
+  }
 }
 
 ul {
@@ -189,21 +187,25 @@ button {
 }
 
 .pending_captures, .crashed_captures {
-  > li > img {
+  img {
+    vertical-align: text-top;
     height: 1em;
     width: 1em;
+  }
+  span {
+    margin-left: 0.3em;
   }
 }
 
 .pending_captures {
-  > li > span {
+  span {
     color: rgba(0, 0, 0, 0.4);
   }
 }
 
 .crashed_captures {
-  > li > span {
-    color: rgb(110, 0, 0.4);
+  span {
+    color: rgba(110, 0, 0, 0.7);
   }
 }
 
