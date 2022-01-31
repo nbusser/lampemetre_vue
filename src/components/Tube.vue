@@ -39,6 +39,9 @@
           <li v-for="crashLog, i in crashedCaptures" :key="i">
             <img src="@/assets/warning.svg" :title="crashLog.error">
               <span>-{{ crashLog.uGrid }}V</span>
+              <button @click="retryCrashedCapture(crashLog.uGrid)">
+                ↺
+              </button>
               <button @click="removeCrashedCapture(crashLog.uGrid)">
                 -
               </button>
@@ -149,6 +152,9 @@ export default defineComponent({
     },
     removeCrashedCapture(uGrid: number): void {
       this.$emit('crashedCaptureRemoved', uGrid);
+    },
+    retryCrashedCapture(uGrid: number): void {
+      this.$emit('captureRequested', uGrid);
     },
   },
 });
