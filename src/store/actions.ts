@@ -23,13 +23,16 @@ const actions: ActionTree<State, State> & Actions = {
     uGrid,
     captureData,
   }) {
-    const { tensionsAnode, currentsCathode } = await captureData;
-    context.commit('CREATE_CAPTURE', {
-      tube,
-      uAnode: tensionsAnode,
-      uGrid,
-      iCathode: currentsCathode,
-    });
+    const result = await captureData;
+    // If capture have been canceled, result is null
+    if (result !== null) {
+      context.commit('CREATE_CAPTURE', {
+        tube,
+        uAnode: result.tensionsAnode,
+        uGrid,
+        iCathode: result.currentsCathode,
+      });
+    }
   },
   DELETE_CAPTURE(context, payload) {
     context.commit('DELETE_CAPTURE', payload);
@@ -48,6 +51,9 @@ const actions: ActionTree<State, State> & Actions = {
   },
   CLEAR_MEASUREMENTS(context) {
     context.commit('CLEAR_MEASUREMENTS', undefined);
+  },
+  CANCEL_PENDING_CAPTURE(context, payload) {
+    context.commit('CANCEL_PENDING_CAPTURE', payload);
   },
 };
 

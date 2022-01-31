@@ -28,6 +28,18 @@
                 </div>
             </li>
         </ul>
+        <ul class="pending_captures">
+          <li class="pending_capture"
+            v-for="uGrid in pendingCaptures" :key="uGrid"
+          >
+            <div>
+              <span>- {{ uGrid }}V</span>
+              <button class="remove_pending_capture" @click="cancelPendingCapture(uGrid)">
+                -
+              </button>
+            </div>
+          </li>
+        </ul>
     </div>
     <div class="slider">
         <span>Lissage:</span>
@@ -54,6 +66,7 @@ export default defineComponent({
     'captureRemoved',
     'tubeRemoved',
     'smoothingFactorChanged',
+    'pendingCaptureCanceled',
   ],
   props: {
     tube: ModelTube,
@@ -62,6 +75,17 @@ export default defineComponent({
     minSmoothingFactor,
     maxSmoothingFactor,
   }),
+  computed: {
+    pendingCaptures() {
+      if (this.tube === undefined) {
+        return [];
+      }
+      const queue = this.$store.state.captureModule.waitingQueue;
+      return queue.filter(
+        (job) => job.tube === this.tube,
+      ).map((job) => job.uGrid);
+    },
+  },
   methods: {
     runCapture(): void {
       if (this.$props.tube !== undefined) {
@@ -102,6 +126,9 @@ export default defineComponent({
       return {
         color: stringColor,
       };
+    },
+    cancelPendingCapture(uGrid: number): void {
+      this.$emit('pendingCaptureCanceled', uGrid);
     },
   },
 });

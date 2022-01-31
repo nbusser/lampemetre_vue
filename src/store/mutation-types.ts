@@ -6,13 +6,20 @@ export type Mutations<S = State> = {
   ADD_TUBE(state: S, tube: ModelTube): void
   REMOVE_TUBE(state: S, tube: ModelTube): void
   CREATE_TUBE(state: S, name: string): void
-  CREATE_CAPTURE(state: S, payload: { tube: ModelTube, uAnode: number[], uGrid: number, iCathode: number[] }): void
+  CREATE_CAPTURE(state: S,
+    payload: {
+      tube: ModelTube,
+      uAnode: number[],
+      uGrid: number,
+      iCathode: number[]
+    }): void
   DELETE_CAPTURE(state: S, payload: { tube: ModelTube, uGrid: number }): void
   SELECT_CAPTURE_TUBE(state: S, payload: { tube: ModelTube, uGrid: number }): void
   CHANGE_SMOOTHING_FACTOR(state: S, payload: { tube: ModelTube, smoothingFactor: number }): void
   ADD_MEASUREMENT(state: S, uAnode: number): void
   REMOVE_MEASUREMENT(state: S, uAnode: number): void
   CLEAR_MEASUREMENTS(state: S): void
+  CANCEL_PENDING_CAPTURE(state: S, payload: { tube: ModelTube, uGrid: number }): void
 };
 
 export type MurationTypes = keyof Mutations;

@@ -64,12 +64,6 @@ export default defineComponent({
     });
 
     this.refresh();
-
-    // Maybe listen to all single mutation
-    // this.$store.subscribe((mutation, state) => {
-    //   console.log(mutation.type);
-    //   console.log(mutation.payload);
-    // });
   },
   computed: {
     tubes() {

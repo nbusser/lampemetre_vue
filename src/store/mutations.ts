@@ -30,6 +30,9 @@ const mutations: MutationTree<State> & Mutations = {
       state.tubeColors.delete(tube);
 
       tubeColorStack.push(color);
+
+      // Ran asynchronously
+      state.captureModule.flushJobsTube(tube);
     }
   },
   CREATE_TUBE(state, name: string) {
@@ -99,6 +102,13 @@ const mutations: MutationTree<State> & Mutations = {
     state.measurements.clear();
     state.measurementsColors.clear();
     measurementsColorStack = brandNewColorStack();
+  },
+  CANCEL_PENDING_CAPTURE(state, {
+    tube,
+    uGrid,
+  }) {
+    // Ran asynchronously
+    state.captureModule.cancelJob(tube, uGrid);
   },
 };
 
