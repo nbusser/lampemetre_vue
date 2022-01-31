@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "@types/w3c-web-serial": "^1.0.2",
+    "async-mutex": "^0.3.2",
     "core-js": "^3.6.5",
     "plotly.js": "npm:plotly.js-dist@^2.3.1",
+    "queue-typescript": "^1.0.1",
     "stack-typescript": "^1.0.4",
     "vue": "^3.0.0",
     "vuex": "^4.0.0-0"

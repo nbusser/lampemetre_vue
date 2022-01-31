@@ -48,7 +48,6 @@ import Chart from '@/components/Chart.vue';
 import Tube from '@/components/Tube.vue';
 import Measurement from '@/components/Measurement.vue';
 import { colorBible } from '@/Color';
-import { CaptureData, performCapture } from '@/Serial';
 
 export default defineComponent({
   name: 'Workspace',
@@ -75,13 +74,11 @@ export default defineComponent({
       this.$store.dispatch('SELECT_CAPTURE_TUBE', { tube, uGrid });
     },
     async runCapture(tube: ModelTube, uGrid: number) {
-      const { tensionsAnode, currentsCathode } = await performCapture(uGrid, tube.smoothingFactor);
-
-      this.$store.dispatch('CREATE_CAPTURE', {
+      const futureResults = this.$store.state.captureModule.doCapture(tube, uGrid);
+      this.$store.dispatch('CREATE_CAPTURE_ASYNC', {
         tube,
-        uAnode: tensionsAnode,
         uGrid,
-        iCathode: currentsCathode,
+        captureData: futureResults,
       });
     },
     removeCapture(tube: ModelTube, uGrid: number) {

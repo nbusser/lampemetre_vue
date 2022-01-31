@@ -67,10 +67,17 @@ export default defineComponent({
       if (this.$props.tube !== undefined) {
         const uGridText = prompt('Tension grille');
         if (uGridText === null) { return; }
-        const uGrid = Number.parseFloat(uGridText);
-        if (Number.isNaN(uGrid)) { return; }
 
-        this.$emit('captureRequested', uGrid);
+        const promptedUgrids = uGridText.split(' ');
+
+        for (let i = 0; i < promptedUgrids.length; i += 1) {
+          const promptedUgrid = promptedUgrids[i];
+
+          const uGrid = Number.parseFloat(promptedUgrid);
+          if (Number.isNaN(uGrid)) { return; }
+
+          this.$emit('captureRequested', uGrid);
+        }
       }
     },
     removeCapture(uGrid: number): void {

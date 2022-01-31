@@ -1,4 +1,5 @@
 import { ActionContext } from 'vuex';
+import { CaptureData } from '@/Serial';
 import { Mutations } from './mutation-types';
 import { State } from './state';
 import ModelTube from '../model/ModelTube';
@@ -17,6 +18,7 @@ export interface Actions {
   REMOVE_TUBE(ctx: AAC, payload: { tube: ModelTube }): void;
   CREATE_TUBE(ctx: AAC, payload: { name: string }): void
   CREATE_CAPTURE(ctx: AAC, payload: { tube: ModelTube, uAnode: number[], uGrid: number, iCathode: number[] }): void
+  CREATE_CAPTURE_ASYNC(ctx: AAC, payload: { tube: ModelTube, uGrid: number, captureData: Promise<CaptureData> }): Promise<void>
   DELETE_CAPTURE(ctx: AAC, payload: { tube: ModelTube, uGrid: number }): void
   SELECT_CAPTURE_TUBE(ctx: AAC, payload: { tube: ModelTube, uGrid: number }): void
   CHANGE_SMOOTHING_FACTOR(ctx: AAC, payload: { tube: ModelTube, smoothingFactor: number }): void

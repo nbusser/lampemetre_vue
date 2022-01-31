@@ -18,6 +18,19 @@ const actions: ActionTree<State, State> & Actions = {
   CREATE_CAPTURE(context, payload) {
     context.commit('CREATE_CAPTURE', payload);
   },
+  async CREATE_CAPTURE_ASYNC(context, {
+    tube,
+    uGrid,
+    captureData,
+  }) {
+    const { tensionsAnode, currentsCathode } = await captureData;
+    context.commit('CREATE_CAPTURE', {
+      tube,
+      uAnode: tensionsAnode,
+      uGrid,
+      iCathode: currentsCathode,
+    });
+  },
   DELETE_CAPTURE(context, payload) {
     context.commit('DELETE_CAPTURE', payload);
   },

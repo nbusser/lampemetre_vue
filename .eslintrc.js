@@ -16,6 +16,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     'no-alert': 'off',
+    'no-await-in-loop': 'off',
   },
   overrides: [
     {
@@ -39,6 +40,7 @@ module.exports = {
         'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
         'no-alert': 'off',
+        'no-await-in-loop': 'off',
       },
     },
   ],
