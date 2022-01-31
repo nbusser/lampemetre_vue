@@ -75,12 +75,10 @@ export default defineComponent({
     selectCaptureTube(tube: ModelTube, uGrid: number) {
       this.$store.dispatch('SELECT_CAPTURE_TUBE', { tube, uGrid });
     },
-    async runCapture(tube: ModelTube, uGrid: number) {
-      const futureResults = this.$store.state.captureModule.doCapture(tube, uGrid);
+    runCapture(tube: ModelTube, uGrid: number) {
       this.$store.dispatch('CREATE_CAPTURE_ASYNC', {
         tube,
         uGrid,
-        captureData: futureResults,
       });
     },
     removeCapture(tube: ModelTube, uGrid: number) {

@@ -18,9 +18,11 @@
                     @change="selectedCaptureChanged">
                     <div>
                         <span>{{ capture.toString() }}</span>
-                        <button @click="removeCapture(uGrid)">
-                          -
-                        </button>
+                        <div class="control">
+                          <button @click="removeCapture(uGrid)">
+                            -
+                          </button>
+                        </div>
                     </div>
                 </label>
               </div>
@@ -30,21 +32,25 @@
           <li v-for="uGrid in pendingCaptures" :key="uGrid">
             <img src="@/assets/ghost.png">
             <span>-{{ uGrid }}V</span>
-            <button @click="cancelPendingCapture(uGrid)">
-              -
-            </button>
+            <div class="control">
+              <button @click="cancelPendingCapture(uGrid)">
+                -
+              </button>
+            </div>
           </li>
         </ul>
         <ul class="crashed_captures">
           <li v-for="crashLog, i in crashedCaptures" :key="i">
             <img src="@/assets/warning.svg" :title="crashLog.error">
               <span>-{{ crashLog.uGrid }}V</span>
-              <button @click="retryCrashedCapture(crashLog.uGrid)">
-                ↺
-              </button>
-              <button @click="removeCrashedCapture(crashLog.uGrid)">
-                -
-              </button>
+              <div class="control">
+                <button @click="retryCrashedCapture(crashLog.uGrid)">
+                  ↺
+                </button>
+                <button @click="removeCrashedCapture(crashLog.uGrid)">
+                  -
+                </button>
+              </div>
           </li>
         </ul>
     </div>
@@ -177,8 +183,12 @@ ul {
 }
 
 button {
-    margin-left: 1em;
     vertical-align: text-bottom;
+}
+
+.control {
+  display: inline;
+  margin-left: 0.2em;
 }
 
 .slider {
@@ -200,6 +210,9 @@ button {
   }
   span {
     margin-left: 0.3em;
+  }
+  button {
+    margin-left: 0.4em;
   }
 }
 

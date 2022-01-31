@@ -136,9 +136,7 @@ export default class CaptureModule {
   }
 
   // Called from the outside to add a CaptureJob to the module
-  async doCapture(tube: ModelTube, uGrid: number): Promise<CaptureData | null> {
-    const job: CaptureJob = new CaptureJob(tube, uGrid);
-
+  async doCapture(job: CaptureJob): Promise<CaptureData | null> {
     const created = await this.enqueueJob(job);
     // If the job already exists, exits
     if (!created) {

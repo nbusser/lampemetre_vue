@@ -1,5 +1,4 @@
 import { ActionContext } from 'vuex';
-import { CaptureData } from '@/Serial';
 import { Mutations } from './mutation-types';
 import { State } from './state';
 import ModelTube from '../model/ModelTube';
@@ -30,7 +29,6 @@ export interface Actions {
     payload: {
       tube: ModelTube,
       uGrid: number,
-      captureData: Promise<CaptureData | null>
     }): Promise<void>
   DELETE_CAPTURE(ctx: AAC, payload: { tube: ModelTube, uGrid: number }): void
   SELECT_CAPTURE_TUBE(ctx: AAC, payload: { tube: ModelTube, uGrid: number }): void

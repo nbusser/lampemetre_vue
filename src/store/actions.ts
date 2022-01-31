@@ -1,3 +1,4 @@
+import CaptureJob from '@/CaptureJob';
 import { ActionTree } from 'vuex';
 import { Actions } from './action-types';
 import { State } from './state';
@@ -21,9 +22,8 @@ const actions: ActionTree<State, State> & Actions = {
   async CREATE_CAPTURE_ASYNC(context, {
     tube,
     uGrid,
-    captureData,
   }) {
-    const result = await captureData;
+    const result = await context.state.captureModule.doCapture(new CaptureJob(tube, uGrid));
     // If capture have been canceled, result is null
     if (result !== null) {
       context.commit('CREATE_CAPTURE', {
