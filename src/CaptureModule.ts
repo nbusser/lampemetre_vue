@@ -18,7 +18,8 @@ export default class CaptureModule {
   // Only one job can use the serial communication to capture data
   private serialMutex: Mutex = new Mutex();
 
-  // Only one thread can read/right the job queue
+  // Only one thread can read/write the job queue
+  // Actually useless since Javascript is single threaded
   private queueMutex: Mutex = new Mutex();
 
   private indexJob(job: CaptureJob): number {

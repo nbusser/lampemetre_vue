@@ -29,15 +29,12 @@
             </li>
         </ul>
         <ul class="pending_captures">
-          <li class="pending_capture"
-            v-for="uGrid in pendingCaptures" :key="uGrid"
-          >
-            <div>
-              <span>- {{ uGrid }}V</span>
-              <button class="remove_pending_capture" @click="cancelPendingCapture(uGrid)">
-                -
-              </button>
-            </div>
+          <li v-for="uGrid in pendingCaptures" :key="uGrid">
+            <img src="@/assets/ghost.png">
+            <span>-{{ uGrid }}V</span>
+            <button class="remove_pending_capture" @click="cancelPendingCapture(uGrid)">
+              -
+            </button>
           </li>
         </ul>
     </div>
@@ -146,8 +143,8 @@ export default defineComponent({
     }
 }
 
-.captures_list {
-    list-style: none;
+ul {
+  list-style: none;
 }
 
 button {
@@ -164,6 +161,17 @@ button {
         max-width: 50%;
         vertical-align: bottom;
     }
+}
+
+.pending_captures {
+  > li > span {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+  > li > img {
+    height: 1em;
+    width: 1em;
+  }
 }
 
 </style>
