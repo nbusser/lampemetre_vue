@@ -13,6 +13,7 @@ let measurementsColorStack: ColorStack = brandNewColorStack();
 const mutations: MutationTree<State> & Mutations = {
   EMPTY_TUBES(state) {
     state.tubes = [];
+    state.tubeColors.clear();
     tubeColorStack = brandNewColorStack();
   },
   ADD_TUBE(state, tube: ModelTube) {
@@ -26,6 +27,8 @@ const mutations: MutationTree<State> & Mutations = {
       state.tubes.splice(tubeIndex, 1);
 
       const color: Color = state.tubeColors.get(tube) as Color;
+      state.tubeColors.delete(tube);
+
       tubeColorStack.push(color);
     }
   },
@@ -89,10 +92,12 @@ const mutations: MutationTree<State> & Mutations = {
     state.measurements.delete(uAnode);
 
     const color: Color = state.measurementsColors.get(uAnode) as Color;
+    state.measurementsColors.delete(uAnode);
     measurementsColorStack.push(color);
   },
   CLEAR_MEASUREMENTS(state) {
     state.measurements.clear();
+    state.measurementsColors.clear();
     measurementsColorStack = brandNewColorStack();
   },
 };
