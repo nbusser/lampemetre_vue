@@ -16,7 +16,9 @@
             <tr v-for="tube, i in measurementResults" :key="i">
                 <th>{{ tube.tubeName }}</th>
                 <td v-for="result, j in tube.results" :key="j">
-                  <span v-if="typeof result === 'number'">{{ result }} {{ units[j] }}</span>
+                  <span v-if="typeof result === 'number'">
+                    {{ result.toFixed(1) }} {{ units[j] }}
+                  </span>
                   <img src="@/assets/warning.svg" :title="result" v-else/>
                 </td>
             </tr>
