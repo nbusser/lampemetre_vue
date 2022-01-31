@@ -61,8 +61,7 @@ export default defineComponent({
       return this.$store.state.tubes;
     },
     measurementResults(): MeasurementResults[] {
-      const computedTubes: MeasurementResults[] = [];
-      this.$store.state.tubes.forEach((tube) => {
+      return this.$store.state.tubes.map((tube: ModelTube) => {
         const uAnode = this.uAnode as number;
         const computedTube: MeasurementResults = {
           tubeName: tube.name,
@@ -73,9 +72,8 @@ export default defineComponent({
             computeAmplificationFactor(tube, uAnode),
           ],
         };
-        computedTubes.push(computedTube);
+        return computedTube;
       });
-      return computedTubes;
     },
   },
   methods: {
