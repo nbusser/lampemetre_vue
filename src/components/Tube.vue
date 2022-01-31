@@ -28,29 +28,32 @@
               </div>
             </li>
         </ul>
-        <ul class="pending_captures">
-          <li v-for="uGrid in pendingCaptures" :key="uGrid">
-            <img src="@/assets/ghost.png">
-            <span>-{{ uGrid }}V</span>
-            <div class="control">
-              <button @click="cancelPendingCapture(uGrid)">
-                -
-              </button>
-            </div>
-          </li>
-        </ul>
-        <ul class="crashed_captures">
-          <li v-for="crashLog, i in crashedCaptures" :key="i">
-            <img src="@/assets/warning.svg" :title="crashLog.error">
-              <span>-{{ crashLog.uGrid }}V</span>
+        <!--Gathers pending captures and crashed captures in a single sorted list-->
+        <ul class="defective_captures">
+          <li v-for="capture, i in defectiveCaptures" :key="i">
+            <!--No errorMessage field means it's a pending capture-->
+            <div class="pending_capture" v-if="capture.errorMessage === null">
+              <img src="@/assets/ghost.png">
+              <span>-{{ capture.uGrid }}V</span>
               <div class="control">
-                <button @click="retryCrashedCapture(crashLog.uGrid)">
-                  ↺
-                </button>
-                <button @click="removeCrashedCapture(crashLog.uGrid)">
+                <button @click="cancelPendingCapture(capture.uGrid)">
                   -
                 </button>
               </div>
+            </div>
+            <!--Presence of errorMessage field means it's a crashed capture-->
+            <div v-else class="crashed_capture">
+              <img src="@/assets/warning.svg" :title="capture.errorMessage">
+              <span>-{{ capture.uGrid }}V</span>
+              <div class="control">
+                <button @click="retryCrashedCapture(capture.uGrid)">
+                  ↺
+                </button>
+                <button @click="removeCrashedCapture(capture.uGrid)">
+                  -
+                </button>
+              </div>
+            </div>
           </li>
         </ul>
     </div>
@@ -71,6 +74,11 @@ import { defineComponent } from 'vue';
 import ModelTube, { minSmoothingFactor, maxSmoothingFactor } from '@/model/ModelTube';
 import { Color } from '@/Color';
 
+interface DefectiveCapture {
+  uGrid: number,
+  errorMessage: string | null,
+}
+
 export default defineComponent({
   name: 'Tube',
   emits: [
@@ -90,6 +98,21 @@ export default defineComponent({
     maxSmoothingFactor,
   }),
   computed: {
+    // Gathers both pending and crashed captures in a sorted fashion
+    defectiveCaptures() {
+      // First, get all the pending captures and add them a null errorMessage field
+      let allDefective = this.pendingCaptures.map((uGrid) => ({
+        uGrid,
+        errorMessage: null,
+      } as DefectiveCapture));
+
+      // Then, concats all the crashedCaptures
+      allDefective = allDefective.concat(this.crashedCaptures);
+
+      // Finally, sorts along uGrid
+      allDefective.sort((a, b) => a.uGrid - b.uGrid);
+      return allDefective;
+    },
     pendingCaptures() {
       if (this.tube === undefined) {
         return [];
@@ -108,8 +131,8 @@ export default defineComponent({
         (log) => log.job.tube === this.tube,
       ).map((log) => ({
         uGrid: log.job.uGrid,
-        error: log.error,
-      }));
+        errorMessage: log.error,
+      } as DefectiveCapture));
     },
   },
   methods: {
@@ -189,6 +212,10 @@ button {
 .control {
   display: inline;
   margin-left: 0.2em;
+
+  button {
+    margin-left: 0.4em;
+  }
 }
 
 .slider {
@@ -202,7 +229,7 @@ button {
     }
 }
 
-.pending_captures, .crashed_captures {
+.pending_capture, .crashed_capture {
   img {
     vertical-align: text-top;
     height: 1em;
@@ -211,18 +238,15 @@ button {
   span {
     margin-left: 0.3em;
   }
-  button {
-    margin-left: 0.4em;
-  }
 }
 
-.pending_captures {
+.pending_capture {
   span {
     color: rgba(0, 0, 0, 0.4);
   }
 }
 
-.crashed_captures {
+.crashed_capture {
   span {
     color: rgba(110, 0, 0, 0.7);
   }
