@@ -47,7 +47,7 @@
         :min="minSmoothingFactor"
         :max="maxSmoothingFactor"
         :value="tube.smoothingFactor"
-        :disabled="!tube.canChangeSmoothingFactor()"
+        :disabled="!tube.canChangeSmoothingFactor() || pendingCaptures.length > 0"
         @change="smoothingFactorChanged"
         >
     </div>
