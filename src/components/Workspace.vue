@@ -20,6 +20,7 @@
           @tubeRemoved="removeTube(tube)"
           @smoothingFactorChanged="changeSmoothingFactor(tube, $event)"
           @pendingCaptureCanceled="cancelPendingCapture(tube, $event)"
+          @crashedCaptureRemoved="removeCrashedCapture(tube, $event)"
           />
         </li>
       </ul>
@@ -114,6 +115,12 @@ export default defineComponent({
     },
     cancelPendingCapture(tube: ModelTube, uGrid: number) {
       this.$store.dispatch('CANCEL_PENDING_CAPTURE', {
+        tube,
+        uGrid,
+      });
+    },
+    removeCrashedCapture(tube: ModelTube, uGrid: number) {
+      this.$store.dispatch('REMOVE_CRASHED_CAPTURE', {
         tube,
         uGrid,
       });

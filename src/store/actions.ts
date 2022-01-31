@@ -55,6 +55,9 @@ const actions: ActionTree<State, State> & Actions = {
   CANCEL_PENDING_CAPTURE(context, payload) {
     context.commit('CANCEL_PENDING_CAPTURE', payload);
   },
+  REMOVE_CRASHED_CAPTURE(context, payload) {
+    context.commit('REMOVE_CRASHED_CAPTURE', payload);
+  },
 };
 
 export default actions;

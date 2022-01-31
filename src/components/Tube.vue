@@ -37,6 +37,15 @@
             </button>
           </li>
         </ul>
+        <ul class="crashed_captures">
+          <li v-for="crashLog, i in crashedCaptures" :key="i">
+            <img src="@/assets/warning.svg" :title="crashLog.error">
+              <span>-{{ crashLog.uGrid }}V</span>
+              <button class="remove_pending_capture" @click="removeCrashedCapture(crashLog.uGrid)">
+                -
+              </button>
+          </li>
+        </ul>
     </div>
     <div class="slider">
         <span>Lissage:</span>
@@ -64,6 +73,7 @@ export default defineComponent({
     'tubeRemoved',
     'smoothingFactorChanged',
     'pendingCaptureCanceled',
+    'crashedCaptureRemoved',
   ],
   props: {
     tube: ModelTube,
@@ -81,6 +91,18 @@ export default defineComponent({
       return queue.filter(
         (job) => job.tube === this.tube,
       ).map((job) => job.uGrid);
+    },
+    crashedCaptures() {
+      if (this.tube === undefined) {
+        return [];
+      }
+      const { graveyard } = this.$store.state.captureModule;
+      return graveyard.filter(
+        (log) => log.job.tube === this.tube,
+      ).map((log) => ({
+        uGrid: log.job.uGrid,
+        error: log.error,
+      }));
     },
   },
   methods: {
@@ -127,6 +149,9 @@ export default defineComponent({
     cancelPendingCapture(uGrid: number): void {
       this.$emit('pendingCaptureCanceled', uGrid);
     },
+    removeCrashedCapture(uGrid: number): void {
+      this.$emit('crashedCaptureRemoved', uGrid);
+    },
   },
 });
 </script>
@@ -163,14 +188,22 @@ button {
     }
 }
 
+.pending_captures, .crashed_captures {
+  > li > img {
+    height: 1em;
+    width: 1em;
+  }
+}
+
 .pending_captures {
   > li > span {
     color: rgba(0, 0, 0, 0.4);
   }
+}
 
-  > li > img {
-    height: 1em;
-    width: 1em;
+.crashed_captures {
+  > li > span {
+    color: rgb(110, 0, 0.4);
   }
 }
 

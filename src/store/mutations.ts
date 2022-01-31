@@ -1,6 +1,7 @@
 import { MutationTree } from 'vuex';
 import { Color, colorBible } from '@/Color';
 import ColorStack from '@/ColorStack';
+import CaptureJob from '@/CaptureJob';
 import ModelTube from '../model/ModelTube';
 import { Mutations } from './mutation-types';
 import { State } from './state';
@@ -108,7 +109,13 @@ const mutations: MutationTree<State> & Mutations = {
     uGrid,
   }) {
     // Ran asynchronously
-    state.captureModule.cancelJob(tube, uGrid);
+    state.captureModule.cancelJob(new CaptureJob(tube, uGrid));
+  },
+  REMOVE_CRASHED_CAPTURE(state, {
+    tube,
+    uGrid,
+  }) {
+    state.captureModule.removeCrashReport(new CaptureJob(tube, uGrid));
   },
 };
 

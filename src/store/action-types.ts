@@ -39,6 +39,7 @@ export interface Actions {
   REMOVE_MEASUREMENT(ctx: AAC, payload: { uAnode: number }): void;
   CLEAR_MEASUREMENTS(ctx: AAC): void;
   CANCEL_PENDING_CAPTURE(ctx: AAC, payload: { tube: ModelTube, uGrid: number }): void;
+  REMOVE_CRASHED_CAPTURE(ctx: AAC, payload: { tube: ModelTube, uGrid: number }): void;
 }
 
 export type ActionTypes = keyof Actions;
