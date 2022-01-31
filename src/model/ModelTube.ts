@@ -1,4 +1,5 @@
 import ModelCapture from '@/model/ModelCapture';
+import { FrozenTube } from './FrozenData';
 
 export const minSmoothingFactor = 0;
 export const maxSmoothingFactor = 10;
@@ -61,5 +62,16 @@ export default class ModelTube {
 
   canChangeSmoothingFactor(): boolean {
     return this.captures.size === 0;
+  }
+
+  public toJSON(): FrozenTube {
+    const captures = [...this.captures.values()];
+
+    return {
+      name: this.name,
+      captures,
+      selectedCaptureUgrid: this.selectedUgrid === null ? undefined : this.selectedUgrid,
+      smoothingFactor: this.smoothingFactor,
+    };
   }
 }

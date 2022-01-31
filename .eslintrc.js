@@ -17,6 +17,8 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     'no-alert': 'off',
     'no-await-in-loop': 'off',
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error",
   },
   overrides: [
     {
@@ -41,6 +43,8 @@ module.exports = {
         'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
         'no-alert': 'off',
         'no-await-in-loop': 'off',
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": "error",
       },
     },
   ],

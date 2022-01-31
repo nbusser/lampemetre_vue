@@ -1,5 +1,7 @@
 <template>
   <div>
+    <textarea ref="notes">Tension grille 2: </textarea>
+
     <Chart
     @addMeasurement="addMeasurement"
     @removeMeasurement="removeMeasurement"
@@ -10,6 +12,28 @@
         <h2>Tubes</h2>
         <button @click="addTube()">+</button>
         <button @click="clearTubes()">Vider</button>
+      </div>
+      <div class="control_panel">
+        <div class="save_load">
+          <h3>Projet:</h3>
+          <button @click="saveJSON">Sauver</button>
+          <LoadFile
+          text="Charger"
+          accept=".json"
+          readMethod="text"
+          @fileLoaded="loadJSON"
+          />
+        </div>
+        <div class="export_import">
+          <h3>Excel:</h3>
+          <button @click="exportExcel">Exporter</button>
+          <LoadFile
+          text="Importer"
+          accept=".xlsx"
+          readMethod="array_buffer"
+          @fileLoaded="importExcel"
+          />
+        </div>
       </div>
       <ul>
         <li class="tube" v-for="tube, i in this.tubes" :key="i">
@@ -48,12 +72,17 @@ import { defineComponent } from 'vue';
 import ModelTube from '@/model/ModelTube';
 import Chart from '@/components/Chart.vue';
 import Tube from '@/components/Tube.vue';
+import LoadFile from '@/components/LoadFile.vue';
 import Measurement from '@/components/Measurement.vue';
 import { colorBible } from '@/Color';
+import * as fs from 'file-saver';
+import { FrozenData, FrozenTube } from '@/model/FrozenData';
+import ModelCapture from '@/model/ModelCapture';
 
 export default defineComponent({
   name: 'Workspace',
   components: {
+    LoadFile,
     Chart,
     Tube,
     Measurement,
@@ -122,6 +151,62 @@ export default defineComponent({
         tube,
         uGrid,
       });
+    },
+    saveJSON() {
+      const { tubes, measurements } = this.$store.state;
+      const notes: string = (this.$refs.notes as HTMLTextAreaElement).value;
+
+      /*
+      Prepares a frozen version of all the tubes via toJSON
+      These frozen data get rid of all the handlers and complex objects such maps
+      */
+      const frozenTubes: FrozenTube[] = [];
+      tubes.forEach((tube: ModelTube) => {
+        frozenTubes.push(tube.toJSON());
+      });
+      // Prepares then a frozen version of all data
+      const frozenData: FrozenData = {
+        tubes: frozenTubes,
+        measurements: [...measurements.values()],
+        notes,
+      };
+
+      // Stringifies those frozen data and save it to a file
+      const saveJson: string = JSON.stringify(frozenData);
+
+      const saveName = `save-${new Date().valueOf()}.json`;
+      fs.saveAs(new Blob([saveJson]), saveName);
+    },
+    loadJSON(jsonContent: string) {
+      const frozenData: FrozenData = JSON.parse(jsonContent);
+
+      frozenData.tubes.forEach((frozenTube: FrozenTube) => {
+        const tube = new ModelTube(frozenTube.name);
+
+        tube.changeSmoothingFactor(frozenTube.smoothingFactor);
+
+        frozenTube.captures.forEach((capture: ModelCapture) => {
+          tube.createCapture(capture.uAnode, capture.uGrid, capture.iCathode);
+        });
+
+        if (frozenTube.selectedCaptureUgrid !== undefined) {
+          tube.changeSelectedUgrid(frozenTube.selectedCaptureUgrid);
+        }
+
+        this.$store.dispatch('ADD_TUBE', { tube });
+      });
+
+      frozenData.measurements.forEach((uAnode: number) => {
+        this.$store.dispatch('ADD_MEASUREMENT', { uAnode });
+      });
+
+      (this.$refs.notes as HTMLTextAreaElement).value = frozenData.notes;
+    },
+    exportExcel() {
+      console.log('todo');
+    },
+    importExcel(excelData: ArrayBuffer) {
+      console.log('todo');
     },
   },
   computed: {
