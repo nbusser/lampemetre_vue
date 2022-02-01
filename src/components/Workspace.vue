@@ -75,9 +75,7 @@ import Tube from '@/components/Tube.vue';
 import LoadFile from '@/components/LoadFile.vue';
 import Measurement from '@/components/Measurement.vue';
 import { colorBible } from '@/Color';
-import * as fs from 'file-saver';
-import { FrozenData, FrozenTube } from '@/model/FrozenData';
-import ModelCapture from '@/model/ModelCapture';
+import { saveToJSON, loadFromJSON } from '@/SaveLoad';
 
 export default defineComponent({
   name: 'Workspace',
@@ -156,62 +154,19 @@ export default defineComponent({
       const { tubes, measurements } = this.$store.state;
       const notes: string = (this.$refs.notes as HTMLTextAreaElement).value;
 
-      /*
-      Prepares a frozen version of all the tubes via toJSON
-      These frozen data get rid of all the handlers and complex objects such maps
-      */
-      const frozenTubes: FrozenTube[] = [];
-      tubes.forEach((tube: ModelTube) => {
-        frozenTubes.push(tube.toJSON());
-      });
-      const frozenMeasurements = [...measurements.values()];
-
-      // Prepares then a frozen version of all data
-      const frozenData: FrozenData = {
-        tubes: frozenTubes.length === 0 ? undefined : frozenTubes,
-        measurements: frozenMeasurements.length === 0 ? undefined : frozenMeasurements,
-        notes,
-      };
-
-      // Stringifies those frozen data and save it to a file
-      const saveJson: string = JSON.stringify(frozenData);
-
-      const saveName = `save-${new Date().valueOf()}.json`;
-      fs.saveAs(new Blob([saveJson]), saveName);
+      saveToJSON(tubes, [...measurements.values()], notes);
     },
     loadJSON(jsonContent: string) {
-      const frozenData: FrozenData = JSON.parse(jsonContent);
+      const { tubes, measurements, notes } = loadFromJSON(jsonContent);
 
-      if (frozenData.tubes !== undefined) {
-        frozenData.tubes.forEach((frozenTube: FrozenTube) => {
-          const tube = new ModelTube(frozenTube.name);
-
-          if (frozenTube.smoothingFactor !== undefined) {
-            tube.changeSmoothingFactor(frozenTube.smoothingFactor);
-          }
-
-          if (frozenTube.captures !== undefined) {
-            frozenTube.captures.forEach((capture: ModelCapture) => {
-              tube.createCapture(capture.uAnode, capture.uGrid, capture.iCathode);
-            });
-          }
-
-          if (frozenTube.selectedCaptureUgrid !== undefined) {
-            tube.changeSelectedUgrid(frozenTube.selectedCaptureUgrid);
-          }
-
-          this.$store.dispatch('ADD_TUBE', { tube });
-        });
-      }
-
-      if (frozenData.measurements !== undefined) {
-        frozenData.measurements.forEach((uAnode: number) => {
-          this.$store.dispatch('ADD_MEASUREMENT', { uAnode });
-        });
-      }
-
-      if (frozenData.notes !== undefined) {
-        (this.$refs.notes as HTMLTextAreaElement).value = frozenData.notes;
+      tubes.forEach((tube: ModelTube) => {
+        this.$store.dispatch('ADD_TUBE', { tube });
+      });
+      measurements.forEach((uAnode: number) => {
+        this.$store.dispatch('ADD_MEASUREMENT', { uAnode });
+      });
+      if (notes !== undefined) {
+        (this.$refs.notes as HTMLTextAreaElement).value = notes;
       }
     },
     exportExcel() {
