@@ -33,4 +33,10 @@ export default defineComponent({
     vertical-align: text-bottom;
   }
 }
+
+.error {
+  color: rgb(139, 0, 0);
+  margin-left: 0.4em;
+}
+
 </style>
