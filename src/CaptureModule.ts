@@ -2,6 +2,7 @@ import { Mutex } from 'async-mutex';
 import CaptureJob from './CaptureJob';
 import ModelTube from './model/ModelTube';
 import { CaptureData, performCapture } from './Serial';
+import Timer from './Timer';
 
 /*
  * This class handles concurrent jobs for capturing data
@@ -25,6 +26,12 @@ export default class CaptureModule {
   // Only one thread can read/write the job queue
   // Actually useless since Javascript is single threaded
   private queueMutex: Mutex = new Mutex();
+
+  private timer: Timer;
+
+  constructor(timer: Timer) {
+    this.timer = timer;
+  }
 
   // If a crash has been reported
   private async reportCrash(job: CaptureJob, errorMessage: string): Promise<void> {
@@ -153,8 +160,8 @@ export default class CaptureModule {
     while (!canceled && result === null) {
       const serialMutexRelease = await this.serialMutex.acquire();
       try {
-        // We are first in the queue
-        if (this.indexJob(job) === 0) {
+        // We are first in the queue and the timer is not running
+        if (this.indexJob(job) === 0 && this.timer.isOver()) {
           // Performs the serial capture
           result = await performCapture(job.uGrid, job.tube.smoothingFactor);
           // Dequeue job and checks if the job have been cancel while we captured
@@ -166,6 +173,11 @@ export default class CaptureModule {
           // Could not run the capture yet
           // Checks if the job was canceled
           canceled = await this.hasBeenCanceled(job);
+
+          // Add asynchronism to avoid famine when timer is not 0
+          if (!canceled) {
+            await new Promise((resolve) => setTimeout(resolve, 200));
+          }
         }
       } catch (e: any) {
         await this.reportCrash(job, e.message);

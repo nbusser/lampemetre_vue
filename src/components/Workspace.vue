@@ -2,6 +2,8 @@
   <div>
     <textarea ref="notes">Tension grille 2: </textarea>
 
+    <Timer :timer="this.$store.state.timer"/>
+
     <Chart
     @addMeasurement="addMeasurement"
     @removeMeasurement="removeMeasurement"
@@ -74,6 +76,7 @@ import { defineComponent } from 'vue';
 import ModelTube from '@/model/ModelTube';
 import Chart from '@/components/Chart.vue';
 import Tube from '@/components/Tube.vue';
+import Timer from '@/components/Timer.vue';
 import LoadFile from '@/components/LoadFile.vue';
 import Measurement from '@/components/Measurement.vue';
 import { colorBible } from '@/Color';
@@ -83,6 +86,7 @@ import { exportToExcel, importFromExcel } from '@/ImportExport';
 export default defineComponent({
   name: 'Workspace',
   components: {
+    Timer,
     LoadFile,
     Chart,
     Tube,
