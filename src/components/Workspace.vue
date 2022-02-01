@@ -174,8 +174,8 @@ export default defineComponent({
       const { tubes, measurements } = this.$store.state;
       exportToExcel(tubes, [...measurements.values()]);
     },
-    importExcel(excelData: ArrayBuffer) {
-      const tubes = importFromExcel(excelData);
+    async importExcel(excelData: ArrayBuffer) {
+      const tubes = await importFromExcel(excelData);
       tubes.forEach((tube: ModelTube) => {
         this.$store.dispatch('ADD_TUBE', { tube });
       });
