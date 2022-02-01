@@ -76,6 +76,7 @@ import LoadFile from '@/components/LoadFile.vue';
 import Measurement from '@/components/Measurement.vue';
 import { colorBible } from '@/Color';
 import { saveToJSON, loadFromJSON } from '@/SaveLoad';
+import { exportToExcel, importFromExcel } from '@/ImportExport';
 
 export default defineComponent({
   name: 'Workspace',
@@ -170,10 +171,14 @@ export default defineComponent({
       }
     },
     exportExcel() {
-      console.log('todo');
+      const { tubes, measurements } = this.$store.state;
+      exportToExcel(tubes, [...measurements.values()]);
     },
     importExcel(excelData: ArrayBuffer) {
-      console.log('todo');
+      const tubes = importFromExcel(excelData);
+      tubes.forEach((tube: ModelTube) => {
+        this.$store.dispatch('ADD_TUBE', { tube });
+      });
     },
   },
   computed: {
