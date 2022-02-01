@@ -1,5 +1,8 @@
 <template>
     <div class="container">
+        <audio ref="audioBell">
+          <source src="@/assets/bell.mp3" type="audio/mpeg">
+        </audio>
         <span
             class="info_bulle"
             title="Tant que le minuteur est actif, les nouvelles captures seront mises en attente.
@@ -36,9 +39,17 @@ export default defineComponent({
   props: {
     timer: Timer,
   },
+  mounted() {
+    if (this.$refs.audioBell !== undefined) {
+      (this.$refs.audioBell as HTMLAudioElement).load();
+    }
+  },
   computed: {
     secondsLeft() {
       if (this.timer !== undefined) {
+        if (this.timer.secondsLeft === 0 && this.$refs.audioBell !== undefined) {
+          (this.$refs.audioBell as HTMLAudioElement).play();
+        }
         return this.timer.secondsLeft.toLocaleString('fr', {
           minimumIntegerDigits: 2,
           useGrouping: false,
