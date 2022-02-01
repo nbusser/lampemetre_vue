@@ -15,30 +15,6 @@
         <button @click="addTube()">+</button>
         <button @click="clearTubes()">Vider</button>
       </div>
-      <div class="control_panel">
-        <div class="save_load">
-          <h3>Projet:</h3>
-          <button @click="saveJSON">Sauver</button>
-          <LoadFile
-          text="Charger"
-          accept=".json"
-          readMethod="text"
-          :errorMessage="loadErrorMessage"
-          @fileLoaded="loadJSON"
-          />
-        </div>
-        <div class="export_import">
-          <h3>Excel:</h3>
-          <button @click="exportExcel">Exporter</button>
-          <LoadFile
-          text="Importer"
-          accept=".xlsx"
-          readMethod="array_buffer"
-          :errorMessage="importErrorMessage"
-          @fileLoaded="importExcel"
-          />
-        </div>
-      </div>
       <ul>
         <li class="tube" v-for="tube, i in this.tubes" :key="i">
           <Tube :tube="tube"
@@ -67,6 +43,31 @@
           />
         </li>
       </ul>
+    </div>
+
+    <div class="control_panel">
+      <div class="save_load">
+        <h3>Projet:</h3>
+        <button @click="saveJSON">Sauver</button>
+        <LoadFile
+        text="Charger"
+        accept=".json"
+        readMethod="text"
+        :errorMessage="loadErrorMessage"
+        @fileLoaded="loadJSON"
+        />
+      </div>
+      <div class="export_import">
+        <h3>Excel:</h3>
+        <button @click="exportExcel">Exporter</button>
+        <LoadFile
+        text="Importer"
+        accept=".xlsx"
+        readMethod="array_buffer"
+        :errorMessage="importErrorMessage"
+        @fileLoaded="importExcel"
+        />
+      </div>
     </div>
   </div>
 </template>
