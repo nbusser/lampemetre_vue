@@ -2,7 +2,12 @@
     <!--Hidden input text field used for file browsing. Triggered by clicking the button-->
     <button @click="clickHandler">{{ text }}</button>
     <input @change="fileSelected" type="file" name="file" :accept="accept" ref="fileInput"/>
-    <span v-if="this.displayError">Une erreur est survenue pendant la lecture du fichier</span>
+    <span class="error" v-if="this.displayError">
+      Une erreur est survenue pendant la lecture du fichier
+    </span>
+    <span class="error" v-if="this.errorMessage !== undefined && this.errorMessage !== null">
+      {{ errorMessage }}
+    </span>
 
 </template>
 
@@ -29,6 +34,7 @@ export default defineComponent({
     text: String,
     accept: String,
     readMethod: String,
+    errorMessage: String,
   },
   emits: [
     'fileLoaded',
@@ -91,8 +97,9 @@ input {
   display: none;
 }
 
-span {
+.error {
   color: rgb(139, 0, 0);
+  margin-left: 0.4em;
 }
 
 </style>

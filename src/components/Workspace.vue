@@ -21,6 +21,7 @@
           text="Charger"
           accept=".json"
           readMethod="text"
+          :errorMessage="loadErrorMessage"
           @fileLoaded="loadJSON"
           />
         </div>
@@ -31,6 +32,7 @@
           text="Importer"
           accept=".xlsx"
           readMethod="array_buffer"
+          :errorMessage="importErrorMessage"
           @fileLoaded="importExcel"
           />
         </div>
@@ -88,6 +90,8 @@ export default defineComponent({
   },
   data: () => ({
     colorBible,
+    loadErrorMessage: null as string | null,
+    importErrorMessage: null as string | null,
   }),
   methods: {
     addTube(): void {
@@ -158,16 +162,21 @@ export default defineComponent({
       saveToJSON(tubes, [...measurements.values()], notes);
     },
     loadJSON(jsonContent: string) {
-      const { tubes, measurements, notes } = loadFromJSON(jsonContent);
+      try {
+        const { tubes, measurements, notes } = loadFromJSON(jsonContent);
 
-      tubes.forEach((tube: ModelTube) => {
-        this.$store.dispatch('ADD_TUBE', { tube });
-      });
-      measurements.forEach((uAnode: number) => {
-        this.$store.dispatch('ADD_MEASUREMENT', { uAnode });
-      });
-      if (notes !== undefined) {
-        (this.$refs.notes as HTMLTextAreaElement).value = notes;
+        tubes.forEach((tube: ModelTube) => {
+          this.$store.dispatch('ADD_TUBE', { tube });
+        });
+        measurements.forEach((uAnode: number) => {
+          this.$store.dispatch('ADD_MEASUREMENT', { uAnode });
+        });
+        if (notes !== undefined) {
+          (this.$refs.notes as HTMLTextAreaElement).value = notes;
+        }
+        this.loadErrorMessage = null;
+      } catch (e: any) {
+        this.loadErrorMessage = e.message;
       }
     },
     exportExcel() {
@@ -175,10 +184,15 @@ export default defineComponent({
       exportToExcel(tubes, [...measurements.values()]);
     },
     async importExcel(excelData: ArrayBuffer) {
-      const tubes = await importFromExcel(excelData);
-      tubes.forEach((tube: ModelTube) => {
-        this.$store.dispatch('ADD_TUBE', { tube });
-      });
+      try {
+        const tubes = await importFromExcel(excelData);
+        tubes.forEach((tube: ModelTube) => {
+          this.$store.dispatch('ADD_TUBE', { tube });
+        });
+        this.importErrorMessage = null;
+      } catch (e: any) {
+        this.importErrorMessage = e.message;
+      }
     },
   },
   computed: {

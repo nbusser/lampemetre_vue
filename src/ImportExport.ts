@@ -129,15 +129,13 @@ export const importFromExcel = async (excelData: ArrayBuffer): Promise<ModelTube
       for (let c = 2; c < worksheet.columnCount + 1; c += 3) {
         const cellValue = headerRow.getCell(c).value;
         if (cellValue === null || cellValue === undefined) {
-          alert(uGridErrorMessage);
-          return;
+          throw new Error(uGridErrorMessage);
         }
 
         // See if uGrid is properly defined in the table header
         const foundUGrid = cellValue.toString().match(regex);
         if (foundUGrid === null || foundUGrid === undefined) {
-          alert(uGridErrorMessage);
-          return;
+          throw new Error(uGridErrorMessage);
         }
 
         // Creates a capture with this uGrid
@@ -166,12 +164,10 @@ export const importFromExcel = async (excelData: ArrayBuffer): Promise<ModelTube
               const parseError = `Erreur lors de la lecture de la catpure de tension grille ${capture.uGrid}.\n
                 Valeur non numérique trouvée: `;
               if (Number.isNaN(uAnode)) {
-                alert(`${parseError}'${uAnodeCellValue}' (tension anode)`);
-                return;
+                throw new Error(`${parseError}'${uAnodeCellValue}' (tension anode)`);
               }
               if (Number.isNaN(iCathode)) {
-                alert(`${parseError}'${iCathodeCellValue}' (intensité cathode)`);
-                return;
+                throw new Error(`${parseError}'${iCathodeCellValue}' (intensité cathode)`);
               }
 
               capture.uAnode.push(uAnode);
