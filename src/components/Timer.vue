@@ -1,25 +1,23 @@
 <template>
-    <div>
-        <div class="header">
-            <h3>Minuteur</h3>
-            <p
-            class="info"
+    <div class="container">
+        <span
+            class="info_bulle"
             title="Tant que le minuteur est actif, les nouvelles captures seront mises en attente.
             Activez le pendant le chauffage des lampes">
                 ?
-            </p>
-        </div>
+        </span>
+        <h3>Minuteur</h3>
         <p class="seconds" :style="setupTimerTextColor">
             {{ secondsLeft }}
         </p>
         <div class="reset">
-            <button :disabled="!inputValid" @click="resetTimer">Reset</button>
             <input
             @change="updateInputValid"
             @keypress="updateInputValid"
             @input="updateInputValid"
             type="text" ref="inputDuration"/>
             <span>secondes</span>
+            <button :disabled="!inputValid" @click="resetTimer">Reset</button>
         </div>
     </div>
 </template>
@@ -41,7 +39,10 @@ export default defineComponent({
   computed: {
     secondsLeft() {
       if (this.timer !== undefined) {
-        return this.timer.secondsLeft;
+        return this.timer.secondsLeft.toLocaleString('fr', {
+          minimumIntegerDigits: 2,
+          useGrouping: false,
+        });
       }
       return '';
     },
@@ -79,11 +80,58 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
+.container {
+  padding: 1em;
+  display: inline-block;
+  border: 1px solid black;
+  text-align: center;
+  position: relative;
+  opacity: 25%;
+  transition: opacity 0.2s ease-out 100ms;
+
+  > * {
+    cursor: default;
+  }
+}
+
+.container:hover {
+  opacity: 100%;
+}
+
+h3 {
+  margin: 0;
+}
+
+.info_bulle {
+  width: 1.1em;
+  margin: 0;
+  border: 1px solid black;
+  border-radius: 100%;
+  padding: 0.1em;
+  background-color: rgb(169, 203, 204, 0.5);
+  font-weight: bold;
+  position: absolute;
+  right: 0.7em;
+  cursor: help;
+}
+
+input {
+  width: 2em;
+  text-align: center;
+}
+
+.seconds {
+  font-size: 28px;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
 .reset {
     display: block;
 
     > * {
         display: inline;
+        margin-left: 0.4em;
     }
 }
 

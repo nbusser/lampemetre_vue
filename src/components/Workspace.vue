@@ -2,12 +2,12 @@
   <div>
     <textarea ref="notes">Tension grille 2: </textarea>
 
-    <Timer :timer="this.$store.state.timer"/>
-
     <Chart
     @addMeasurement="addMeasurement"
     @removeMeasurement="removeMeasurement"
     />
+
+    <Timer class="timer" :timer="this.$store.state.timer"/>
 
     <div class="tubes">
       <div class="header">
@@ -212,6 +212,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+textarea {
+  font-size: 18px;
+}
 
 .tubes {
   ul {
@@ -238,6 +241,13 @@ export default defineComponent({
 
 ul {
   list-style: none;
+}
+
+.timer {
+  position: fixed;
+  top: 20px;
+  right: 0.9em;
+  background-color: rgba(223, 239, 255, 0.459);
 }
 
 </style>
