@@ -6,9 +6,9 @@ It gets rid of all the handlers and maps the maps' values to arrays
 It is used by SaveLoad object to save or load the workspace to JSON file
 */
 export interface FrozenData {
-  tubes: FrozenTube[],
-  measurements: number[],
-  notes: string,
+  tubes: FrozenTube[] | undefined,
+  measurements: number[] | undefined,
+  notes: string | undefined,
 }
 
 /*
@@ -18,7 +18,7 @@ automatically remove its methods and it has no superfluous attributes such as ha
 */
 export interface FrozenTube {
   name: string,
-  captures: ModelCapture[],
+  captures: ModelCapture[] | undefined,
   selectedCaptureUgrid: number | undefined,
-  smoothingFactor: number,
+  smoothingFactor: number | undefined,
 }

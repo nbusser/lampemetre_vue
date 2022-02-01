@@ -69,7 +69,7 @@ export default class ModelTube {
 
     return {
       name: this.name,
-      captures,
+      captures: captures.length === 0 ? undefined : captures,
       selectedCaptureUgrid: this.selectedUgrid === null ? undefined : this.selectedUgrid,
       smoothingFactor: this.smoothingFactor,
     };

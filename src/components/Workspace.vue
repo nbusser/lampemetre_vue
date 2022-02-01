@@ -164,10 +164,12 @@ export default defineComponent({
       tubes.forEach((tube: ModelTube) => {
         frozenTubes.push(tube.toJSON());
       });
+      const frozenMeasurements = [...measurements.values()];
+
       // Prepares then a frozen version of all data
       const frozenData: FrozenData = {
-        tubes: frozenTubes,
-        measurements: [...measurements.values()],
+        tubes: frozenTubes.length === 0 ? undefined : frozenTubes,
+        measurements: frozenMeasurements.length === 0 ? undefined : frozenMeasurements,
         notes,
       };
 
@@ -180,27 +182,37 @@ export default defineComponent({
     loadJSON(jsonContent: string) {
       const frozenData: FrozenData = JSON.parse(jsonContent);
 
-      frozenData.tubes.forEach((frozenTube: FrozenTube) => {
-        const tube = new ModelTube(frozenTube.name);
+      if (frozenData.tubes !== undefined) {
+        frozenData.tubes.forEach((frozenTube: FrozenTube) => {
+          const tube = new ModelTube(frozenTube.name);
 
-        tube.changeSmoothingFactor(frozenTube.smoothingFactor);
+          if (frozenTube.smoothingFactor !== undefined) {
+            tube.changeSmoothingFactor(frozenTube.smoothingFactor);
+          }
 
-        frozenTube.captures.forEach((capture: ModelCapture) => {
-          tube.createCapture(capture.uAnode, capture.uGrid, capture.iCathode);
+          if (frozenTube.captures !== undefined) {
+            frozenTube.captures.forEach((capture: ModelCapture) => {
+              tube.createCapture(capture.uAnode, capture.uGrid, capture.iCathode);
+            });
+          }
+
+          if (frozenTube.selectedCaptureUgrid !== undefined) {
+            tube.changeSelectedUgrid(frozenTube.selectedCaptureUgrid);
+          }
+
+          this.$store.dispatch('ADD_TUBE', { tube });
         });
+      }
 
-        if (frozenTube.selectedCaptureUgrid !== undefined) {
-          tube.changeSelectedUgrid(frozenTube.selectedCaptureUgrid);
-        }
+      if (frozenData.measurements !== undefined) {
+        frozenData.measurements.forEach((uAnode: number) => {
+          this.$store.dispatch('ADD_MEASUREMENT', { uAnode });
+        });
+      }
 
-        this.$store.dispatch('ADD_TUBE', { tube });
-      });
-
-      frozenData.measurements.forEach((uAnode: number) => {
-        this.$store.dispatch('ADD_MEASUREMENT', { uAnode });
-      });
-
-      (this.$refs.notes as HTMLTextAreaElement).value = frozenData.notes;
+      if (frozenData.notes !== undefined) {
+        (this.$refs.notes as HTMLTextAreaElement).value = frozenData.notes;
+      }
     },
     exportExcel() {
       console.log('todo');
