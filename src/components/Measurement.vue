@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <h3 :style="setColor()">{{ uAnode }} V</h3>
+        <h3 :style="setMeasurementColor()">{{ uAnode }} V</h3>
         <button @click="removeMeasurement()">-</button>
     </div>
 
@@ -13,13 +13,15 @@
                 <th>Transductance</th>
                 <th>μ (coef)</th>
             </tr>
-            <tr v-for="tube, i in measurementResults" :key="i">
-                <th>{{ tube.tubeName }}</th>
-                <td v-for="result, j in tube.results" :key="j">
-                  <span v-if="typeof result === 'number'">
-                    {{ result.toFixed(1) }} {{ units[j] }}
+            <tr v-for="result, i in measurementResults" :key="i">
+                <th>
+                  <span :style="setTubeColor(result.tube)">{{ result.tube.name }}</span>
+                </th>
+                <td v-for="values, j in result.results" :key="j">
+                  <span v-if="typeof values === 'number'">
+                    {{ values.toFixed(1) }} {{ units[j] }}
                   </span>
-                  <img src="@/assets/warning.svg" :title="result" v-else/>
+                  <img src="@/assets/warning.svg" :title="values" v-else/>
                 </td>
             </tr>
         </tbody>
@@ -38,7 +40,7 @@ import {
 import { Color } from '@/Color';
 
 interface MeasurementResults {
-  tubeName: string,
+  tube: ModelTube,
   results: (number | string)[]
 }
 
@@ -64,7 +66,7 @@ export default defineComponent({
       return this.$store.state.tubes.map((tube: ModelTube) => {
         const uAnode = this.uAnode as number;
         const computedTube: MeasurementResults = {
-          tubeName: tube.name,
+          tube,
           results: [
             computeSelectedIcathode(tube, uAnode),
             computeInternalResistance(tube, uAnode),
@@ -80,13 +82,22 @@ export default defineComponent({
     removeMeasurement(): void {
       this.$emit('measurementRemoved');
     },
-    setColor() {
+    setMeasurementColor() {
       let stringColor = 'rgba(0, 0, 0, 1)';
       if (this.uAnode !== undefined) {
         stringColor = (this.$store.state.measurementsColors.get(this.uAnode) as Color).toString();
       }
       return {
         color: stringColor,
+      };
+    },
+    setTubeColor(tube: ModelTube) {
+      const color = this.$store.state.tubeColors.get(tube);
+      if (color === undefined) {
+        return '';
+      }
+      return {
+        color: color.toString(),
       };
     },
   },
