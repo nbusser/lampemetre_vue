@@ -2,33 +2,27 @@
   <header>
     <h1>Lampemetre</h1>
 
-    <div class="control save_load">
-      <h3>Projet</h3>
-      <div class="buttons">
-        <button @click="saveJSON">Sauver</button>
-        <LoadFile
-        text="Charger"
-        accept=".json"
-        readMethod="text"
-        :errorMessage="loadErrorMessage"
-        @fileLoaded="loadJSON"
-        />
-      </div>
-    </div>
+    <SaveLoad
+    title="Projet"
+    saveName="Sauver"
+    loadName="Charger"
+    accept=".json"
+    readMethod="text"
+    :errorMessage="loadErrorMessage"
+    @save="saveJSON"
+    @load="loadJSON"
+    />
 
-    <div class="control export_import">
-      <h3>Excel</h3>
-      <div class="buttons">
-        <button @click="exportExcel">Exporter</button>
-        <LoadFile
-        text="Importer"
-        accept=".xlsx"
-        readMethod="array_buffer"
-        :errorMessage="importErrorMessage"
-        @fileLoaded="importExcel"
-        />
-      </div>
-  </div>
+    <SaveLoad
+    title="Excel"
+    saveName="Exporter"
+    loadName="Importer"
+    accept=".xlsx"
+    readMethod="array_buffer"
+    :errorMessage="importErrorMessage"
+    @save="exportExcel"
+    @load="importExcel"
+    />
 
   <Timer class="timer" :timer="this.$store.state.timer"/>
   </header>
@@ -37,7 +31,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Timer from '@/components/Timer.vue';
-import LoadFile from '@/components/LoadFile.vue';
+import SaveLoad from '@/components/SaveLoad.vue';
 import { saveToJSON, loadFromJSON } from '@/SaveLoad';
 import { exportToExcel, importFromExcel } from '@/ImportExport';
 import ModelTube from '@/model/ModelTube';
@@ -46,7 +40,7 @@ export default defineComponent({
   name: 'HeaderBar',
   components: {
     Timer,
-    LoadFile,
+    SaveLoad,
   },
   data: () => ({
     loadErrorMessage: null as string | null,
@@ -113,25 +107,6 @@ h1 {
   font-size: 50px;
   margin: 0;
   padding: 0.1em 0.4em;
-}
-
-.control {
-  text-align: center;
-
-  .buttons {
-    :nth-child(n+1) {
-      margin-left: 0.2em;
-    }
-  }
-
-  button {
-    font-size: 15px;
-  }
-
-  h3 {
-    margin: 0;
-    margin-bottom: 0.3em;
-  }
 }
 
 </style>
