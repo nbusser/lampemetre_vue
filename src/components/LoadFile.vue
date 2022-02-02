@@ -1,14 +1,15 @@
 <template>
-    <!--Hidden input text field used for file browsing. Triggered by clicking the button-->
-    <button @click="clickHandler">{{ text }}</button>
-    <input @change="fileSelected" type="file" name="file" :accept="accept" ref="fileInput"/>
-    <span class="error" v-if="this.displayError">
-      Une erreur est survenue pendant la lecture du fichier
-    </span>
-    <span class="error" v-if="this.errorMessage !== undefined && this.errorMessage !== null">
-      {{ errorMessage }}
-    </span>
-
+    <div>
+      <!--Hidden input text field used for file browsing. Triggered by clicking the button-->
+      <button @click="clickHandler">{{ text }}</button>
+      <input @change="fileSelected" type="file" name="file" :accept="accept" ref="fileInput"/>
+      <span class="error" v-if="this.displayError">
+        Une erreur est survenue pendant la lecture du fichier
+      </span>
+      <span class="error" v-if="this.errorMessage !== undefined && this.errorMessage !== null">
+        {{ errorMessage }}
+      </span>
+    </div>
 </template>
 
 <script lang="ts">
@@ -92,6 +93,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+
+div {
+  display: inline;
+}
+
+button {
+  font-size: 15px;
+}
 
 input {
   display: none;

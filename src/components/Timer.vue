@@ -133,13 +133,7 @@ h3 {
 }
 
 .info_bulle {
-  width: 1.1em;
-  border: 1px solid black;
-  border-radius: 100%;
-  padding: 0.1em 0.4em 0.1em 0.1em;
-  background-color: rgb(169, 203, 204, 0.5);
-  font-weight: bold;
-  cursor: help;
+    padding: 0.1em 0.4em 0.1em 0.1em;
 }
 
 .seconds {

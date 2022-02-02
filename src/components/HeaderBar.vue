@@ -1,31 +1,37 @@
 <template>
   <header>
     <h1>Lampemetre</h1>
-    <Timer class="timer" :timer="this.$store.state.timer"/>
-  </header>
 
-  <div class="control save_load">
-    <h3>Projet:</h3>
-    <button @click="saveJSON">Sauver</button>
-    <LoadFile
-    text="Charger"
-    accept=".json"
-    readMethod="text"
-    :errorMessage="loadErrorMessage"
-    @fileLoaded="loadJSON"
-    />
+    <div class="control save_load">
+      <h3>Projet</h3>
+      <div class="buttons">
+        <button @click="saveJSON">Sauver</button>
+        <LoadFile
+        text="Charger"
+        accept=".json"
+        readMethod="text"
+        :errorMessage="loadErrorMessage"
+        @fileLoaded="loadJSON"
+        />
+      </div>
+    </div>
+
+    <div class="control export_import">
+      <h3>Excel</h3>
+      <div class="buttons">
+        <button @click="exportExcel">Exporter</button>
+        <LoadFile
+        text="Importer"
+        accept=".xlsx"
+        readMethod="array_buffer"
+        :errorMessage="importErrorMessage"
+        @fileLoaded="importExcel"
+        />
+      </div>
   </div>
-  <div class="control export_import">
-    <h3>Excel:</h3>
-    <button @click="exportExcel">Exporter</button>
-    <LoadFile
-    text="Importer"
-    accept=".xlsx"
-    readMethod="array_buffer"
-    :errorMessage="importErrorMessage"
-    @fileLoaded="importExcel"
-    />
-  </div>
+
+  <Timer class="timer" :timer="this.$store.state.timer"/>
+  </header>
 </template>
 
 <script lang="ts">
@@ -101,11 +107,30 @@ header {
   background: rgb(183, 229, 255);
   border-bottom: 1px solid black;
   margin-bottom: 1em;
+}
 
-  h1 {
-    font-size: 50px;
+h1 {
+  font-size: 50px;
+  margin: 0;
+  padding: 0.1em 0.4em;
+}
+
+.control {
+  text-align: center;
+
+  .buttons {
+    :nth-child(n+1) {
+      margin-left: 0.2em;
+    }
+  }
+
+  button {
+    font-size: 15px;
+  }
+
+  h3 {
     margin: 0;
-    padding: 0.1em 0.4em;
+    margin-bottom: 0.3em;
   }
 }
 

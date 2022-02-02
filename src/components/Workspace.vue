@@ -1,7 +1,16 @@
 <template>
-  <div>
-    <textarea v-model="notes"></textarea>
-
+  <div class="container">
+    <div class="notes">
+      <div class="header">
+        <h3> Notes </h3>
+        <span class="info_bulle"
+        title="Utilisez cette zone de texte pour écrire les notes de votre choix.
+        Celles ci seront sauvegardées avec le projet">
+          ?
+        </span>
+      </div>
+      <textarea v-model="notes"></textarea>
+    </div>
     <Chart
     @addMeasurement="addMeasurement"
     @removeMeasurement="removeMeasurement"
@@ -142,8 +151,22 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.container {
+  margin-left: 1em;
+}
+
 textarea {
   font-size: 18px;
+}
+
+.notes {
+  .header {
+    margin-bottom: 0.6em;
+  }
+}
+
+.info_bulle {
+    padding: 0.1em 0.4em 0.1em 0.4em;
 }
 
 .tubes {

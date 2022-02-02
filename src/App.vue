@@ -41,4 +41,13 @@ body {
   margin-left: 0.4em;
 }
 
+.info_bulle {
+  width: 1.1em;
+  border: 1px solid black;
+  border-radius: 100%;
+  background-color: rgb(169, 203, 204, 0.5);
+  font-weight: bold;
+  cursor: help;
+}
+
 </style>
