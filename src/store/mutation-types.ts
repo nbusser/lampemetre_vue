@@ -21,6 +21,7 @@ export type Mutations<S = State> = {
   CLEAR_MEASUREMENTS(state: S): void
   CANCEL_PENDING_CAPTURE(state: S, payload: { tube: ModelTube, uGrid: number }): void
   REMOVE_CRASHED_CAPTURE(state: S, payload: { tube: ModelTube, uGrid: number }): void
+  SET_NOTES(state: S, newNotes: string): void;
 };
 
 export type MurationTypes = keyof Mutations;

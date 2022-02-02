@@ -17,6 +17,8 @@ export const state = {
 
   timer,
   captureModule: new CaptureModule(timer) as CaptureModule,
+
+  notes: 'Tension grille 2: ' as string,
 };
 
 export type State = typeof state;

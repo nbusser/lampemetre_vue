@@ -117,6 +117,9 @@ const mutations: MutationTree<State> & Mutations = {
   }) {
     state.captureModule.removeCrashReport(new CaptureJob(tube, uGrid));
   },
+  SET_NOTES(state, newNotes) {
+    state.notes = newNotes;
+  },
 };
 
 export default mutations;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <textarea ref="notes">Tension grille 2: </textarea>
+    <textarea v-model="notes"></textarea>
 
     <Chart
     @addMeasurement="addMeasurement"
@@ -42,31 +42,6 @@
         </li>
       </ul>
     </div>
-
-    <div class="control_panel">
-      <div class="save_load">
-        <h3>Projet:</h3>
-        <button @click="saveJSON">Sauver</button>
-        <LoadFile
-        text="Charger"
-        accept=".json"
-        readMethod="text"
-        :errorMessage="loadErrorMessage"
-        @fileLoaded="loadJSON"
-        />
-      </div>
-      <div class="export_import">
-        <h3>Excel:</h3>
-        <button @click="exportExcel">Exporter</button>
-        <LoadFile
-        text="Importer"
-        accept=".xlsx"
-        readMethod="array_buffer"
-        :errorMessage="importErrorMessage"
-        @fileLoaded="importExcel"
-        />
-      </div>
-    </div>
   </div>
 </template>
 
@@ -75,26 +50,31 @@ import { defineComponent } from 'vue';
 import ModelTube from '@/model/ModelTube';
 import Chart from '@/components/Chart.vue';
 import Tube from '@/components/Tube.vue';
-import Timer from '@/components/Timer.vue';
-import LoadFile from '@/components/LoadFile.vue';
 import Measurement from '@/components/Measurement.vue';
-import { colorBible } from '@/Color';
-import { saveToJSON, loadFromJSON } from '@/SaveLoad';
-import { exportToExcel, importFromExcel } from '@/ImportExport';
 
 export default defineComponent({
   name: 'Workspace',
   components: {
-    LoadFile,
     Chart,
     Tube,
     Measurement,
   },
-  data: () => ({
-    colorBible,
-    loadErrorMessage: null as string | null,
-    importErrorMessage: null as string | null,
-  }),
+  computed: {
+    tubes(): ModelTube[] {
+      return this.$store.state.tubes;
+    },
+    measurements(): Set<number> {
+      return this.$store.state.measurements;
+    },
+    notes: {
+      get() {
+        return this.$store.state.notes;
+      },
+      set(value) {
+        this.$store.dispatch('SET_NOTES', { newNotes: value });
+      },
+    },
+  },
   methods: {
     addTube(): void {
       const tubeName = prompt('Nom du tube');
@@ -156,53 +136,6 @@ export default defineComponent({
         tube,
         uGrid,
       });
-    },
-    saveJSON() {
-      const { tubes, measurements } = this.$store.state;
-      const notes: string = (this.$refs.notes as HTMLTextAreaElement).value;
-
-      saveToJSON(tubes, [...measurements.values()], notes);
-    },
-    loadJSON(jsonContent: string) {
-      try {
-        const { tubes, measurements, notes } = loadFromJSON(jsonContent);
-
-        tubes.forEach((tube: ModelTube) => {
-          this.$store.dispatch('ADD_TUBE', { tube });
-        });
-        measurements.forEach((uAnode: number) => {
-          this.$store.dispatch('ADD_MEASUREMENT', { uAnode });
-        });
-        if (notes !== undefined) {
-          (this.$refs.notes as HTMLTextAreaElement).value = notes;
-        }
-        this.loadErrorMessage = null;
-      } catch (e: any) {
-        this.loadErrorMessage = e.message;
-      }
-    },
-    exportExcel() {
-      const { tubes, measurements } = this.$store.state;
-      exportToExcel(tubes, [...measurements.values()]);
-    },
-    async importExcel(excelData: ArrayBuffer) {
-      try {
-        const tubes = await importFromExcel(excelData);
-        tubes.forEach((tube: ModelTube) => {
-          this.$store.dispatch('ADD_TUBE', { tube });
-        });
-        this.importErrorMessage = null;
-      } catch (e: any) {
-        this.importErrorMessage = e.message;
-      }
-    },
-  },
-  computed: {
-    tubes(): ModelTube[] {
-      return this.$store.state.tubes;
-    },
-    measurements(): Set<number> {
-      return this.$store.state.measurements;
     },
   },
 });

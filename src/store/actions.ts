@@ -58,6 +58,9 @@ const actions: ActionTree<State, State> & Actions = {
   REMOVE_CRASHED_CAPTURE(context, payload) {
     context.commit('REMOVE_CRASHED_CAPTURE', payload);
   },
+  SET_NOTES(context, payload) {
+    context.commit('SET_NOTES', payload.newNotes);
+  },
 };
 
 export default actions;
