@@ -48,8 +48,8 @@ export default defineComponent({
   text-align: center;
 }
 .buttons {
-  :nth-child(n+1) {
-    margin-left: 0.2em;
+  :nth-child(n+2) {
+    margin-left: 0.4em;
   }
 }
 

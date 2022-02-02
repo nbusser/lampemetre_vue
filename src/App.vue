@@ -34,6 +34,9 @@ body {
   * {
     display: inline;
   }
+  :nth-child(n+2) {
+    margin-left: 0.5em;
+  };
 }
 
 .error {
