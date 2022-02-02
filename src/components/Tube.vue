@@ -8,7 +8,7 @@
           </h2>
         </div>
         <div class="col-sm-4">
-          <button type="button" class="btn btn-secondary"
+          <button type="button" class="btn btn-secondary btn-sm"
           @click="removeTube()">
             <i class="bi-dash-lg"></i>
           </button>
@@ -19,7 +19,7 @@
           <h3>Captures</h3>
         </div>
         <div class="col-sm-4">
-          <button type="button" class="btn btn-secondary"
+          <button type="button" class="btn btn-secondary btn-sm"
           @click="runCapture()">
             <i class="bi-plus-lg"></i>
           </button>
@@ -32,13 +32,11 @@
           :value="uGrid"
           @change="selectedCaptureChanged">
         </div>
-        <div class="col-sm">
-          <span>
-            {{ capture.toString() }}
-          </span>
+        <div class="col-sm uGrid">
+          {{ capture.toString() }}
         </div>
         <div class="col-sm-4">
-          <button type="button" class="btn btn-secondary"
+          <button type="button" class="btn btn-secondary btn-sm"
             @click="removeCapture(uGrid)">
               <i class="bi-dash-lg"></i>
           </button>
@@ -55,10 +53,10 @@
             title="En attente"></i>
         </div>
 
-        <div class="col-sm">-{{ capture.uGrid }}V</div>
+        <div class="col-sm uGrid">-{{ capture.uGrid }}V</div>
 
         <div class="col-sm">
-          <button type="button" class="btn btn-secondary"
+          <button type="button" class="btn btn-secondary btn-sm"
           @click="cancelPendingCapture(capture.uGrid)">
             <i class="bi-dash-lg"></i>
           </button>
@@ -76,12 +74,12 @@
         <div class="col-sm uGrid">-{{ capture.uGrid }}V</div>
 
         <div class="col-sm btn-group" role="group">
-          <button type="button" class="btn btn-secondary"
+          <button type="button" class="btn btn-secondary btn-sm"
           @click="retryCrashedCapture(capture.uGrid)">
           <i class="bi-arrow-clockwise"></i>
           </button>
 
-          <button type="button" class="btn btn-secondary"
+          <button type="button" class="btn btn-secondary btn-sm"
           @click="removeCrashedCapture(capture.uGrid)">
             <i class="bi-dash-lg"></i>
           </button>
