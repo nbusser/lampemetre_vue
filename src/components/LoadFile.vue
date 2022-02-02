@@ -3,9 +3,12 @@
       <!--Hidden input text field used for file browsing. Triggered by clicking the button-->
       <button @click="clickHandler">{{ text }}</button>
       <input @change="fileSelected" type="file" name="file" :accept="accept" ref="fileInput"/>
-      <span class="error" v-if="error !== null">
-        {{ error }}
-      </span>
+      <img
+        class="error icon"
+        :title="error"
+        src="@/assets/warning.svg"
+        v-if="error !== null"
+        />
     </div>
 </template>
 

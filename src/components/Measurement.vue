@@ -21,7 +21,7 @@
                   <span v-if="typeof values === 'number'">
                     {{ values.toFixed(1) }} {{ units[j] }}
                   </span>
-                  <img src="@/assets/warning.svg" :title="values" v-else/>
+                  <img class="icon" src="@/assets/warning.svg" :title="values" v-else/>
                 </td>
             </tr>
         </tbody>
@@ -122,10 +122,5 @@ export default defineComponent({
 
   td {
     text-align: center;
-
-    img {
-      height: 1em;
-      width: 1em;
-    }
   }
 </style>
