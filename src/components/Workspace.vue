@@ -190,6 +190,11 @@ textarea {
   .header {
     margin-bottom: 0.6em;
   }
+
+  textarea {
+    width: 450px;
+    height: 100px;
+  }
 }
 
 .notes_flex {
