@@ -1,8 +1,11 @@
 <template>
-    <div class="container">
+    <div class="save_load">
       <h3>{{ title }}</h3>
-      <div class="buttons">
-        <button @click="save">{{ saveName }}</button>
+      <div class="buttons btn-group" role="group" aria-label="Save Load">
+        <button type="btn" class="btn btn-light"
+        @click="save">
+          {{ saveName }}
+        </button>
         <LoadFile
         :text="loadName"
         :accept="accept"
@@ -44,7 +47,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-.container {
+.save_load {
   text-align: center;
 }
 .buttons {

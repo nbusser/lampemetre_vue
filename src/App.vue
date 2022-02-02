@@ -23,13 +23,6 @@ body {
   margin: 0;
 }
 
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-
 .header {
   * {
     display: inline;
@@ -45,11 +38,7 @@ body {
 }
 
 .info_bulle {
-  width: 1.1em;
-  border: 1px solid black;
-  border-radius: 100%;
-  background-color: rgb(169, 203, 204, 0.5);
-  font-weight: bold;
+  font-size: 25px;
   cursor: help;
 }
 

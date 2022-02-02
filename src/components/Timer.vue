@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="timer">
         <audio ref="audioBell">
           <source src="@/assets/bell.mp3" type="audio/mpeg">
         </audio>
@@ -12,17 +12,27 @@
               class="info_bulle"
               title="Tant que le minuteur est actif, les nouvelles captures seront mises en attente.
               Activez le pendant le chauffage des lampes">
-                  ?
+                  <i class="bi-question-circle"></i>
           </span>
         </div>
-        <div class="control_panel">
-            <input
+        <div class="control_panel input-group mb-3">
+            <input class="form-control"
             @change="updateInputValid"
             @keypress="durationInputKeypressed"
             @input="updateInputValid"
             value="60" type="text" ref="inputDuration"/>
-            <span>secondes</span>
-            <button ref="btnReset" :disabled="!inputValid" @click="resetTimer">Reset</button>
+
+            <span class="input-group-text">
+              secondes
+            </span>
+
+            <button type="button" class="btn btn-outline-secondary"
+            ref="btnReset"
+            :disabled="!inputValid"
+            @click="resetTimer">
+              Reset
+              <i class="bi-play-fill"></i>
+            </button>
         </div>
     </div>
 </template>
@@ -101,7 +111,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-.container {
+.timer {
   display: inline-block;
   text-align: center;
   position: relative;
@@ -121,7 +131,7 @@ export default defineComponent({
   }
 }
 
-.container:hover {
+.timer:hover {
   .control_panel {
     opacity: 100%;
   }
@@ -144,9 +154,7 @@ h3 {
 }
 
 .control_panel {
-  background-color: rgba(223, 239, 255, 0.459);
   margin-top: 1.2em;
-  padding: 1em;
   position: absolute;
   opacity: 0%;
   transition: opacity 0.15s ease-out 100ms;

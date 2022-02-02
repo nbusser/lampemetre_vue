@@ -1,12 +1,18 @@
 <template>
     <div class="header">
         <h2 class="tube_title" :style="setColor()">{{ tube.name }}</h2>
-        <button class="btn_remove_tube" @click="removeTube()">-</button>
+        <button type="button" class="btn btn-secondary"
+        @click="removeTube()">
+          <i class="bi-dash-lg"></i>
+        </button>
     </div>
     <div class="all_captures">
         <div class="header">
             <h3 class="title">Captures</h3>
-            <button class="add_capture" @click="runCapture()">+</button>
+            <button type="button" class="btn btn-secondary"
+            @click="runCapture()">
+              <i class="bi-plus-lg"></i>
+            </button>
         </div>
         <ul class="captures">
             <li class="capture" v-for="[uGrid, capture] in tube.captures" :key="uGrid">
@@ -19,8 +25,9 @@
                     <div>
                         <span>{{ capture.toString() }}</span>
                         <div class="control">
-                          <button @click="removeCapture(uGrid)">
-                            -
+                          <button type="button" class="btn btn-secondary"
+                          @click="removeCapture(uGrid)">
+                            <i class="bi-dash-lg"></i>
                           </button>
                         </div>
                     </div>
@@ -36,8 +43,9 @@
               <img src="@/assets/ghost.png">
               <span>-{{ capture.uGrid }}V</span>
               <div class="control">
-                <button @click="cancelPendingCapture(capture.uGrid)">
-                  -
+                <button type="button" class="btn btn-secondary"
+                @click="cancelPendingCapture(capture.uGrid)">
+                  <i class="bi-dash-lg"></i>
                 </button>
               </div>
             </div>
@@ -46,11 +54,13 @@
               <img src="@/assets/warning.svg" :title="capture.errorMessage">
               <span>-{{ capture.uGrid }}V</span>
               <div class="control">
-                <button @click="retryCrashedCapture(capture.uGrid)">
-                  ↺
+                <button type="button" class="btn btn-secondary"
+                @click="retryCrashedCapture(capture.uGrid)">
+                  <i class="bi-arrow-clockwise"></i>
                 </button>
-                <button @click="removeCrashedCapture(capture.uGrid)">
-                  -
+                <button type="button" class="btn btn-secondary"
+                @click="removeCrashedCapture(capture.uGrid)">
+                  <i class="bi-dash-lg"></i>
                 </button>
               </div>
             </div>

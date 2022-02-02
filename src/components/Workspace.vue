@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="workspace">
     <div class="chart_tubes_notes">
       <Chart
       @addMeasurement="addMeasurement"
@@ -14,7 +14,7 @@
               <span class="info_bulle"
               title="Utilisez cette zone de texte pour écrire les notes de votre choix.
               Celles ci seront sauvegardées avec le projet">
-                ?
+                <i class="bi-question-circle"></i>
               </span>
             </div>
             <textarea v-model="notes"></textarea>
@@ -24,8 +24,17 @@
         <div class="tubes">
           <div class="header">
             <h2>Tubes</h2>
-            <button @click="addTube()">+</button>
-            <button @click="clearTubes()">Vider</button>
+            <div class="btn-group" role="groud" aria-label="tubes-control">
+              <button type="button" class="btn btn-secondary"
+              @click="addTube()">
+                <i class="bi-plus-lg"></i>
+              </button>
+              <button type="button" class="btn btn-secondary"
+              @click="clearTubes()">
+                <i class="bi-x-lg"></i>
+                Vider
+              </button>
+            </div>
           </div>
           <ul>
             <li class="tube" v-for="tube, i in this.tubes" :key="i">
@@ -47,8 +56,19 @@
     <div class="measurements">
       <div class="header">
         <h2>Mesures</h2>
-        <button @click="promptMeasurement()">+</button>
-        <button @click="clearMeasurements()">Vider</button>
+        <div class="btn-group" role="group" aria-label="measurement-control">
+          <button type="button" class="btn btn-secondary"
+          @click="promptMeasurement()"
+          >
+            <i class="bi-plus-lg"></i>
+          </button>
+          <button type="button" class="btn btn-secondary"
+          @click="clearMeasurements()"
+          >
+            <i class="bi-x-lg"></i>
+            Vider
+          </button>
+        </div>
       </div>
       <ul>
         <li class="measurement" v-for="uAnode in this.measurements" :key="uAnode">
@@ -168,7 +188,7 @@ export default defineComponent({
   width: 100%;
 }
 
-.container {
+.workspace {
   margin-left: 1em;
 }
 

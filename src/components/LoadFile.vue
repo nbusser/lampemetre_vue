@@ -1,14 +1,17 @@
 <template>
     <div>
       <!--Hidden input text field used for file browsing. Triggered by clicking the button-->
-      <button @click="clickHandler">{{ text }}</button>
+      <button type="button" class="btn btn-light"
+      @click="clickHandler">
+        {{ text }}
+      </button>
       <input @change="fileSelected" type="file" name="file" :accept="accept" ref="fileInput"/>
-      <img
-        class="error icon"
+      <i
+        class="icon bi-exclamation-triangle-fill"
         :title="error"
-        src="@/assets/warning.svg"
         v-if="error !== null"
-        />
+      >
+      </i>
     </div>
 </template>
 

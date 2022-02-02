@@ -1,7 +1,10 @@
 <template>
     <div class="header">
         <h3 :style="setMeasurementColor()">{{ uAnode }} V</h3>
-        <button @click="removeMeasurement()">-</button>
+        <button type="button" class="btn btn-secondary"
+        @click="removeMeasurement()">
+          <i class="bi-dash-lg"></i>
+        </button>
     </div>
 
     <table>
@@ -21,7 +24,10 @@
                   <span v-if="typeof values === 'number'">
                     {{ values.toFixed(1) }} {{ units[j] }}
                   </span>
-                  <img class="icon" src="@/assets/warning.svg" :title="values" v-else/>
+                  <i class="icon bi-exclamation-triangle-fill"
+                  :title="values" v-else
+                  >
+                  </i>
                 </td>
             </tr>
         </tbody>
