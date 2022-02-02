@@ -162,6 +162,12 @@ export default defineComponent({
   display: flex;
 }
 
+ @media screen and (max-width:1300px) {
+    .chart_tubes_notes {
+        flex-direction: column;
+    }
+ }
+
 .tubes_notes {
   display: flex;
   flex-direction: column;
