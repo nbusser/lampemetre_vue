@@ -5,9 +5,11 @@
         </audio>
         <div class="timer_info">
           <h3>Minuteur</h3>
-          <p class="seconds" :style="setupTimerTextColor">
-              {{ secondsLeft }}
-          </p>
+            <span class="seconds badge"
+            :class="{'bg-secondary': secondsLeft === '00',
+            'bg-danger': secondsLeft !== '00'}">
+                {{ secondsLeft }}
+            </span>
           <span
               class="info_bulle"
               title="Tant que le minuteur est actif, les nouvelles captures seront mises en attente.
@@ -147,10 +149,8 @@ h3 {
 }
 
 .seconds {
-  font-family: Avenir, Helvetica, Arial, monospace;
-  font-size: 28px;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
+  font-size: 19px;
+  font-family: monospace;
 }
 
 .control_panel {
