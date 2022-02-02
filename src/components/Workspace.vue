@@ -1,40 +1,47 @@
 <template>
   <div class="container">
-    <div class="notes">
-      <div class="header">
-        <h3> Notes </h3>
-        <span class="info_bulle"
-        title="Utilisez cette zone de texte pour écrire les notes de votre choix.
-        Celles ci seront sauvegardées avec le projet">
-          ?
-        </span>
-      </div>
-      <textarea v-model="notes"></textarea>
-    </div>
-    <Chart
-    @addMeasurement="addMeasurement"
-    @removeMeasurement="removeMeasurement"
-    />
+    <div class="chart_tubes_notes">
+      <Chart
+      @addMeasurement="addMeasurement"
+      @removeMeasurement="removeMeasurement"
+      />
 
-    <div class="tubes">
-      <div class="header">
-        <h2>Tubes</h2>
-        <button @click="addTube()">+</button>
-        <button @click="clearTubes()">Vider</button>
+      <div class="tubes_notes">
+        <div class="notes">
+          <div class="notes_flex">
+            <div class="header">
+              <h3> Notes </h3>
+              <span class="info_bulle"
+              title="Utilisez cette zone de texte pour écrire les notes de votre choix.
+              Celles ci seront sauvegardées avec le projet">
+                ?
+              </span>
+            </div>
+            <textarea v-model="notes"></textarea>
+          </div>
+        </div>
+
+        <div class="tubes">
+          <div class="header">
+            <h2>Tubes</h2>
+            <button @click="addTube()">+</button>
+            <button @click="clearTubes()">Vider</button>
+          </div>
+          <ul>
+            <li class="tube" v-for="tube, i in this.tubes" :key="i">
+              <Tube :tube="tube"
+              @selectedCaptureChanged="selectCaptureTube(tube, $event)"
+              @captureRequested="runCapture(tube, $event)"
+              @captureRemoved="removeCapture(tube, $event)"
+              @tubeRemoved="removeTube(tube)"
+              @smoothingFactorChanged="changeSmoothingFactor(tube, $event)"
+              @pendingCaptureCanceled="cancelPendingCapture(tube, $event)"
+              @crashedCaptureRemoved="removeCrashedCapture(tube, $event)"
+              />
+            </li>
+          </ul>
+        </div>
       </div>
-      <ul>
-        <li class="tube" v-for="tube, i in this.tubes" :key="i">
-          <Tube :tube="tube"
-          @selectedCaptureChanged="selectCaptureTube(tube, $event)"
-          @captureRequested="runCapture(tube, $event)"
-          @captureRemoved="removeCapture(tube, $event)"
-          @tubeRemoved="removeTube(tube)"
-          @smoothingFactorChanged="changeSmoothingFactor(tube, $event)"
-          @pendingCaptureCanceled="cancelPendingCapture(tube, $event)"
-          @crashedCaptureRemoved="removeCrashedCapture(tube, $event)"
-          />
-        </li>
-      </ul>
     </div>
 
     <div class="measurements">
@@ -151,6 +158,16 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.chart_tubes_notes {
+  display: flex;
+}
+
+.tubes_notes {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .container {
   margin-left: 1em;
 }
@@ -160,9 +177,17 @@ textarea {
 }
 
 .notes {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+
   .header {
     margin-bottom: 0.6em;
   }
+}
+
+.notes_flex {
+  flex-grow: 0.06;
 }
 
 .info_bulle {
