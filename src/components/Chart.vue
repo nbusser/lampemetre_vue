@@ -1,5 +1,5 @@
 <template>
-    <div id="chart"></div>
+    <div ref="chart"></div>
 </template>
 
 <script lang="ts">
@@ -50,7 +50,7 @@ export default defineComponent({
     };
   },
   mounted() {
-    this.rootHtml = document.getElementById('chart') as PlotHTMLElement;
+    this.rootHtml = this.$refs.chart as PlotHTMLElement;
     newPlot(this.rootHtml, this.curves as Data[], this.layout as Partial<Layout>);
 
     this.rootHtml.on('plotly_click', (data: PlotMouseEvent) => {
