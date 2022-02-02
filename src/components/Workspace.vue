@@ -162,12 +162,6 @@ export default defineComponent({
   display: flex;
 }
 
- @media screen and (max-width:1300px) {
-    .chart_tubes_notes {
-        flex-direction: column;
-    }
- }
-
 .tubes_notes {
   display: flex;
   flex-direction: column;
@@ -206,14 +200,18 @@ textarea {
 }
 
 .tubes {
+  .header {
+    margin-left: 0.8em;
+  }
+
   overflow-y: auto;
   height: 30em;
 
   ul {
     display: flex;
     flex-wrap: wrap;
-    padding-left: 0.5em;
-    gap: 0.7em;
+    padding-left: 0.6em;
+    gap: 0.5em;
   }
 }
 
@@ -236,4 +234,17 @@ ul {
   list-style: none;
 }
 
+ @media screen and (max-width:1300px) {
+    .chart_tubes_notes {
+        flex-direction: column;
+    }
+
+    .notes {
+      justify-content: flex-start;
+    }
+
+    .tubes {
+      height: 100%;
+    }
+ }
 </style>
