@@ -16,11 +16,11 @@
         <div class="reset">
             <input
             @change="updateInputValid"
-            @keypress="updateInputValid"
+            @keypress="durationInputKeypressed"
             @input="updateInputValid"
             type="text" ref="inputDuration"/>
             <span>secondes</span>
-            <button :disabled="!inputValid" @click="resetTimer">Reset</button>
+            <button ref="btnReset" :disabled="!inputValid" @click="resetTimer">Reset</button>
         </div>
     </div>
 </template>
@@ -84,6 +84,13 @@ export default defineComponent({
       }
 
       this.inputValid = res;
+    },
+    durationInputKeypressed(evt: any) {
+      this.updateInputValid();
+      // If enter is pressed, click the button
+      if (evt.keyCode === 13) {
+        (this.$refs.btnReset as HTMLButtonElement).click();
+      }
     },
   },
 });
