@@ -7,8 +7,6 @@
     @removeMeasurement="removeMeasurement"
     />
 
-    <Timer class="timer" :timer="this.$store.state.timer"/>
-
     <div class="tubes">
       <div class="header">
         <h2>Tubes</h2>
@@ -87,7 +85,6 @@ import { exportToExcel, importFromExcel } from '@/ImportExport';
 export default defineComponent({
   name: 'Workspace',
   components: {
-    Timer,
     LoadFile,
     Chart,
     Tube,
@@ -241,13 +238,6 @@ textarea {
 
 ul {
   list-style: none;
-}
-
-.timer {
-  position: fixed;
-  top: 20px;
-  right: 0.9em;
-  background-color: rgba(223, 239, 255, 0.459);
 }
 
 </style>

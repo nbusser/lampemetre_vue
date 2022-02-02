@@ -3,17 +3,19 @@
         <audio ref="audioBell">
           <source src="@/assets/bell.mp3" type="audio/mpeg">
         </audio>
-        <span
-            class="info_bulle"
-            title="Tant que le minuteur est actif, les nouvelles captures seront mises en attente.
-            Activez le pendant le chauffage des lampes">
-                ?
-        </span>
-        <h3>Minuteur</h3>
-        <p class="seconds" :style="setupTimerTextColor">
-            {{ secondsLeft }}
-        </p>
-        <div class="reset">
+        <div class="timer_info">
+          <h3>Minuteur</h3>
+          <p class="seconds" :style="setupTimerTextColor">
+              {{ secondsLeft }}
+          </p>
+          <span
+              class="info_bulle"
+              title="Tant que le minuteur est actif, les nouvelles captures seront mises en attente.
+              Activez le pendant le chauffage des lampes">
+                  ?
+          </span>
+        </div>
+        <div class="control_panel">
             <input
             @change="updateInputValid"
             @keypress="durationInputKeypressed"
@@ -100,58 +102,79 @@ export default defineComponent({
 <style lang="scss" scoped>
 
 .container {
-  padding: 1em;
   display: inline-block;
-  border: 1px solid black;
   text-align: center;
   position: relative;
-  opacity: 25%;
-  transition: opacity 0.2s ease-out 100ms;
 
   > * {
     cursor: default;
   }
 }
 
+.timer_info {
+  display: block;
+
+  > * {
+    display: inline;
+    margin-left: 1em;
+    vertical-align: middle;
+  }
+}
+
 .container:hover {
-  opacity: 100%;
+  .control_panel {
+    opacity: 100%;
+  }
 }
 
 h3 {
   margin: 0;
+  font-size: 25px
 }
 
 .info_bulle {
   width: 1.1em;
-  margin: 0;
   border: 1px solid black;
   border-radius: 100%;
-  padding: 0.1em;
+  padding: 0.1em 0.4em 0.1em 0.1em;
   background-color: rgb(169, 203, 204, 0.5);
   font-weight: bold;
-  position: absolute;
-  right: 0.7em;
   cursor: help;
 }
 
-input {
-  width: 2em;
-  text-align: center;
-}
-
 .seconds {
+  font-family: Avenir, Helvetica, Arial, monospace;
   font-size: 28px;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
 
-.reset {
-    display: block;
+.control_panel {
+  background-color: rgba(223, 239, 255, 0.459);
+  margin-top: 0.8em;
+  padding: 1em;
+  position: absolute;
+  opacity: 0%;
+  transition: opacity 0.15s ease-out 100ms;
 
-    > * {
-        display: inline;
-        margin-left: 0.4em;
-    }
+  > * {
+      display: inline;
+      margin-left: 0.4em;
+  }
+
+  input {
+    width: 2em;
+    text-align: center;
+    font-size: 17px;
+  }
+
+  span {
+    font-size: 17px;
+  }
+
+  button {
+    font-size: 15px;
+  }
 }
 
 </style>
