@@ -206,10 +206,14 @@ textarea {
 }
 
 .tubes {
+  overflow-y: auto;
+  height: 30em;
+
   ul {
     display: flex;
     flex-wrap: wrap;
-    gap: 1em;
+    padding-left: 0.5em;
+    gap: 0.7em;
   }
 }
 

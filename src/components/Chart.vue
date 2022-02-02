@@ -23,7 +23,7 @@ export default defineComponent({
     const annotations: Partial<Shape>[] = [];
     const layout = {
       width: 900,
-      height: 600,
+      height: 700,
       shapes: annotations,
       xaxis: {
         title: 'Tension anode (V)',
