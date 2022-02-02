@@ -18,7 +18,7 @@
             @change="updateInputValid"
             @keypress="durationInputKeypressed"
             @input="updateInputValid"
-            type="text" ref="inputDuration"/>
+            value="60" type="text" ref="inputDuration"/>
             <span>secondes</span>
             <button ref="btnReset" :disabled="!inputValid" @click="resetTimer">Reset</button>
         </div>
@@ -43,6 +43,7 @@ export default defineComponent({
     if (this.$refs.audioBell !== undefined) {
       (this.$refs.audioBell as HTMLAudioElement).load();
     }
+    this.updateInputValid();
   },
   computed: {
     secondsLeft() {
