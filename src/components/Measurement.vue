@@ -7,23 +7,25 @@
         </button>
     </div>
 
-    <table>
+    <table class="table table-striped table-bordered">
+        <thead>
+          <tr v-if="this.tubes.length > 0">
+            <th scope="col"></th>
+            <th scope="col">Courant cathode</th>
+            <th scope="col">Résistance</th>
+            <th scope="col">Transductance</th>
+            <th scope="col">μ (coef)</th>
+          </tr>
+        </thead>
         <tbody>
-            <tr v-if="this.tubes.length > 0">
-                <th></th>
-                <th>Courant cathode</th>
-                <th>Résistance</th>
-                <th>Transductance</th>
-                <th>μ (coef)</th>
-            </tr>
             <tr v-for="result, i in measurementResults" :key="i">
-                <th>
-                  <span :style="setTubeColor(result.tube)">{{ result.tube.name }}</span>
+                <th scope="col" :style="setTubeColor(result.tube)">
+                  {{ result.tube.name }}
                 </th>
                 <td v-for="values, j in result.results" :key="j">
-                  <span v-if="typeof values === 'number'">
+                  <template v-if="typeof values === 'number'">
                     {{ values.toFixed(1) }} {{ units[j] }}
-                  </span>
+                  </template>
                   <i class="icon bi-exclamation-triangle-fill"
                   :title="values" v-else
                   >
@@ -116,14 +118,7 @@ export default defineComponent({
   }
 
   table {
-    border-collapse: collapse;
     display: inline;
-  }
-
-  th, td {
-    border-style: solid;
-    border-width: 0.1em;
-    padding: 0.3em;
   }
 
   td {
