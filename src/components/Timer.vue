@@ -145,7 +145,7 @@ h3 {
 
 .control_panel {
   background-color: rgba(223, 239, 255, 0.459);
-  margin-top: 0.8em;
+  margin-top: 1.2em;
   padding: 1em;
   position: absolute;
   opacity: 0%;

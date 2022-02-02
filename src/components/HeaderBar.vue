@@ -1,28 +1,30 @@
 <template>
   <header>
-    <h1>Lampemetre</h1>
+    <h1>Lampemètre</h1>
 
-    <SaveLoad
-    title="Projet"
-    saveName="Sauver"
-    loadName="Charger"
-    accept=".json"
-    readMethod="text"
-    :errorMessage="loadErrorMessage"
-    @save="saveJSON"
-    @load="loadJSON"
-    />
+    <div class="control_panel">
+      <SaveLoad
+      title="Projet"
+      saveName="Sauver"
+      loadName="Charger"
+      accept=".json"
+      readMethod="text"
+      :errorMessage="loadErrorMessage"
+      @save="saveJSON"
+      @load="loadJSON"
+      />
 
-    <SaveLoad
-    title="Excel"
-    saveName="Exporter"
-    loadName="Importer"
-    accept=".xlsx"
-    readMethod="array_buffer"
-    :errorMessage="importErrorMessage"
-    @save="exportExcel"
-    @load="importExcel"
-    />
+      <SaveLoad
+      title="Excel"
+      saveName="Exporter"
+      loadName="Importer"
+      accept=".xlsx"
+      readMethod="array_buffer"
+      :errorMessage="importErrorMessage"
+      @save="exportExcel"
+      @load="importExcel"
+      />
+  </div>
 
   <Timer class="timer" :timer="this.$store.state.timer"/>
   </header>
@@ -94,7 +96,7 @@ export default defineComponent({
 header {
   display: flex;
   justify-content: space-between;
-  align-content: center;
+  align-items: center;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -107,6 +109,24 @@ h1 {
   font-size: 50px;
   margin: 0;
   padding: 0.1em 0.4em;
+
+  flex-grow: 1;
+}
+
+.control_panel {
+  flex-grow: 10;
+
+  > * {
+    display: inline-block;
+  }
+
+  :nth-child(n+2) {
+    margin-left: 0.4em;
+  }
+}
+
+.timer {
+  flex-grow: 1;
 }
 
 </style>
