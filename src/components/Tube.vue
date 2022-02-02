@@ -1,74 +1,98 @@
 <template>
-    <div class="header">
-        <h2 class="tube_title" :style="setColor()">{{ tube.name }}</h2>
-        <button type="button" class="btn btn-secondary"
-        @click="removeTube()">
-          <i class="bi-dash-lg"></i>
-        </button>
-    </div>
-    <div class="all_captures">
-        <div class="header">
-            <h3 class="title">Captures</h3>
-            <button type="button" class="btn btn-secondary"
-            @click="runCapture()">
-              <i class="bi-plus-lg"></i>
-            </button>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8">
+          <h2 class="tube_title"
+          :style="setColor()">
+            {{ tube.name }}
+          </h2>
         </div>
-        <ul class="captures">
-            <li class="capture" v-for="[uGrid, capture] in tube.captures" :key="uGrid">
-              <div>
-                <label>
-                    <input type="radio"
-                    :checked="tube.selectedUgrid === uGrid"
-                    :value="uGrid"
-                    @change="selectedCaptureChanged">
-                    <div>
-                        <span>{{ capture.toString() }}</span>
-                        <div class="control">
-                          <button type="button" class="btn btn-secondary"
-                          @click="removeCapture(uGrid)">
-                            <i class="bi-dash-lg"></i>
-                          </button>
-                        </div>
-                    </div>
-                </label>
-              </div>
-            </li>
-        </ul>
-        <!--Gathers pending captures and crashed captures in a single sorted list-->
-        <ul class="defective_captures">
-          <li v-for="capture, i in defectiveCaptures" :key="i">
-            <!--No errorMessage field means it's a pending capture-->
-            <div class="pending_capture" v-if="capture.errorMessage === null">
-              <img src="@/assets/ghost.png">
-              <span>-{{ capture.uGrid }}V</span>
-              <div class="control">
-                <button type="button" class="btn btn-secondary"
-                @click="cancelPendingCapture(capture.uGrid)">
-                  <i class="bi-dash-lg"></i>
-                </button>
-              </div>
-            </div>
-            <!--Presence of errorMessage field means it's a crashed capture-->
-            <div v-else class="crashed_capture">
-              <img src="@/assets/warning.svg" :title="capture.errorMessage">
-              <span>-{{ capture.uGrid }}V</span>
-              <div class="control">
-                <button type="button" class="btn btn-secondary"
-                @click="retryCrashedCapture(capture.uGrid)">
-                  <i class="bi-arrow-clockwise"></i>
-                </button>
-                <button type="button" class="btn btn-secondary"
-                @click="removeCrashedCapture(capture.uGrid)">
-                  <i class="bi-dash-lg"></i>
-                </button>
-              </div>
-            </div>
-          </li>
-        </ul>
+        <div class="col-sm-4">
+          <button type="button" class="btn btn-secondary"
+          @click="removeTube()">
+            <i class="bi-dash-lg"></i>
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8">
+          <h3>Captures</h3>
+        </div>
+        <div class="col-sm-4">
+          <button type="button" class="btn btn-secondary"
+          @click="runCapture()">
+            <i class="bi-plus-lg"></i>
+          </button>
+        </div>
+      </div>
+      <div class="row capture" v-for="[uGrid, capture] in tube.captures" :key="uGrid">
+        <div class="col-sm">
+          <input class="form-check-input" type="radio"
+          :checked="tube.selectedUgrid === uGrid"
+          :value="uGrid"
+          @change="selectedCaptureChanged">
+        </div>
+        <div class="col-sm">
+          <span>
+            {{ capture.toString() }}
+          </span>
+        </div>
+        <div class="col-sm-4">
+          <button type="button" class="btn btn-secondary"
+            @click="removeCapture(uGrid)">
+              <i class="bi-dash-lg"></i>
+          </button>
+        </div>
+      </div>
+
+    <div class="defective_captures" v-for="capture, i in defectiveCaptures" :key="i">
+
+      <div class="row pending_capture"
+      v-if="capture.errorMessage === null">
+
+        <div class="col-sm">
+          <i class="bi-alarm"
+            title="En attente"></i>
+        </div>
+
+        <div class="col-sm">-{{ capture.uGrid }}V</div>
+
+        <div class="col-sm">
+          <button type="button" class="btn btn-secondary"
+          @click="cancelPendingCapture(capture.uGrid)">
+            <i class="bi-dash-lg"></i>
+          </button>
+        </div>
+
+      </div>
+
+      <div class="row crashed_capture" v-else>
+
+        <div class="col-sm">
+          <i class="bi-exclamation-triangle-fill"
+          :title="capture.errorMessage"></i>
+        </div>
+
+        <div class="col-sm uGrid">-{{ capture.uGrid }}V</div>
+
+        <div class="col-sm btn-group" role="group">
+          <button type="button" class="btn btn-secondary"
+          @click="retryCrashedCapture(capture.uGrid)">
+          <i class="bi-arrow-clockwise"></i>
+          </button>
+
+          <button type="button" class="btn btn-secondary"
+          @click="removeCrashedCapture(capture.uGrid)">
+            <i class="bi-dash-lg"></i>
+          </button>
+        </div>
+
+      </div>
     </div>
-    <div class="slider">
-        <span>Lissage:</span>
+
+    <div class="row slider">
+      <div class="col-sm-4">Lissage</div>
+      <div class="col-sm-8">
         <input type="range"
         :min="minSmoothingFactor"
         :max="maxSmoothingFactor"
@@ -76,7 +100,9 @@
         :disabled="!tube.canChangeSmoothingFactor() || pendingCaptures.length > 0"
         @change="smoothingFactorChanged"
         >
+      </div>
     </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -229,13 +255,8 @@ button {
 }
 
 .slider {
-    margin-top: 0.5em;
-    width: min-content;
-
     input {
-        display: inline-block;
-        max-width: 50%;
-        vertical-align: bottom;
+        vertical-align: middle;
     }
 }
 
@@ -257,7 +278,7 @@ button {
 }
 
 .crashed_capture {
-  span {
+  .uGrid {
     color: rgba(110, 0, 0, 0.7);
   }
 }
