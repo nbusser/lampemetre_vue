@@ -1,6 +1,5 @@
 <template>
   <a class="dropdown-item"
-  href="#"
   @click="clickHandler">
     {{ text }} ({{ accept }})
   </a>

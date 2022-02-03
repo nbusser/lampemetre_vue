@@ -1,6 +1,6 @@
 <template>
   <div class="save_load dropdown">
-      <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+      <a class="btn btn-secondary dropdown-toggle" role="button"
       data-bs-toggle="dropdown"
       data-bs-auto-close="true">
         Projet
@@ -9,19 +9,17 @@
         <li class="dropdown-submenu">
           <a class="dropdown-item"
             tabindex="-1"
-            href="#"
           >
             Sauvegarder
           </a>
           <ul class="dropdown-menu">
-            <li><a @click="saveJSON" class="dropdown-item" href="#">JSON (.json)</a></li>
-            <li><a @click="exportExcel" class="dropdown-item" href="#">Excel (.xlsx)</a></li>
+            <li><a @click="saveJSON" class="dropdown-item">JSON (.json)</a></li>
+            <li><a @click="exportExcel" class="dropdown-item">Excel (.xlsx)</a></li>
           </ul>
         </li>
         <li class="dropdown-submenu">
           <a class="dropdown-item"
             tabindex="-1"
-            href="#"
           >
             Charger
           </a>
