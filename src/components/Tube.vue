@@ -35,7 +35,7 @@
         <div class="col-sm uGrid">
           {{ capture.toString() }}
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm">
           <button type="button" class="btn btn-secondary btn-sm"
             @click="removeCapture(uGrid)">
               <i class="bi-dash-lg"></i>
