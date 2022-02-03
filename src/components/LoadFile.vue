@@ -1,18 +1,11 @@
 <template>
-    <div>
-      <!--Hidden input text field used for file browsing. Triggered by clicking the button-->
-      <button type="button" class="btn btn-light"
-      @click="clickHandler">
-        {{ text }}
-      </button>
-      <input @change="fileSelected" type="file" name="file" :accept="accept" ref="fileInput"/>
-      <i
-        class="icon bi-exclamation-triangle-fill"
-        :title="error"
-        v-if="error !== null"
-      >
-      </i>
-    </div>
+  <a class="dropdown-item"
+  href="#"
+  @click="clickHandler">
+    {{ text }} ({{ accept }})
+  </a>
+  <!--Hidden input text field used for file browsing. Triggered by clicking the button-->
+  <input @change="fileSelected" type="file" name="file" :accept="accept" ref="fileInput"/>
 </template>
 
 <script lang="ts">
@@ -38,34 +31,24 @@ export default defineComponent({
     text: String,
     accept: String,
     readMethod: String,
-    errorMessage: String,
   },
   emits: [
     'fileLoaded',
+    'errorTriggered',
   ],
-  data: () => ({
-    internalError: null as string | null,
-  }),
-  computed: {
-    error(): string | null {
-      if (this.internalError !== null) {
-        return this.internalError;
-      }
-      if (this.errorMessage !== undefined && this.errorMessage !== null) {
-        return this.errorMessage;
-      }
-      return null;
-    },
-  },
   methods: {
     clickHandler() {
       const input = this.$refs.fileInput as HTMLInputElement;
       input.click();
     },
+    emitError() {
+      const errorMessage = 'Une erreur est survenue pendant la lecture du fichier';
+      const errorSource = `Chargement de fichier ${this.$props.text as string}`;
+      this.$emit('errorTriggered', { errorMessage, errorSource });
+    },
     fileSelected(evt: any) {
-      const readError = 'Une erreur est survenue pendant la lecture du fichier';
       if (evt.target === null) {
-        this.internalError = readError;
+        this.emitError();
         return;
       }
 
@@ -79,14 +62,13 @@ export default defineComponent({
       reader.addEventListener('load', (event) => {
         if (event.target === null
               || event.target.result === null) {
-          this.internalError = readError;
+          this.emitError();
           return;
         }
         // Resets input field
         // eslint-disable-next-line no-param-reassign
         const hiddenInput = this.$refs.fileInput as HTMLInputElement;
         hiddenInput.value = '';
-        this.internalError = null;
 
         // If no error, sends the opened file to the callback
         this.$emit('fileLoaded', event.target.result);
@@ -98,7 +80,7 @@ export default defineComponent({
       } else if (this.readMethod === ReadMethod.Text) {
         reader.readAsText(file);
       } else {
-        this.internalError = readError;
+        this.emitError();
         throw Error('No read method given as prop');
       }
     },

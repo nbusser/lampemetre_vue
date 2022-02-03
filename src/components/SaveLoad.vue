@@ -1,45 +1,102 @@
 <template>
-    <div class="save_load">
-      <h3>{{ title }}</h3>
-      <div class="buttons btn-group" role="group" aria-label="Save Load">
-        <button type="btn" class="btn btn-light"
-        @click="save">
-          {{ saveName }}
-        </button>
-        <LoadFile
-        :text="loadName"
-        :accept="accept"
-        :readMethod="readMethod"
-        :errorMessage="errorMessage"
-        @fileLoaded="load"
-        />
-      </div>
+  <div class="save_load dropdown">
+      <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+      data-bs-toggle="dropdown"
+      data-bs-auto-close="true">
+        Projet
+      </a>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a class="dropdown-item"
+            tabindex="-1"
+            href="#"
+          >
+            Sauvegarder
+          </a>
+          <ul class="dropdown-menu">
+            <li><a @click="saveJSON" class="dropdown-item" href="#">JSON (.json)</a></li>
+            <li><a @click="exportExcel" class="dropdown-item" href="#">Excel (.xlsx)</a></li>
+          </ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a class="dropdown-item"
+            tabindex="-1"
+            href="#"
+          >
+            Charger
+          </a>
+          <ul class="dropdown-menu">
+            <LoadFile
+            text="JSON"
+            accept=".json"
+            readMethod="text"
+            @fileLoaded="loadJSON"
+            @errorTriggered="$emit('errorTriggered', $event)"
+            />
+            <LoadFile
+            text="Excel"
+            accept=".xlsx"
+            readMethod="array_buffer"
+            @fileLoaded="importExcel"
+            @errorTriggered="$emit('errorTriggered', $event)"
+            />
+          </ul>
+        </li>
+      </ul>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import LoadFile from '@/components/LoadFile.vue';
+import { saveToJSON, loadFromJSON } from '@/SaveLoad';
+import { exportToExcel, importFromExcel } from '@/ImportExport';
+import ModelTube from '@/model/ModelTube';
 
 export default defineComponent({
   name: 'SaveLoad.vue',
   components: {
     LoadFile,
   },
-  props: {
-    title: String,
-    saveName: String,
-    loadName: String,
-    accept: String,
-    readMethod: String,
-    errorMessage: String,
-  },
+  events: [
+    'errorTriggered',
+  ],
   methods: {
-    save() {
-      this.$emit('save');
+    saveJSON() {
+      const { tubes, measurements, notes } = this.$store.state;
+
+      saveToJSON(tubes, [...measurements.values()], notes);
     },
-    load(file: string | ArrayBuffer) {
-      this.$emit('load', file);
+    loadJSON(jsonContent: string) {
+      try {
+        const { tubes, measurements, notes } = loadFromJSON(jsonContent);
+
+        tubes.forEach((tube: ModelTube) => {
+          this.$store.dispatch('ADD_TUBE', { tube });
+        });
+        measurements.forEach((uAnode: number) => {
+          this.$store.dispatch('ADD_MEASUREMENT', { uAnode });
+        });
+        if (notes !== undefined) {
+          this.$store.dispatch('SET_NOTES', { newNotes: notes });
+        }
+      } catch (e: any) {
+        this.$emit('errorTriggered', { errorMessage: e.message, errorSource: 'Chargement JSON' });
+      }
+    },
+    exportExcel() {
+      const { tubes, measurements } = this.$store.state;
+      exportToExcel(tubes, [...measurements.values()]);
+    },
+    async importExcel(excelData: ArrayBuffer) {
+      try {
+        const tubes = await importFromExcel(excelData);
+        tubes.forEach((tube: ModelTube) => {
+          this.$store.dispatch('ADD_TUBE', { tube });
+        });
+      } catch (e: any) {
+        this.$emit('errorTriggered', { errorMessage: e.message, errorSource: 'Chargement Excel' });
+      }
     },
   },
 });
@@ -47,22 +104,60 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-.save_load {
-  text-align: center;
-}
-.buttons {
-  :nth-child(n+2) {
-    margin-left: 0.4em;
+.dropdown_header {
+  > * {
+    display: inline;
   }
 }
 
-button {
-  font-size: 15px;
+// Dropdown submenu hacking
+
+.dropdown-submenu {
+    position: relative;
 }
 
-h3 {
-  margin: 0;
-  margin-bottom: 0.3em;
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
 }
 
 </style>
