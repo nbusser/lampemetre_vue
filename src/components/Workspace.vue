@@ -11,14 +11,13 @@
           <div class="notes_flex">
             <div class="header">
               <h3> Notes </h3>
-              <span class="info_bulle"
+              <i class="info_bulle bi bi-question-circle"
               title="Utilisez cette zone de texte pour écrire les notes de votre choix.
               Celles ci seront sauvegardées avec le projet"
               ref="infoBulle"
               data-bs-toggle="tooltip"
-              data-bs-placement="top">
-                <i class="bi-question-circle"></i>
-              </span>
+              data-bs-placement="bottom">
+              </i>
             </div>
             <textarea v-model="notes"></textarea>
           </div>
@@ -222,10 +221,6 @@ textarea {
 
 .notes_flex {
   flex-grow: 0.06;
-}
-
-.info_bulle {
-    padding: 0.1em 0.4em 0.1em 0.4em;
 }
 
 .tubes {
