@@ -3,7 +3,7 @@
         <h3 :style="setMeasurementColor()">{{ uAnode }} V</h3>
         <button type="button" class="btn btn-secondary"
         @click="removeMeasurement()">
-          <i class="bi-dash-lg"></i>
+          <i class="bi bi-dash-lg"></i>
         </button>
     </div>
 
@@ -27,6 +27,7 @@
                     {{ values.toFixed(1) }} {{ units[j] }}
                   </template>
                   <i class="icon bi-exclamation-triangle-fill"
+                  v-tooltip
                   :title="values" v-else
                   >
                   </i>
