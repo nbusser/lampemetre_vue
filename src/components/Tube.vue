@@ -49,11 +49,14 @@
       v-if="capture.errorMessage === null">
 
         <div class="col-sm">
-          <i class="bi bi-alarm"
+          <div class="spinner-border spinner-border-sm text-primary"
+          role="status"
           v-tooltip
           data-bs-toggle="tooltip"
           data-bs-placement="top"
-          title="En attente"></i>
+          title="En attente">
+          </div>
+          <span class="visually-hidden">Loading...</span>
         </div>
 
         <div class="col-sm uGrid">-{{ capture.uGrid }}V</div>
