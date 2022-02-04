@@ -84,6 +84,9 @@ export default defineComponent({
       html: true,
       content: popoverContent,
     });
+    // Ugly hacking to force popover to init itself to the right position
+    this.popover.show();
+    this.popover.hide();
   },
   computed: {
     timerIsOver() {
