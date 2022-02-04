@@ -4,19 +4,34 @@
           <source src="@/assets/bell.mp3" type="audio/mpeg">
         </audio>
         <div class="timer_info">
-          <h3>Minuteur</h3>
-            <span class="seconds badge"
-            :class="{'bg-secondary': timerIsOver,
-            'bg-danger': !timerIsOver}"
-            ref="infoBulle"
-            title="Tant que le minuteur est actif, les nouvelles captures seront mises en attente.
-            Activez le pendant le chauffage des lampes"
-            data-bs-toggle="tooltip"
-            data-bs-placement="bottom">
-              {{ secondsLeft }}
-            </span>
+          <button
+          type="button"
+          class="btn btn-lg btn-secondary"
+          ref="popoverBtn"
+          data-bs-placement="bottom"
+          v-on="{
+            'shown.bs.popover': () => {this.popoverInitialized = true},
+          }"
+          >
+          Minuteur
+          <i class="bi bi-stopwatch"></i>
+        </button>
+
+          <span class="seconds badge user-select-none"
+          :class="{'bg-secondary': timerIsOver,
+          'bg-danger': !timerIsOver}"
+          ref="infoBulle"
+          title="Tant que le minuteur est actif, les nouvelles captures seront mises en attente.
+          Activez le pendant le chauffage des lampes"
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom">
+            {{ secondsLeft }}
+          </span>
         </div>
-        <div class="control_panel input-group mb-3">
+
+        <div ref="popoverContent"
+        :style=setPopoverDisplay>
+          <div class="input-group mb-3">
             <input class="form-control"
             @change="updateInputValid"
             @keypress="durationInputKeypressed"
@@ -32,8 +47,9 @@
             :disabled="!inputValid"
             @click="resetTimer">
               Reset
-              <i class="bi-play-fill"></i>
+              <i class="bi bi-arrow-clockwise"></i>
             </button>
+          </div>
         </div>
     </div>
 </template>
@@ -42,11 +58,13 @@
 
 import Timer from '@/Timer';
 import { defineComponent } from 'vue';
-import { Tooltip } from 'bootstrap';
+import { Popover, Tooltip } from 'bootstrap';
 
 export default defineComponent({
   name: 'Timer',
   data: () => ({
+    popover: null as Popover | null,
+    popoverInitialized: false as boolean,
     errorMessage: null as string | null,
     inputValid: false as boolean,
   }),
@@ -62,6 +80,14 @@ export default defineComponent({
     const infoBulle = this.$refs.infoBulle as HTMLSpanElement;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const tooltip = new Tooltip(infoBulle);
+
+    const popoverBtn = this.$refs.popoverBtn as HTMLButtonElement;
+    const popoverContent = this.$refs.popoverContent as HTMLDivElement;
+    this.popover = new Popover(popoverBtn, {
+      sanitize: false,
+      html: true,
+      content: popoverContent,
+    });
   },
   computed: {
     timerIsOver() {
@@ -87,6 +113,10 @@ export default defineComponent({
       }
       return {};
     },
+    setPopoverDisplay() {
+      const display = this.popoverInitialized ? '' : 'none';
+      return { display };
+    },
   },
   methods: {
     resetTimer() {
@@ -95,6 +125,8 @@ export default defineComponent({
         const duration = Number.parseInt(durationText, 10);
         this.timer.resetTimer(duration);
         this.errorMessage = null;
+
+        (this.popover as Popover).hide();
       }
     },
     updateInputValid() {
@@ -108,6 +140,7 @@ export default defineComponent({
       this.inputValid = res;
     },
     durationInputKeypressed(evt: any) {
+      console.log('big ping');
       this.updateInputValid();
       // If enter is pressed, click the button
       if (evt.keyCode === 13) {
@@ -124,10 +157,6 @@ export default defineComponent({
   display: inline-block;
   text-align: center;
   position: relative;
-
-  > * {
-    cursor: default;
-  }
 }
 
 .timer_info {
@@ -135,55 +164,14 @@ export default defineComponent({
 
   > * {
     display: inline;
-    margin-left: 1em;
+    margin-left: 0.4em;
     vertical-align: middle;
   }
 }
 
-.timer:hover {
-  .control_panel {
-    opacity: 100%;
-  }
-}
-
-h3 {
-  margin: 0;
-  font-size: 25px
-}
-
-.info_bulle {
-    padding: 0.1em 0.4em 0.1em 0.1em;
-}
-
 .seconds {
-  font-size: 19px;
+  font-size: 24px;
   font-family: monospace;
-}
-
-.control_panel {
-  margin-top: 1.2em;
-  position: absolute;
-  opacity: 0%;
-  transition: opacity 0.15s ease-out 100ms;
-
-  > * {
-      display: inline;
-      margin-left: 0.4em;
-  }
-
-  input {
-    width: 2em;
-    text-align: center;
-    font-size: 17px;
-  }
-
-  span {
-    font-size: 17px;
-  }
-
-  button {
-    font-size: 15px;
-  }
 }
 
 </style>
