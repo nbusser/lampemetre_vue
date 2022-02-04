@@ -54,29 +54,6 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
-
-body {
-  margin: 0;
-}
-
-.header {
-  * {
-    display: inline;
-  }
-  :nth-child(n+2) {
-    margin-left: 0.5em;
-  };
-}
-
-.info_bulle {
-  font-size: 25px;
-  cursor: help;
-}
-
-.icon {
-  width: 1em;
-  height: 1em;
-}
+<style lang="scss" scoped>
 
 </style>
