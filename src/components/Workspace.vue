@@ -12,9 +12,9 @@
             <div class="header">
               <h3> Notes </h3>
               <i class="info_bulle bi bi-question-circle"
+              v-tooltip
               title="Utilisez cette zone de texte pour écrire les notes de votre choix.
               Celles ci seront sauvegardées avec le projet"
-              ref="infoBulle"
               data-bs-toggle="tooltip"
               data-bs-placement="bottom">
               </i>
@@ -85,7 +85,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Tooltip } from 'bootstrap';
 import ModelTube from '@/model/ModelTube';
 import Chart from '@/components/Chart.vue';
 import Tube from '@/components/Tube.vue';
@@ -97,11 +96,6 @@ export default defineComponent({
     Chart,
     Tube,
     Measurement,
-  },
-  mounted() {
-    const infoBulle = this.$refs.infoBulle as HTMLSpanElement;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const tooltip = new Tooltip(infoBulle);
   },
   computed: {
     tubes(): ModelTube[] {

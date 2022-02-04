@@ -20,7 +20,7 @@
           <span class="seconds badge user-select-none"
           :class="{'bg-secondary': timerIsOver,
           'bg-danger': !timerIsOver}"
-          ref="infoBulle"
+          v-tooltip
           title="Tant que le minuteur est actif, les nouvelles captures seront mises en attente.
           Activez le pendant le chauffage des lampes"
           data-bs-toggle="tooltip"
@@ -58,7 +58,7 @@
 
 import Timer from '@/Timer';
 import { defineComponent } from 'vue';
-import { Popover, Tooltip } from 'bootstrap';
+import { Popover } from 'bootstrap';
 
 export default defineComponent({
   name: 'Timer',
@@ -76,10 +76,6 @@ export default defineComponent({
       (this.$refs.audioBell as HTMLAudioElement).load();
     }
     this.updateInputValid();
-
-    const infoBulle = this.$refs.infoBulle as HTMLSpanElement;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const tooltip = new Tooltip(infoBulle);
 
     const popoverBtn = this.$refs.popoverBtn as HTMLButtonElement;
     const popoverContent = this.$refs.popoverContent as HTMLDivElement;
