@@ -42,7 +42,7 @@
               secondes
             </span>
 
-            <button type="button" class="btn btn-outline-secondary"
+            <button type="button" class="btn btn-outline-success"
             ref="btnReset"
             :disabled="!inputValid"
             @click="resetTimer">

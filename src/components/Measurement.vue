@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <h3 :style="setMeasurementColor()">{{ uAnode }} V</h3>
-        <button type="button" class="btn btn-secondary"
+        <button type="button" class="btn btn-outline-danger"
         @click="removeMeasurement()">
           <i class="bi bi-dash-lg"></i>
         </button>
@@ -116,6 +116,11 @@ export default defineComponent({
 <style lang="scss" scoped>
   .header {
     text-align: center;
+
+    button {
+      margin-left: 0.8em;
+      vertical-align: bottom;
+    }
   }
 
   table {

@@ -8,7 +8,7 @@
           </h2>
         </div>
         <div class="col-sm-4">
-          <button type="button" class="btn btn-secondary btn-sm"
+          <button type="button" class="btn btn-outline-danger btn-sm"
           @click="removeTube()">
             <i class="bi-dash-lg"></i>
           </button>
@@ -16,10 +16,10 @@
       </div>
       <div class="row">
         <div class="col-sm-8">
-          <h3>Captures</h3>
+          <h3 class="no_selec">Captures</h3>
         </div>
         <div class="col-sm-4">
-          <button type="button" class="btn btn-secondary btn-sm"
+          <button type="button" class="btn btn-primary btn-sm"
           @click="runCapture()">
             <i class="bi-plus-lg"></i>
           </button>
@@ -95,6 +95,7 @@
     <div class="row slider">
       <div class="col-sm-4">
         <span v-tooltip
+        class="no_selec"
         data-bs-toggle="tooltip"
         data-bs-placement="top"
         title="Détermine la correction de bruit sur les captures.">
@@ -284,6 +285,10 @@ button {
   span {
     color: rgba(0, 0, 0, 0.4);
   }
+}
+
+.no_selec {
+  user-select: none;
 }
 
 </style>

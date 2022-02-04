@@ -11,7 +11,7 @@
           <div class="notes_flex">
             <div class="header">
               <h3> Notes </h3>
-              <i class="info_bulle bi bi-question-circle"
+              <i class="info_bulle bi bi-question-circle-fill text-secondary"
               v-tooltip
               title="Utilisez cette zone de texte pour écrire les notes de votre choix.
               Celles ci seront sauvegardées avec le projet"
@@ -26,19 +26,19 @@
         <div class="tubes">
           <div class="header">
             <h2>Tubes</h2>
-            <div class="btn-group" role="groud" aria-label="tubes-control">
-              <button type="button" class="btn btn-secondary"
+            <div class="btn-group" role="group" aria-label="tubes-control">
+              <button type="button" class="btn btn-primary"
               @click="addTube()">
                 <i class="bi-plus-lg"></i>
               </button>
-              <button type="button" class="btn btn-secondary"
+              <button type="button" class="btn btn-danger"
               @click="clearTubes()">
                 <i class="bi-x-lg"></i>
                 Vider
               </button>
             </div>
           </div>
-          <ul>
+          <ul class="model_list">
             <li class="tube" v-for="tube, i in this.tubes" :key="i">
               <Tube :tube="tube"
               @selectedCaptureChanged="selectCaptureTube(tube, $event)"
@@ -59,12 +59,12 @@
       <div class="header">
         <h2>Mesures</h2>
         <div class="btn-group" role="group" aria-label="measurement-control">
-          <button type="button" class="btn btn-secondary"
+          <button type="button" class="btn btn-primary"
           @click="promptMeasurement()"
           >
             <i class="bi-plus-lg"></i>
           </button>
-          <button type="button" class="btn btn-secondary"
+          <button type="button" class="btn btn-danger"
           @click="clearMeasurements()"
           >
             <i class="bi-x-lg"></i>
@@ -72,7 +72,7 @@
           </button>
         </div>
       </div>
-      <ul>
+      <ul class="model_list">
         <li class="measurement" v-for="uAnode in this.measurements" :key="uAnode">
           <Measurement :uAnode="uAnode"
           @measurementRemoved="removeMeasurement(uAnode)"
@@ -239,6 +239,13 @@ textarea {
   padding: 1.5em;
 }
 
+.header {
+  .btn-group {
+    margin-left: 0.8em;
+    vertical-align: bottom;
+  }
+}
+
 .measurements {
   display: block;
 }
@@ -250,6 +257,10 @@ textarea {
 
 ul {
   list-style: none;
+}
+
+.model_list {
+  margin-top: 0.8em;
 }
 
  @media screen and (max-width:1300px) {
