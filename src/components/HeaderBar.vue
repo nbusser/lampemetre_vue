@@ -2,13 +2,13 @@
   <header>
     <h1>Lampemètre</h1>
 
-    <div class="control_panel">
-      <SaveLoad
-      @errorTriggered="$emit('errorTriggered', $event)"
-      />
-  </div>
+    <div class="control">
+        <SaveLoad
+        @errorTriggered="$emit('errorTriggered', $event)"
+        />
 
-  <Timer class="timer" :timer="this.$store.state.timer"/>
+        <Timer class="timer" :timer="this.$store.state.timer"/>
+    </div>
   </header>
 </template>
 
@@ -53,12 +53,11 @@ h1 {
   font-family: 'Inter', sans-serif;
 }
 
-.control_panel {
-  flex-grow: 10;
-}
-
-.timer {
-  flex-grow: 1;
+.control {
+  margin-right: 1em;
+  display: flex;
+  justify-content: space-between;
+  gap: 2em;
 }
 
 </style>
