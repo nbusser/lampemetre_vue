@@ -114,20 +114,21 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-  .header {
-    text-align: center;
+.header {
+  text-align: center;
+  margin-bottom: 0.7em;
 
-    button {
-      margin-left: 0.8em;
-      vertical-align: bottom;
-    }
+  button {
+    margin-left: 0.8em;
+    vertical-align: bottom;
   }
+}
 
-  table {
-    display: inline;
-  }
+table {
+  display: inline;
+}
 
-  td {
-    text-align: center;
-  }
+td {
+  text-align: center;
+}
 </style>
