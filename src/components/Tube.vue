@@ -49,8 +49,11 @@
       v-if="capture.errorMessage === null">
 
         <div class="col-sm">
-          <i class="bi-alarm"
-            title="En attente"></i>
+          <i class="bi bi-alarm"
+          v-tooltip
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          title="En attente"></i>
         </div>
 
         <div class="col-sm uGrid">-{{ capture.uGrid }}V</div>
@@ -67,7 +70,8 @@
       <div class="row crashed_capture" v-else>
 
         <div class="col-sm">
-          <i class="bi-exclamation-triangle-fill"
+          <i class="bi-exclamation-triangle-fill text-danger"
+          v-tooltip
           :title="capture.errorMessage"></i>
         </div>
 
@@ -89,7 +93,14 @@
     </div>
 
     <div class="row slider">
-      <div class="col-sm-4">Lissage</div>
+      <div class="col-sm-4">
+        <span v-tooltip
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="Détermine la correction de bruit sur les captures.">
+          Lissage
+        </span>
+      </div>
       <div class="col-sm-8">
         <input type="range"
         :min="minSmoothingFactor"
@@ -272,12 +283,6 @@ button {
 .pending_capture {
   span {
     color: rgba(0, 0, 0, 0.4);
-  }
-}
-
-.crashed_capture {
-  .uGrid {
-    color: rgba(110, 0, 0, 0.7);
   }
 }
 
