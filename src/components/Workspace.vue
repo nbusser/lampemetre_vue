@@ -33,8 +33,7 @@
               </button>
               <button type="button" class="btn btn-outline-dark"
               @click="clearTubes()">
-                <i class="bi-x-lg"></i>
-                Vider
+                <i class="bi-trash"></i>
               </button>
             </div>
           </div>
@@ -67,8 +66,7 @@
           <button type="button" class="btn btn-outline-dark"
           @click="clearMeasurements()"
           >
-            <i class="bi-x-lg"></i>
-            Vider
+            <i class="bi-trash"></i>
           </button>
         </div>
       </div>
