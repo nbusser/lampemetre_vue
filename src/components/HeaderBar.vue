@@ -1,14 +1,15 @@
 <template>
   <header>
-    <h1>Lampemètre</h1>
+      <div class="letside">
 
-    <div class="control">
+        <h1>Lampemètre</h1>
         <SaveLoad
         @errorTriggered="$emit('errorTriggered', $event)"
         />
 
-        <Timer class="timer" :timer="this.$store.state.timer"/>
-    </div>
+      </div>
+
+      <Timer class="timer" :timer="this.$store.state.timer"/>
   </header>
 </template>
 
@@ -53,11 +54,15 @@ h1 {
   font-family: 'Inter', sans-serif;
 }
 
-.control {
+.timer {
   margin-right: 1em;
+}
+
+.letside {
   display: flex;
   justify-content: space-between;
   gap: 2em;
+  align-items: center;
 }
 
 </style>
