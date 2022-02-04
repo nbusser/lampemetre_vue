@@ -1,9 +1,9 @@
 <template>
     <div class="header">
         <h3 :style="setMeasurementColor()">{{ uAnode }} V</h3>
-        <button type="button" class="btn btn-outline-danger"
+        <button type="button" class="btn btn-outline-dark"
         @click="removeMeasurement()">
-          <i class="bi bi-dash-lg"></i>
+          <i class="bi bi-trash"></i>
         </button>
     </div>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="save_load dropdown">
-      <a class="btn btn-primary btn-lg dropdown-toggle" role="button"
+      <a class="btn btn-light btn-lg dropdown-toggle" role="button"
       data-bs-toggle="dropdown"
       data-bs-auto-close="true">
         Projet

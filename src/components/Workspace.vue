@@ -27,11 +27,11 @@
           <div class="header">
             <h2>Tubes</h2>
             <div class="btn-group" role="group" aria-label="tubes-control">
-              <button type="button" class="btn btn-primary"
+              <button type="button" class="btn btn-dark"
               @click="addTube()">
                 <i class="bi-plus-lg"></i>
               </button>
-              <button type="button" class="btn btn-danger"
+              <button type="button" class="btn btn-outline-dark"
               @click="clearTubes()">
                 <i class="bi-x-lg"></i>
                 Vider
@@ -59,12 +59,12 @@
       <div class="header">
         <h2>Mesures</h2>
         <div class="btn-group" role="group" aria-label="measurement-control">
-          <button type="button" class="btn btn-primary"
+          <button type="button" class="btn btn-dark"
           @click="promptMeasurement()"
           >
             <i class="bi-plus-lg"></i>
           </button>
-          <button type="button" class="btn btn-danger"
+          <button type="button" class="btn btn-outline-dark"
           @click="clearMeasurements()"
           >
             <i class="bi-x-lg"></i>

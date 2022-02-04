@@ -8,9 +8,9 @@
           </h2>
         </div>
         <div class="col-sm-4">
-          <button type="button" class="btn btn-outline-danger btn-sm"
+          <button type="button" class="btn btn-outline-dark btn-sm"
           @click="removeTube()">
-            <i class="bi-dash-lg"></i>
+            <i class="bi-trash"></i>
           </button>
         </div>
       </div>
@@ -19,7 +19,7 @@
           <h3 class="no_selec">Captures</h3>
         </div>
         <div class="col-sm-4">
-          <button type="button" class="btn btn-primary btn-sm"
+          <button type="button" class="btn btn-dark btn-sm"
           @click="runCapture()">
             <i class="bi-plus-lg"></i>
           </button>
@@ -36,9 +36,9 @@
           {{ capture.toString() }}
         </div>
         <div class="col-sm">
-          <button type="button" class="btn btn-secondary btn-sm"
+          <button type="button" class="btn btn-outline-dark btn-sm"
             @click="removeCapture(uGrid)">
-              <i class="bi-dash-lg"></i>
+              <i class="bi-trash"></i>
           </button>
         </div>
       </div>
@@ -59,7 +59,7 @@
         <div class="col-sm uGrid">-{{ capture.uGrid }}V</div>
 
         <div class="col-sm">
-          <button type="button" class="btn btn-secondary btn-sm"
+          <button type="button" class="btn btn-outline-dark btn-sm"
           @click="cancelPendingCapture(capture.uGrid)">
             <i class="bi-dash-lg"></i>
           </button>
@@ -78,14 +78,14 @@
         <div class="col-sm uGrid">-{{ capture.uGrid }}V</div>
 
         <div class="col-sm btn-group" role="group">
-          <button type="button" class="btn btn-secondary btn-sm"
+          <button type="button" class="btn btn-outline-dark btn-sm"
           @click="retryCrashedCapture(capture.uGrid)">
           <i class="bi-arrow-clockwise"></i>
           </button>
 
-          <button type="button" class="btn btn-secondary btn-sm"
+          <button type="button" class="btn btn-outline-dark btn-sm"
           @click="removeCrashedCapture(capture.uGrid)">
-            <i class="bi-dash-lg"></i>
+            <i class="bi-trash"></i>
           </button>
         </div>
 
