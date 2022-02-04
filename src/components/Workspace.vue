@@ -206,8 +206,9 @@ textarea {
   }
 
   textarea {
-    width: 450px;
+    width: 600px;
     height: 100px;
+    resize: none;
   }
 }
 
@@ -221,12 +222,12 @@ textarea {
   }
 
   overflow-y: auto;
-  height: 30em;
+  height: 34em;
 
   ul {
     display: flex;
     flex-wrap: wrap;
-    padding-left: 0.6em;
+    padding-left: 1em;
     gap: 0.5em;
   }
 }
@@ -244,7 +245,7 @@ textarea {
    * the right in order to balance the display.
    * Consider to use bootstrap's cards in future version.
    */
-  width: 15em;
+  width: 14.5em;
   padding: 1em 0.3em 1em 1em;
 }
 
