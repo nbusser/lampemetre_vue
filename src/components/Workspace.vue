@@ -234,7 +234,18 @@ textarea {
 .tube {
   border: 2px solid black;
   border-radius: 2%;
-  padding: 1.5em;
+  /*
+   * Bootstrap's grid system is quite stiff and doesn't allow
+   * the user to precisely set the width of the components.
+   * Thus, I decided to reduce the size of each grid by setting
+   * hard-coded width. Also, for some reason, the grid's content
+   * cannot be properly centered and is abnormaly wide in the
+   * right side. Thus, I decided to apply a smaller padding to
+   * the right in order to balance the display.
+   * Consider to use bootstrap's cards in future version.
+   */
+  width: 15em;
+  padding: 1em 0.3em 1em 1em;
 }
 
 .header {

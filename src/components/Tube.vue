@@ -1,13 +1,13 @@
 <template>
     <div class="container">
       <div class="row">
-        <div class="col-sm-8">
-          <h2 class="tube_title"
+        <div class="col-8">
+          <h4 class="tube_name"
           :style="setColor()">
             {{ tube.name }}
-          </h2>
+          </h4>
         </div>
-        <div class="col-sm-4">
+        <div class="col-4">
           <button type="button" class="btn btn-outline-dark btn-sm"
           @click="removeTube()">
             <i class="bi-trash"></i>
@@ -15,10 +15,10 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-8">
-          <h3 class="no_selec">Captures</h3>
+        <div class="col-8">
+          <h5 class="no_selec">Captures</h5>
         </div>
-        <div class="col-sm-4">
+        <div class="col-4">
           <button type="button" class="btn btn-dark btn-sm"
           @click="runCapture()">
             <i class="bi-plus-lg"></i>
@@ -26,16 +26,16 @@
         </div>
       </div>
       <div class="row capture" v-for="[uGrid, capture] in tube.captures" :key="uGrid">
-        <div class="col-sm">
+        <div class="col">
           <input class="form-check-input" type="radio"
           :checked="tube.selectedUgrid === uGrid"
           :value="uGrid"
           @change="selectedCaptureChanged">
         </div>
-        <div class="col-sm uGrid">
+        <div class="col uGrid">
           {{ capture.toString() }}
         </div>
-        <div class="col-sm">
+        <div class="col">
           <button type="button" class="btn btn-outline-dark btn-sm"
             @click="removeCapture(uGrid)">
               <i class="bi-trash"></i>
@@ -48,7 +48,7 @@
       <div class="row pending_capture"
       v-if="capture.errorMessage === null">
 
-        <div class="col-sm">
+        <div class="col">
           <div class="spinner-border spinner-border-sm text-primary"
           role="status"
           v-tooltip
@@ -59,9 +59,9 @@
           <span class="visually-hidden">Loading...</span>
         </div>
 
-        <div class="col-sm uGrid">-{{ capture.uGrid }}V</div>
+        <div class="col uGrid">-{{ capture.uGrid }}V</div>
 
-        <div class="col-sm">
+        <div class="col">
           <button type="button" class="btn btn-outline-dark btn-sm"
           @click="cancelPendingCapture(capture.uGrid)">
             <i class="bi-dash-lg"></i>
@@ -72,15 +72,15 @@
 
       <div class="row crashed_capture" v-else>
 
-        <div class="col-sm">
+        <div class="col">
           <i class="bi-exclamation-triangle-fill text-danger"
           v-tooltip
           :title="capture.errorMessage"></i>
         </div>
 
-        <div class="col-sm uGrid">-{{ capture.uGrid }}V</div>
+        <div class="col uGrid">-{{ capture.uGrid }}V</div>
 
-        <div class="col-sm btn-group" role="group">
+        <div class="col btn-group" role="group">
           <button type="button" class="btn btn-outline-dark btn-sm"
           @click="retryCrashedCapture(capture.uGrid)">
           <i class="bi-arrow-clockwise"></i>
@@ -96,7 +96,7 @@
     </div>
 
     <div class="row slider">
-      <div class="col-sm-4">
+      <div class="col-5">
         <span v-tooltip
         class="no_selec"
         data-bs-toggle="tooltip"
@@ -105,7 +105,7 @@
           Lissage
         </span>
       </div>
-      <div class="col-sm-8">
+      <div class="col-7">
         <input type="range"
         :min="minSmoothingFactor"
         :max="maxSmoothingFactor"
@@ -240,53 +240,28 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-.tube {
-    display: inline-block;
-}
-
-.capture {
-  div {
-    display: inline;
-  }
-}
-
 ul {
   list-style: none;
+}
+
+.tube_name {
+  overflow: auto;
 }
 
 button {
     vertical-align: text-bottom;
 }
 
-.control {
-  display: inline;
-  margin-left: 0.2em;
-
-  button {
-    margin-left: 0.4em;
-  }
-}
-
 .slider {
     input {
         vertical-align: middle;
+        max-width: 100%;
     }
 }
 
-.pending_capture, .crashed_capture {
-  img {
-    vertical-align: text-top;
-    height: 1em;
-    width: 1em;
-  }
-  span {
-    margin-left: 0.3em;
-  }
-}
-
-.pending_capture {
-  span {
-    color: rgba(0, 0, 0, 0.4);
+.defective_captures {
+  .uGrid {
+    opacity: 50%;
   }
 }
 
