@@ -5,10 +5,16 @@
         </audio>
         <div class="timer_info">
           <h3>Minuteur</h3>
-            <span class="seconds badge"
-            :class="{'bg-secondary': secondsLeft === '00',
-            'bg-danger': secondsLeft !== '00'}">
+            <span
+            ref="infoBulle"
+            title="ping"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom">
+              <span class="seconds badge"
+              :class="{'bg-secondary': timerIsOver,
+              'bg-danger': !timerIsOver}">
                 {{ secondsLeft }}
+              </span>
             </span>
           <span
               class="info_bulle"
@@ -60,6 +66,9 @@ export default defineComponent({
     this.updateInputValid();
   },
   computed: {
+    timerIsOver() {
+      return this.timer?.isOver();
+    },
     secondsLeft() {
       if (this.timer !== undefined) {
         if (this.timer.secondsLeft === 0 && this.$refs.audioBell !== undefined) {
