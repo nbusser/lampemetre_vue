@@ -18,9 +18,9 @@
         </button>
 
           <span class="seconds badge user-select-none"
-          :class="{'bg-secondary': timerIsOver,
-          'bg-danger': !timerIsOver}"
+          :class="this.isBlinking ? 'bg-primary' : 'bg-secondary'"
           v-tooltip
+          ref="timerSeconds"
           title="Tant que le minuteur est actif, les nouvelles captures seront mises en attente.
           Activez le pendant le chauffage des lampes"
           data-bs-toggle="tooltip"
@@ -67,6 +67,7 @@ export default defineComponent({
     popoverInitialized: false as boolean,
     errorMessage: null as string | null,
     inputValid: false as boolean,
+    isBlinking: false as boolean,
   }),
   props: {
     timer: Timer,
@@ -96,6 +97,7 @@ export default defineComponent({
       if (this.timer !== undefined) {
         if (this.timer.secondsLeft === 0 && this.$refs.audioBell !== undefined) {
           (this.$refs.audioBell as HTMLAudioElement).play();
+          this.blinkAnimation();
         }
         return this.timer.secondsLeft.toLocaleString('fr', {
           minimumIntegerDigits: 2,
@@ -103,14 +105,6 @@ export default defineComponent({
         });
       }
       return '';
-    },
-    setupTimerTextColor() {
-      if (!this.timer?.isOver()) {
-        return {
-          color: '#CF2400',
-        };
-      }
-      return {};
     },
     setPopoverDisplay() {
       const display = this.popoverInitialized ? '' : 'none';
@@ -139,12 +133,33 @@ export default defineComponent({
       this.inputValid = res;
     },
     durationInputKeypressed(evt: any) {
-      console.log('big ping');
       this.updateInputValid();
       // If enter is pressed, click the button
       if (evt.keyCode === 13) {
         (this.$refs.btnReset as HTMLButtonElement).click();
       }
+    },
+    /*
+     * Makes the timer blinks for few seconds
+     * Couldn't use CSS animations here because bootstraps classes
+     * seems like to override animation defined attributes...
+     */
+    async blinkAnimation(iteration = 0) {
+      const maxIterations = 12;
+      const blinkDuration = 150;
+      await new Promise((resolve) => setTimeout(() => {
+        if (iteration < maxIterations) {
+          if (iteration % 2 === 0) {
+            this.isBlinking = true;
+          } else {
+            this.isBlinking = false;
+          }
+          this.blinkAnimation(iteration + 1);
+        } else {
+          resolve(0);
+        }
+      }, blinkDuration));
+      this.isBlinking = false;
     },
   },
 });
@@ -171,6 +186,21 @@ export default defineComponent({
 .seconds {
   font-size: 24px;
   font-family: monospace;
+}
+
+.blink {
+  animation-duration: 400ms;
+   animation-name: blink;
+   animation-iteration-count: infinite;
+   animation-direction: alternate;
+}
+@keyframes blink {
+  0%, 49% {
+    background-color: rgb(117, 209, 63);
+  }
+  50%, 100% {
+    background-color: #e50000;
+  }
 }
 
 </style>
