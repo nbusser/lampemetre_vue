@@ -221,10 +221,9 @@ textarea {
     margin-left: 0.8em;
   }
 
-  overflow-y: auto;
-  height: 34em;
-
   ul {
+    overflow-y: auto;
+    max-height: 30.1em;
     display: flex;
     flex-wrap: wrap;
     padding-left: 1em;
