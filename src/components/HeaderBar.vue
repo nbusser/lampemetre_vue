@@ -2,7 +2,7 @@
   <header>
       <div class="letside">
 
-        <h1>Lampemètre</h1>
+        <h1 class="text-light">Lampemètre</h1>
         <SaveLoad
         @errorTriggered="$emit('errorTriggered', $event)"
         />
@@ -54,6 +54,7 @@ h1 {
   flex-grow: 1;
 
   font-family: 'Inter', sans-serif;
+  font-weight: bold;
 }
 
 .timer {
