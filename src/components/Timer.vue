@@ -5,23 +5,16 @@
         </audio>
         <div class="timer_info">
           <h3>Minuteur</h3>
-            <span
+            <span class="seconds badge"
+            :class="{'bg-secondary': timerIsOver,
+            'bg-danger': !timerIsOver}"
             ref="infoBulle"
-            title="ping"
+            title="Tant que le minuteur est actif, les nouvelles captures seront mises en attente.
+            Activez le pendant le chauffage des lampes"
             data-bs-toggle="tooltip"
             data-bs-placement="bottom">
-              <span class="seconds badge"
-              :class="{'bg-secondary': timerIsOver,
-              'bg-danger': !timerIsOver}">
-                {{ secondsLeft }}
-              </span>
+              {{ secondsLeft }}
             </span>
-          <span
-              class="info_bulle"
-              title="Tant que le minuteur est actif, les nouvelles captures seront mises en attente.
-              Activez le pendant le chauffage des lampes">
-                  <i class="bi-question-circle"></i>
-          </span>
         </div>
         <div class="control_panel input-group mb-3">
             <input class="form-control"
@@ -49,6 +42,7 @@
 
 import Timer from '@/Timer';
 import { defineComponent } from 'vue';
+import { Tooltip } from 'bootstrap';
 
 export default defineComponent({
   name: 'Timer',
@@ -64,6 +58,10 @@ export default defineComponent({
       (this.$refs.audioBell as HTMLAudioElement).load();
     }
     this.updateInputValid();
+
+    const infoBulle = this.$refs.infoBulle as HTMLSpanElement;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const tooltip = new Tooltip(infoBulle);
   },
   computed: {
     timerIsOver() {
