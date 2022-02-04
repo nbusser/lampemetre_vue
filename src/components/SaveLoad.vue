@@ -1,9 +1,11 @@
 <template>
   <div class="save_load dropdown">
-      <a class="btn btn-secondary dropdown-toggle" role="button"
+      <a class="btn btn-secondary btn-lg dropdown-toggle" role="button"
       data-bs-toggle="dropdown"
       data-bs-auto-close="true">
         Projet
+        <i class="bi bi-save"></i>
+        <i class="bi"></i>
       </a>
       <ul class="dropdown-menu">
         <li class="dropdown-submenu">
@@ -13,8 +15,16 @@
             Sauvegarder
           </a>
           <ul class="dropdown-menu">
-            <li><a @click="saveJSON" class="dropdown-item">JSON (.json)</a></li>
-            <li><a @click="exportExcel" class="dropdown-item">Excel (.xlsx)</a></li>
+            <li>
+              <a @click="saveJSON" class="dropdown-item">JSON (.json)
+                <i class="bi bi-filetype-json"></i>
+              </a>
+            </li>
+            <li>
+              <a @click="exportExcel" class="dropdown-item">Excel (.xlsx)
+                <i class="bi bi-file-excel"></i>
+              </a>
+            </li>
           </ul>
         </li>
         <li class="dropdown-submenu">
@@ -28,6 +38,7 @@
             text="JSON"
             accept=".json"
             readMethod="text"
+            iconClass="bi-filetype-json"
             @fileLoaded="loadJSON"
             @errorTriggered="$emit('errorTriggered', $event)"
             />
@@ -35,6 +46,7 @@
             text="Excel"
             accept=".xlsx"
             readMethod="array_buffer"
+            iconClass="bi-file-excel"
             @fileLoaded="importExcel"
             @errorTriggered="$emit('errorTriggered', $event)"
             />

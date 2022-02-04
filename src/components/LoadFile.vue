@@ -2,6 +2,7 @@
   <a class="dropdown-item"
   @click="clickHandler">
     {{ text }} ({{ accept }})
+    <i v-if="iconClass !== undefined" class="bi" :class="iconClass"></i>
   </a>
   <!--Hidden input text field used for file browsing. Triggered by clicking the button-->
   <input @change="fileSelected" type="file" name="file" :accept="accept" ref="fileInput"/>
@@ -30,6 +31,7 @@ export default defineComponent({
     text: String,
     accept: String,
     readMethod: String,
+    iconClass: String,
   },
   emits: [
     'fileLoaded',
