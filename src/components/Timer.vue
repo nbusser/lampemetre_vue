@@ -6,7 +6,7 @@
         <div class="timer_info">
           <button
           type="button"
-          class="btn btn-lg btn-secondary"
+          class="btn btn-lg btn-primary"
           ref="popoverBtn"
           data-bs-placement="bottom"
           v-on="{

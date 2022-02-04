@@ -32,6 +32,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
+@use '../scss/main.scss';
+
 header {
   display: flex;
   justify-content: space-between;
@@ -39,7 +41,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 10;
-  background:#dcedc8;
+  background: main.$blue-300;
   border-bottom: 1px solid black;
   margin-bottom: 1em;
 }
