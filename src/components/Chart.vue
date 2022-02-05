@@ -22,8 +22,8 @@ export default defineComponent({
     const curves = [] as Data[];
     const annotations: Partial<Shape>[] = [];
     const layout = {
-      width: 900,
-      height: 700,
+      width: 870,
+      height: 650,
       shapes: annotations,
       xaxis: {
         title: 'Tension anode (V)',

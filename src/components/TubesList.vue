@@ -138,6 +138,8 @@ ul {
   list-style: none;
   row-gap: 0.8em;
   margin-top: 0.8em;
+  max-height: 45em;
+  overflow: auto;
 }
 
 @media screen and (max-width:1300px) {

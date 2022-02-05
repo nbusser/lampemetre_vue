@@ -1,34 +1,39 @@
 <template>
   <div class="workspace">
-    <div class="chart_tubes_notes">
-      <Chart
-      @addMeasurement="addMeasurement"
-      @removeMeasurement="removeMeasurement"
-      />
+    <div class="d-flex chart_tubes_notes">
+      <div class="d-block">
 
-      <div class="tubes_notes">
-        <div class="notes">
-          <div class="notes_flex">
-            <div class="header">
-              <h3> Notes </h3>
-              <i class="info_bulle bi bi-question-circle-fill text-secondary"
-              v-tooltip
-              title="Utilisez cette zone de texte pour écrire les notes de votre choix.
-              Celles ci seront sauvegardées avec le projet"
-              data-bs-toggle="tooltip"
-              data-bs-placement="bottom">
-              </i>
+        <Chart
+        @addMeasurement="addMeasurement"
+        @removeMeasurement="removeMeasurement"
+        />
+
+        <div class="tubes_notes">
+          <div class="notes">
+            <div class="notes_flex">
+              <div class="header">
+                <h3> Notes </h3>
+                <i class="info_bulle bi bi-question-circle-fill text-secondary"
+                v-tooltip
+                title="Utilisez cette zone de texte pour écrire les notes de votre choix.
+                Celles ci seront sauvegardées avec le projet"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom">
+                </i>
+              </div>
+              <textarea v-model="notes"></textarea>
             </div>
-            <textarea v-model="notes"></textarea>
           </div>
         </div>
-
-        <TubesList/>
-
       </div>
+
+      <TubesList class="d-flex"/>
+
     </div>
 
-    <MeasurementsList/>
+    <div class="mt-2">
+      <MeasurementsList/>
+    </div>
 
   </div>
 </template>
@@ -89,15 +94,13 @@ textarea {
 
 .notes {
   display: flex;
-  justify-content: flex-end;
-  width: 100%;
 
   .header {
     margin-bottom: 0.6em;
   }
 
   textarea {
-    width: 600px;
+    width: 740px;
     height: 100px;
     resize: none;
   }
@@ -110,10 +113,6 @@ textarea {
  @media screen and (max-width:1300px) {
     .chart_tubes_notes {
         flex-direction: column;
-    }
-
-    .notes {
-      justify-content: flex-start;
     }
  }
 </style>
