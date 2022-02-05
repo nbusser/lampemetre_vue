@@ -34,7 +34,12 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="button"
+        class="btn btn-secondary"
+        @click="resetInputs"
+        data-bs-dismiss="modal">
+          Annuler
+        </button>
         <button
         type="button"
         class="btn btn-primary"
@@ -98,6 +103,10 @@ export default defineComponent({
         (uGrid: number) => !Number.isNaN(uGrid),
       );
       this.$emit('promptDone', uGrids);
+      this.resetInputs();
+    },
+    resetInputs() {
+      this.inputs = [''];
     },
   },
 });
