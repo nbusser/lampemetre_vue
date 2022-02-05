@@ -4,7 +4,7 @@
       <h2>Mesures</h2>
       <div class="btn-group" role="group" aria-label="measurement-control">
         <button type="button" class="btn btn-dark"
-        @click="promptMeasurement()"
+        @click="promptMeasurementsModal.show()"
         >
           <i class="bi-plus-lg"></i>
         </button>
@@ -30,6 +30,14 @@
   @modalCreated="this.clearMeasurementsModal = $event"
   />
 
+  <ModalPromptNumbers
+  title="Nouvelle mesure"
+  @modalCreated="this.promptMeasurementsModal = $event"
+  @promptDone="addMeasurements">
+    <p>Entrez la <b>tension anode</b> pour laquelle vous souhaitez effectuer la capture.</p>
+    <p>Appuyez sur ',' pour entrer une autre valeur de tension anode.</p>
+  </ModalPromptNumbers>
+
 </template>
 
 <script lang="ts">
@@ -37,15 +45,18 @@ import { defineComponent } from 'vue';
 import { Modal } from 'bootstrap';
 import Measurement from '@/components/Measurement.vue';
 import ModalConfirm from '@/components/ModalConfirm.vue';
+import ModalPromptNumbers from '@/components/ModalPromptNumbers.vue';
 
 export default defineComponent({
   name: 'MeasurementsList',
   components: {
     Measurement,
     ModalConfirm,
+    ModalPromptNumbers,
   },
   data: () => ({
     clearMeasurementsModal: null as Modal | null,
+    promptMeasurementsModal: null as Modal | null,
   }),
   computed: {
     measurements(): Set<number> {
@@ -61,6 +72,11 @@ export default defineComponent({
           this.addMeasurement(uAnode);
         }
       }
+    },
+    addMeasurements(uAnodes: number[]) {
+      uAnodes.forEach((uAnode: number) => {
+        this.addMeasurement(uAnode);
+      });
     },
     addMeasurement(uAnode: number) {
       this.$store.dispatch('ADD_MEASUREMENT', { uAnode });
