@@ -88,9 +88,11 @@ const mutations: MutationTree<State> & Mutations = {
     foundTube.changeSmoothingFactor(smoothingFactor);
   },
   ADD_MEASUREMENT(state, uAnode: number) {
-    state.measurements.add(uAnode);
+    if (!state.measurements.has(uAnode)) {
+      state.measurements.add(uAnode);
 
-    state.measurementsColors.set(uAnode, measurementsColorStack.pop());
+      state.measurementsColors.set(uAnode, measurementsColorStack.pop());
+    }
   },
   REMOVE_MEASUREMENT(state, uAnode: number) {
     state.measurements.delete(uAnode);
