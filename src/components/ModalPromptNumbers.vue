@@ -1,6 +1,9 @@
 <template>
   <ModalPopup
-  @modalCreated="$emit('modalCreated', $event)">
+  @modalCreated="$emit('modalCreated', $event)"
+  @show="resetModal"
+  @shown="focusFirstInput"
+  >
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">
           {{ title }}
@@ -17,6 +20,7 @@
                     <span class="input-group-text" v-if="this.sign !== undefined">{{ sign }}</span>
                     <input type="text"
                     class="form-control"
+                    :ref="'prompt' + i"
                     :class="inputValid(i) ? '' : 'is-invalid'"
                     v-model="this.inputs[i]"
                     @keypress="updateInputs($event, i)">
@@ -36,7 +40,6 @@
       <div class="modal-footer">
         <button type="button"
         class="btn btn-secondary"
-        @click="resetInputs"
         data-bs-dismiss="modal">
           Annuler
         </button>
@@ -77,8 +80,14 @@ export default defineComponent({
       if (evt.keyCode === 13) {
         (this.$refs.confirmBtn as HTMLButtonElement).click();
       } else if (evt.keyCode === 44) {
+        // Pressing comma on the last input creates a new input
         if (indexInput === this.inputs.length - 1) {
           this.inputs.push('');
+          // Waits a tick so the template created the fresh new input
+          this.$nextTick(() => {
+            const lastInput = (this.$refs[`prompt${this.inputs.length - 1}`] as HTMLElement[])[0];
+            lastInput.focus();
+          });
         }
         evt.preventDefault();
       } else if (evt.keyCode === 32) {
@@ -103,10 +112,13 @@ export default defineComponent({
         (uGrid: number) => !Number.isNaN(uGrid),
       );
       this.$emit('promptDone', uGrids);
-      this.resetInputs();
     },
-    resetInputs() {
+    resetModal() {
       this.inputs = [''];
+    },
+    focusFirstInput() {
+      const input = ((this.$refs.prompt0 as any)[0] as HTMLInputElement);
+      input.focus();
     },
   },
 });
