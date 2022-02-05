@@ -127,7 +127,7 @@ export default defineComponent({
           y1: 1,
           line: {
             color: measurementColor.toString(),
-            width: 2,
+            width: 4,
             dash: 'dot',
           },
         } as Shape;
