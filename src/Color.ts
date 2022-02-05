@@ -39,3 +39,17 @@ export const colorBible: Color[] = [
   new Color(156, 167, 252, 1.0), // Lila
   new Color(130, 69, 5, 1.0), // Brown
 ];
+
+export const pastelColorBible: Color[] = [
+  new Color(0, 0, 255, 0.3), // Blue
+  new Color(255, 0, 0, 0.3), // Red
+  new Color(0, 128, 21, 0.3), // Dark green
+  new Color(77, 0, 153, 0.3), // Purple
+  new Color(230, 191, 0, 0.3), // Orange
+  new Color(93, 206, 216, 0.3), // Cyan
+  new Color(93, 216, 165, 0.3), // Pale green
+  new Color(252, 230, 60, 0.3), // Yellow
+  new Color(252, 126, 233, 0.3), // Pink
+  new Color(156, 167, 252, 0.3), // Lila
+  new Color(130, 69, 5, 0.3), // Brown
+];

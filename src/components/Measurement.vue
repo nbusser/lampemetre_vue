@@ -100,7 +100,6 @@ export default defineComponent({
       }
       return {
         'background-color': stringColor,
-        opacity: 0.3,
       };
     },
     setTubeColor(tube: ModelTube) {

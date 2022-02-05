@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex';
-import { Color, colorBible } from '@/Color';
+import { Color, colorBible, pastelColorBible } from '@/Color';
 import ColorStack from '@/ColorStack';
 import CaptureJob from '@/CaptureJob';
 import ModelTube from '../model/ModelTube';
@@ -7,9 +7,10 @@ import { Mutations } from './mutation-types';
 import { State } from './state';
 
 const brandNewColorStack = () : ColorStack => new ColorStack(...colorBible);
+const brandNewPastelColorStack = () : ColorStack => new ColorStack(...pastelColorBible);
 
 let tubeColorStack: ColorStack = brandNewColorStack();
-let measurementsColorStack: ColorStack = brandNewColorStack();
+let measurementsColorStack: ColorStack = brandNewPastelColorStack();
 
 const mutations: MutationTree<State> & Mutations = {
   EMPTY_TUBES(state) {
@@ -104,7 +105,7 @@ const mutations: MutationTree<State> & Mutations = {
   CLEAR_MEASUREMENTS(state) {
     state.measurements.clear();
     state.measurementsColors.clear();
-    measurementsColorStack = brandNewColorStack();
+    measurementsColorStack = brandNewPastelColorStack();
   },
   CANCEL_PENDING_CAPTURE(state, {
     tube,
