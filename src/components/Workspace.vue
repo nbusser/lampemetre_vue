@@ -80,32 +80,11 @@
     </div>
   </div>
 
-  <ModalPopup
-  @modalCreated="bindModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
-          <button type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          Voulez vous vraiment supprimer toutes les mesures ?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
-          <button
-          type="button"
-          class="btn btn-primary"
-          data-bs-dismiss="modal"
-          @click="clearMeasurements">
-            Oui
-          </button>
-        </div>
-      </div>
-    </div>
-  </ModalPopup>
+  <ModalConfirm
+  body="Voulez vous vraiment supprimer toutes les mesures ?"
+  @confirmed="clearMeasurements"
+  @modalCreated="bindModal"
+  />
 </template>
 
 <script lang="ts">
@@ -113,7 +92,7 @@ import { defineComponent } from 'vue';
 import ModelTube from '@/model/ModelTube';
 import Chart from '@/components/Chart.vue';
 import Tube from '@/components/Tube.vue';
-import ModalPopup from '@/components/ModalPopup.vue';
+import ModalConfirm from '@/components/ModalConfirm.vue';
 import Measurement from '@/components/Measurement.vue';
 import { Modal } from 'bootstrap';
 
@@ -123,7 +102,7 @@ export default defineComponent({
     Chart,
     Tube,
     Measurement,
-    ModalPopup,
+    ModalConfirm,
   },
   data: () => ({
     clearMeasurementsModal: null as Modal | null,
