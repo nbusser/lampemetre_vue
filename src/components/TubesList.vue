@@ -4,7 +4,7 @@
         <h2>Tubes</h2>
         <div class="btn-group" role="group" aria-label="tubes-control">
             <button type="button" class="btn btn-dark"
-            @click="addTube()">
+            @click="this.newTubeModal.show()">
             <i class="bi-plus-lg"></i>
             </button>
             <button type="button" class="btn btn-outline-dark"
@@ -33,6 +33,14 @@
     @confirmed="clearTubes"
     @modalCreated="this.clearTubesModal = $event"
     />
+
+    <ModalPromptText
+    title="Nouveau tube"
+    @modalCreated="this.newTubeModal = $event"
+    @promptDone="createTube"
+    >
+      <p>Entrez le nom du nouveau tube.</p>
+    </ModalPromptText>
 </template>
 
 <script lang="ts">
@@ -40,6 +48,7 @@ import { defineComponent } from 'vue';
 import Tube from '@/components/Tube.vue';
 import ModelTube from '@/model/ModelTube';
 import ModalConfirm from '@/components/ModalConfirm.vue';
+import ModalPromptText from '@/components/ModalPromptText.vue';
 import { Modal } from 'bootstrap';
 
 export default defineComponent({
@@ -47,9 +56,11 @@ export default defineComponent({
   components: {
     Tube,
     ModalConfirm,
+    ModalPromptText,
   },
   data: () => ({
     clearTubesModal: null as Modal | null,
+    newTubeModal: null as Modal | null,
   }),
   computed: {
     tubes(): ModelTube[] {
@@ -57,6 +68,10 @@ export default defineComponent({
     },
   },
   methods: {
+    createTube(name: string): void {
+      const tube: ModelTube = new ModelTube(name);
+      this.$store.dispatch('ADD_TUBE', { tube });
+    },
     addTube(): void {
       const tubeName = prompt('Nom du tube');
       if (tubeName !== null) {

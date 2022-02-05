@@ -23,7 +23,7 @@
                     :ref="'prompt' + i"
                     :class="inputValid(i) ? '' : 'is-invalid'"
                     v-model="this.inputs[i]"
-                    @keypress="updateInputs($event, i)">
+                    @keypress="updateInputs($event, i)"/>
                     <span class="input-group-text">V</span>
 
                     <button class="btnRemovePrompt btn btn-outline-dark"
