@@ -64,7 +64,7 @@
             <i class="bi-plus-lg"></i>
           </button>
           <button type="button" class="btn btn-outline-dark"
-          @click="clearMeasurements()"
+          @click="clearMeasurementsModal.show()"
           >
             <i class="bi-trash"></i>
           </button>
@@ -79,6 +79,33 @@
       </ul>
     </div>
   </div>
+
+  <ModalPopup
+  @modalCreated="bindModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+          <button type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          Voulez vous vraiment supprimer toutes les mesures ?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+          <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          @click="clearMeasurements">
+            Oui
+          </button>
+        </div>
+      </div>
+    </div>
+  </ModalPopup>
 </template>
 
 <script lang="ts">
@@ -86,7 +113,9 @@ import { defineComponent } from 'vue';
 import ModelTube from '@/model/ModelTube';
 import Chart from '@/components/Chart.vue';
 import Tube from '@/components/Tube.vue';
+import ModalPopup from '@/components/ModalPopup.vue';
 import Measurement from '@/components/Measurement.vue';
+import { Modal } from 'bootstrap';
 
 export default defineComponent({
   name: 'Workspace',
@@ -94,7 +123,11 @@ export default defineComponent({
     Chart,
     Tube,
     Measurement,
+    ModalPopup,
   },
+  data: () => ({
+    clearMeasurementsModal: null as Modal | null,
+  }),
   computed: {
     tubes(): ModelTube[] {
       return this.$store.state.tubes;
@@ -106,7 +139,7 @@ export default defineComponent({
       get() {
         return this.$store.state.notes;
       },
-      set(value) {
+      set(value: string) {
         this.$store.dispatch('SET_NOTES', { newNotes: value });
       },
     },
@@ -172,6 +205,10 @@ export default defineComponent({
         tube,
         uGrid,
       });
+    },
+    // This method is called when ModalPopup finishes to create its modal object
+    bindModal(modal: Modal): void {
+      this.clearMeasurementsModal = modal;
     },
   },
 });
