@@ -24,13 +24,19 @@
                   {{ result.tube.name }}
                 </th>
                 <td class="text-center"
-                v-for="values, j in result.results" :key="j">
-                  <template v-if="typeof values === 'number'">
-                    {{ values.toFixed(1) }} {{ units[j] }}
+                v-for="value, j in result.results" :key="j">
+                  <template v-if="typeof value === 'number'">
+                    <template v-if="Number.isFinite(value)">
+                      {{ value.toFixed(1) }} {{ units[j] }}
+                    </template>
+                    <template v-else>
+                      <i class="bi bi-infinity me-2"></i>
+                      <span>{{ units[j] }}</span>
+                    </template>
                   </template>
                   <i class="icon bi bi-exclamation-triangle-fill"
                   v-tooltip
-                  :title="values" v-else
+                  :title="value" v-else
                   >
                   </i>
                 </td>
