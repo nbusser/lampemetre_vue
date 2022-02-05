@@ -13,8 +13,8 @@
               </button>
           </div>
         </div>
-        <ul class="d-flex flex-wrap">
-            <li class="tube" v-for="tube, i in this.tubes" :key="i">
+        <ul class="d-flex flex-wrap align-items-stretch gap-2">
+            <li class="tube d-flex" v-for="tube, i in this.tubes" :key="i">
                 <Tube :tube="tube"
                 @selectedCaptureChanged="selectCaptureTube(tube, $event)"
                 @captureRequested="runCapture(tube, $event)"

@@ -1,5 +1,4 @@
 <template>
-  <div class="container">
     <div class="card">
       <div class="card-header p-0 d-flex justify-content-between"
       :style="{'border-top': `0.35rem solid ${setColor()}`}">
@@ -101,7 +100,6 @@
         </label>
       </div>
     </div>
-  </div>
 
   <ModalPromptNumbers
   title="Nouvelle capture"
