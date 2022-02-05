@@ -1,6 +1,7 @@
 <template>
     <div class="header text-center mb-2">
-        <h3 :style="setMeasurementColor()">{{ uAnode }} V</h3>
+        <div class="colorTip d-inline-block align-bottom me-2" :style="setMeasurementColor()"></div>
+        <h3>{{ uAnode }} V</h3>
         <button type="button" class="btn btn-outline-dark ms-2 align-bottom"
         @click="removeMeasurement()">
           <i class="bi bi-trash"></i>
@@ -98,7 +99,8 @@ export default defineComponent({
         stringColor = (this.$store.state.measurementsColors.get(this.uAnode) as Color).toString();
       }
       return {
-        color: stringColor,
+        'background-color': stringColor,
+        opacity: 0.3,
       };
     },
     setTubeColor(tube: ModelTube) {
@@ -107,7 +109,7 @@ export default defineComponent({
         return '';
       }
       return {
-        color: color.toString(),
+        'border-left': `0.35rem solid ${color.toString()}`,
       };
     },
   },
@@ -115,5 +117,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+
+.colorTip {
+  width: 2em;
+  height: 2em;
+}
 
 </style>
