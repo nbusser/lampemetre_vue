@@ -23,7 +23,7 @@
 
     </div>
 
-    <TubesList class="d-flex"/>
+    <TubesList/>
 
   </div>
 
