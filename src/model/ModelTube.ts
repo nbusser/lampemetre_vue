@@ -29,9 +29,6 @@ export default class ModelTube {
 
   deleteCapture(capture: ModelCapture): void {
     this.deleteCaptureByUgrid(capture.uGrid);
-    if (capture.uGrid === this.selectedUgrid) {
-      this.selectedUgrid = null;
-    }
   }
 
   deleteCaptureByUgrid(uGrid: number): void {
@@ -41,6 +38,10 @@ export default class ModelTube {
       throw Error(`Capture for tension grid ${uGrid} does not belong to tube ${this.name}`);
     }
     this.captures.delete(uGrid);
+
+    if (uGrid === this.selectedUgrid) {
+      this.selectedUgrid = null;
+    }
   }
 
   changeSelectedUgrid(newSelectedUgrid: number): void {
