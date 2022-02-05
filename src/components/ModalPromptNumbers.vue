@@ -5,7 +5,7 @@
   @shown="focusFirstInput"
   >
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">
+        <h5 class="modal-title">
           {{ title }}
         </h5>
         <button type="button"

@@ -2,7 +2,7 @@
   <ModalPopup
   @modalCreated="$emit('modalCreated', $event)">
     <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+      <h5 class="modal-title">Confirmation</h5>
       <button type="button"
       class="btn-close"
       data-bs-dismiss="modal"></button>
