@@ -32,7 +32,7 @@
                 <i class="bi-plus-lg"></i>
               </button>
               <button type="button" class="btn btn-outline-dark"
-              @click="clearTubes()">
+              @click="this.clearTubesModal.show()">
                 <i class="bi-trash"></i>
               </button>
             </div>
@@ -81,9 +81,15 @@
   </div>
 
   <ModalConfirm
+  body="Voulez vous vraiment supprimer tous les tubes ?"
+  @confirmed="clearTubes"
+  @modalCreated="this.clearTubesModal = $event"
+  />
+
+  <ModalConfirm
   body="Voulez vous vraiment supprimer toutes les mesures ?"
   @confirmed="clearMeasurements"
-  @modalCreated="bindModal"
+  @modalCreated="this.clearMeasurementsModal = $event"
   />
 </template>
 
@@ -106,6 +112,7 @@ export default defineComponent({
   },
   data: () => ({
     clearMeasurementsModal: null as Modal | null,
+    clearTubesModal: null as Modal | null,
   }),
   computed: {
     tubes(): ModelTube[] {
@@ -184,10 +191,6 @@ export default defineComponent({
         tube,
         uGrid,
       });
-    },
-    // This method is called when ModalPopup finishes to create its modal object
-    bindModal(modal: Modal): void {
-      this.clearMeasurementsModal = modal;
     },
   },
 });
