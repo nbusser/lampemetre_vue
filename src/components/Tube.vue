@@ -20,7 +20,7 @@
         </div>
         <div class="col-4">
           <button type="button" class="btn btn-dark btn-sm"
-          @click="runCapture()">
+          @click="this.promptCaptureModal.show()">
             <i class="bi-plus-lg"></i>
           </button>
         </div>
@@ -116,12 +116,24 @@
       </div>
     </div>
   </div>
+
+  <ModalPromptNumbers
+  title="Nouvelle capture"
+  sign='-'
+  @modalCreated="this.promptCaptureModal = $event"
+  @promptDone="runCaptures">
+    <p>Entrez la <b>tension grille</b> pour laquelle vous souhaitez effectuer la capture.</p>
+    <p>Appuyez sur ',' pour entrer une autre valeur de tension grille.</p>
+    <p>La tension grille sera implicitement négative.</p>
+  </ModalPromptNumbers>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import ModelTube, { minSmoothingFactor, maxSmoothingFactor } from '@/model/ModelTube';
+import ModalPromptNumbers from '@/components/ModalPromptNumbers.vue';
 import { Color } from '@/Color';
+import { Modal } from 'bootstrap';
 
 interface DefectiveCapture {
   uGrid: number,
@@ -130,6 +142,9 @@ interface DefectiveCapture {
 
 export default defineComponent({
   name: 'Tube',
+  components: {
+    ModalPromptNumbers,
+  },
   emits: [
     'selectedCaptureChanged',
     'captureRequested',
@@ -145,6 +160,7 @@ export default defineComponent({
   data: () => ({
     minSmoothingFactor,
     maxSmoothingFactor,
+    promptCaptureModal: null as Modal | null,
   }),
   computed: {
     // Gathers both pending and crashed captures in a sorted fashion
@@ -185,22 +201,10 @@ export default defineComponent({
     },
   },
   methods: {
-    runCapture(): void {
-      if (this.$props.tube !== undefined) {
-        const uGridText = prompt('Tension grille');
-        if (uGridText === null) { return; }
-
-        const promptedUgrids = uGridText.split(' ');
-
-        for (let i = 0; i < promptedUgrids.length; i += 1) {
-          const promptedUgrid = promptedUgrids[i];
-
-          const uGrid = Number.parseFloat(promptedUgrid);
-          if (Number.isNaN(uGrid)) { return; }
-
-          this.$emit('captureRequested', uGrid);
-        }
-      }
+    runCaptures(uGrids: number[]): void {
+      uGrids.forEach((uGrid: number) => {
+        this.$emit('captureRequested', uGrid);
+      });
     },
     removeCapture(uGrid: number): void {
       this.$emit('captureRemoved', uGrid);

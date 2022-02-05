@@ -1,6 +1,10 @@
 <template>
     <div class="modal fade" ref="modal" tabindex="-1">
-        <slot></slot>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <slot></slot>
+        </div>
+      </div>
     </div>
 </template>
 
