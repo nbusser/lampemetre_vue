@@ -1,22 +1,23 @@
 <template>
-  <div class="measurements">
+  <div class="d-block">
     <div class="header">
       <h2>Mesures</h2>
-      <div class="btn-group" role="group" aria-label="measurement-control">
+      <div class="btn-group ms-3 align-bottom" role="group" aria-label="measurement-control">
         <button type="button" class="btn btn-dark"
         @click="promptMeasurementsModal.show()"
         >
-          <i class="bi-plus-lg"></i>
+          <i class="bi bi-plus-lg"></i>
         </button>
         <button type="button" class="btn btn-outline-dark"
         @click="clearMeasurementsModal.show()"
         >
-          <i class="bi-trash"></i>
+          <i class="bi bi-trash"></i>
         </button>
       </div>
     </div>
-    <ul>
-      <li class="measurement" v-for="uAnode in this.measurements" :key="uAnode">
+    <ul class="mt-3">
+      <li class="d-inline-block me-3 mb-3"
+      v-for="uAnode in this.measurements" :key="uAnode">
         <Measurement :uAnode="uAnode"
         @measurementRemoved="removeMeasurement(uAnode)"
         />
@@ -93,27 +94,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-.header {
-    margin-left: 0.8em;
-
-  .btn-group {
-    margin-left: 0.8em;
-    vertical-align: bottom;
-  }
-}
-
-.measurements {
-  display: block;
-}
-
-.measurement {
-  display: inline-block;
-  margin: 1%;
-}
-
 ul {
   list-style: none;
-  margin-top: 0.8em;
 }
 
 </style>

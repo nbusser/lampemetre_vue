@@ -1,5 +1,5 @@
 <template>
-    <div class="timer">
+    <div class="d-inline-block text-center">
         <audio ref="audioBell">
           <source src="@/assets/bell.mp3" type="audio/mpeg">
         </audio>
@@ -167,15 +167,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-.timer {
-  display: inline-block;
-  text-align: center;
-  position: relative;
-}
-
 .timer_info {
-  display: block;
-
   > * {
     display: inline;
     margin-left: 0.4em;

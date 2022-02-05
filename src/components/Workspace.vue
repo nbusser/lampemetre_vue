@@ -1,40 +1,34 @@
 <template>
-  <div class="workspace">
-    <div class="d-flex chart_tubes_notes">
-      <div class="d-block">
+  <div class="chart_tubes_notes d-flex">
+    <div class="d-block">
 
-        <Chart
-        @addMeasurement="addMeasurement"
-        @removeMeasurement="removeMeasurement"
-        />
+      <Chart
+      @addMeasurement="addMeasurement"
+      @removeMeasurement="removeMeasurement"
+      />
 
-        <div class="tubes_notes">
-          <div class="notes">
-            <div class="notes_flex">
-              <div class="header">
-                <h3> Notes </h3>
-                <i class="info_bulle bi bi-question-circle-fill text-secondary"
-                v-tooltip
-                title="Utilisez cette zone de texte pour écrire les notes de votre choix.
-                Celles ci seront sauvegardées avec le projet"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom">
-                </i>
-              </div>
-              <textarea v-model="notes"></textarea>
-            </div>
-          </div>
+      <div class="notes ms-4">
+        <div class="header">
+          <h3> Notes </h3>
+          <i class="info_bulle bi bi-question-circle-fill text-secondary"
+          v-tooltip
+          title="Utilisez cette zone de texte pour écrire les notes de votre choix.
+          Celles ci seront sauvegardées avec le projet"
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom">
+          </i>
         </div>
+        <textarea v-model="notes"></textarea>
       </div>
 
-      <TubesList class="d-flex"/>
-
     </div>
 
-    <div class="mt-2">
-      <MeasurementsList/>
-    </div>
+    <TubesList class="d-flex"/>
 
+  </div>
+
+  <div class="mt-2 ms-4">
+    <MeasurementsList/>
   </div>
 </template>
 
@@ -74,45 +68,17 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-.chart_tubes_notes {
-  display: flex;
-}
-
-.tubes_notes {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.workspace {
-  margin-left: 1em;
-}
-
 textarea {
+  width: 740px;
+  height: 100px;
+  resize: none;
   font-size: 18px;
 }
 
-.notes {
-  display: flex;
-
-  .header {
-    margin-bottom: 0.6em;
-  }
-
-  textarea {
-    width: 740px;
-    height: 100px;
-    resize: none;
+@media screen and (max-width:1300px) {
+  .chart_tubes_notes {
+      flex-direction: column;
   }
 }
 
-.notes_flex {
-  flex-grow: 0.06;
-}
-
- @media screen and (max-width:1300px) {
-    .chart_tubes_notes {
-        flex-direction: column;
-    }
- }
 </style>

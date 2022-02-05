@@ -63,7 +63,7 @@
             <template v-else>
               <div class="flex-fill p-2">
                 <div class="flex-fill d-flex gap-2">
-                  <i class="bi-exclamation-triangle-fill text-danger"
+                  <i class="bi bi-exclamation-triangle-fill text-danger"
                   v-tooltip
                   :title="capture.errorMessage"></i>
                   <label class="uGrid">-{{ capture.uGrid }}V</label>

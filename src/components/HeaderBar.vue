@@ -1,15 +1,15 @@
 <template>
-  <header>
-      <div class="letside">
+  <header class="d-flex mb-4 justify-content-between align-items-center">
+      <div class="d-flex gap-8 justify-content-between align-items-center">
 
-        <h1 class="text-light">Lampemètre</h1>
+        <h1 class="text-light m-0 py-1 px-3">Lampemètre</h1>
         <SaveLoad
         @errorTriggered="$emit('errorTriggered', $event)"
         />
 
       </div>
 
-      <Timer class="timer" :timer="this.$store.state.timer"/>
+      <Timer class="timer me-4" :timer="this.$store.state.timer"/>
   </header>
 </template>
 
@@ -35,36 +35,17 @@ export default defineComponent({
 @use '../scss/main.scss';
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   position: sticky;
   top: 0;
   z-index: 10;
   background: main.$blue-300;
-  margin-bottom: 1em;
 }
 
 h1 {
   font-size: 50px;
-  margin: 0;
-  padding: 0.1em 0.4em;
-
-  flex-grow: 1;
 
   font-family: 'Inter', sans-serif;
   font-weight: bold;
-}
-
-.timer {
-  margin-right: 1em;
-}
-
-.letside {
-  display: flex;
-  justify-content: space-between;
-  gap: 2em;
-  align-items: center;
 }
 
 </style>

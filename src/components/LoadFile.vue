@@ -5,7 +5,12 @@
     <i v-if="iconClass !== undefined" class="bi" :class="iconClass"></i>
   </a>
   <!--Hidden input text field used for file browsing. Triggered by clicking the button-->
-  <input @change="fileSelected" type="file" name="file" :accept="accept" ref="fileInput"/>
+  <input class="d-none"
+  type="file"
+  name="file"
+  @change="fileSelected"
+  :accept="accept"
+  ref="fileInput"/>
 </template>
 
 <script lang="ts">
@@ -92,16 +97,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-div {
-  display: inline;
-}
-
 button {
   font-size: 15px;
-}
-
-input {
-  display: none;
 }
 
 </style>

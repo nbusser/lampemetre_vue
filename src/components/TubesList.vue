@@ -1,20 +1,20 @@
 <template>
     <div class="tubes">
-        <div class="header">
+        <div class="header ms-4">
           <h2>Tubes</h2>
-          <div class="btn-group" role="group" aria-label="tubes-control">
+          <div class="btn-group ms-3 align-bottom" role="group" aria-label="tubes-control">
               <button type="button" class="btn btn-dark"
               @click="this.newTubeModal.show()">
-              <i class="bi-plus-lg"></i>
+              <i class="bi bi-plus-lg"></i>
               </button>
               <button type="button" class="btn btn-outline-dark"
               @click="this.clearTubesModal.show()">
-              <i class="bi-trash"></i>
+              <i class="bi bi-trash"></i>
               </button>
           </div>
         </div>
-        <ul class="d-flex flex-wrap align-items-stretch gap-2">
-            <li class="tube d-flex" v-for="tube, i in this.tubes" :key="i">
+        <ul class="d-flex flex-wrap align-items-stretch gap-3 mt-3">
+            <li class="d-flex" v-for="tube, i in this.tubes" :key="i">
                 <Tube :tube="tube"
                 @selectedCaptureChanged="selectCaptureTube(tube, $event)"
                 @captureRequested="runCapture(tube, $event)"
@@ -121,23 +121,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-.tube {
-  width: 14.5em;
-}
-
-.header {
-    margin-left: 0.8em;
-
-  .btn-group {
-    margin-left: 0.8em;
-    vertical-align: bottom;
-  }
-}
-
 ul {
   list-style: none;
-  row-gap: 0.8em;
-  margin-top: 0.8em;
   max-height: 45em;
   overflow: auto;
 }

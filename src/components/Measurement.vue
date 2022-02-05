@@ -1,13 +1,13 @@
 <template>
-    <div class="header">
+    <div class="header text-center mb-2">
         <h3 :style="setMeasurementColor()">{{ uAnode }} V</h3>
-        <button type="button" class="btn btn-outline-dark"
+        <button type="button" class="btn btn-outline-dark ms-2 align-bottom"
         @click="removeMeasurement()">
           <i class="bi bi-trash"></i>
         </button>
     </div>
 
-    <table class="table table-striped table-bordered">
+    <table class="table table-striped table-bordered d-inline">
         <thead>
           <tr v-if="this.tubes.length > 0">
             <th scope="col"></th>
@@ -22,11 +22,12 @@
                 <th scope="col" :style="setTubeColor(result.tube)">
                   {{ result.tube.name }}
                 </th>
-                <td v-for="values, j in result.results" :key="j">
+                <td class="text-center"
+                v-for="values, j in result.results" :key="j">
                   <template v-if="typeof values === 'number'">
                     {{ values.toFixed(1) }} {{ units[j] }}
                   </template>
-                  <i class="icon bi-exclamation-triangle-fill"
+                  <i class="icon bi bi-exclamation-triangle-fill"
                   v-tooltip
                   :title="values" v-else
                   >
@@ -114,21 +115,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.header {
-  text-align: center;
-  margin-bottom: 0.7em;
 
-  button {
-    margin-left: 0.8em;
-    vertical-align: bottom;
-  }
-}
-
-table {
-  display: inline;
-}
-
-td {
-  text-align: center;
-}
 </style>

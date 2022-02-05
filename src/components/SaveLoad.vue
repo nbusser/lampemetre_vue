@@ -38,7 +38,7 @@
             text="JSON"
             accept=".json"
             readMethod="text"
-            iconClass="bi-filetype-json"
+            iconClass="bi bi-filetype-json"
             @fileLoaded="loadJSON"
             @errorTriggered="$emit('errorTriggered', $event)"
             />
@@ -46,7 +46,7 @@
             text="Excel"
             accept=".xlsx"
             readMethod="array_buffer"
-            iconClass="bi-file-excel"
+            iconClass="bi bi-file-excel"
             @fileLoaded="importExcel"
             @errorTriggered="$emit('errorTriggered', $event)"
             />
