@@ -1,6 +1,7 @@
 <template>
     <ModalPopup
     @modalCreated="$emit('modalCreated', $event)"
+    @enterPressed="sendResult"
     @show="resetInput"
     @shown="focusInput">
         <div class="modal-header">

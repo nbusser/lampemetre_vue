@@ -3,6 +3,7 @@
     class="modal fade"
     ref="modal"
     tabindex="-1"
+    @keypress="isEnterKey"
     v-on="{
       'show.bs.modal': () => { $emit('show') },
       'shown.bs.modal': () => { $emit('shown') }
@@ -25,11 +26,23 @@ export default defineComponent({
     'show',
     'shown',
     'modalCreated',
+    'enterPressed',
   ],
+  data: () => ({
+    modal: null as Modal | null,
+  }),
   mounted() {
     const modalDiv = this.$refs.modal as HTMLElement;
-    const modal = new Modal(modalDiv);
-    this.$emit('modalCreated', modal);
+    this.modal = new Modal(modalDiv);
+    this.$emit('modalCreated', this.modal);
+  },
+  methods: {
+    isEnterKey(evt: any) {
+      if (evt.keyCode === 13) {
+        (this.modal as Modal).hide();
+        this.$emit('enterPressed');
+      }
+    },
   },
 });
 </script>

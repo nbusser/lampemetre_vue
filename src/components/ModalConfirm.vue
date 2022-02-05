@@ -1,6 +1,7 @@
 <template>
   <ModalPopup
-  @modalCreated="$emit('modalCreated', $event)">
+  @modalCreated="$emit('modalCreated', $event)"
+  @enterPressed="$emit('confirmed')">
     <div class="modal-header">
       <h5 class="modal-title">Confirmation</h5>
       <button type="button"
