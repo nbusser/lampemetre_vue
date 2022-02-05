@@ -78,9 +78,7 @@ export default defineComponent({
   }),
   methods: {
     updateInputs(evt: any, indexInput: number) {
-      if (evt.keyCode === 13) {
-        (this.$refs.confirmBtn as HTMLButtonElement).click();
-      } else if (evt.keyCode === 44) {
+      if (evt.keyCode === 44) {
         // Pressing comma on the last input creates a new input
         if (indexInput === this.inputs.length - 1) {
           this.inputs.push('');
