@@ -1,6 +1,6 @@
 @import "../../node_modules/bootstrap/scss/functions";
 @import "../../node_modules/bootstrap/scss/variables";
 
-$enable-gradients: true;
+$modal-transition: transform 0.1s ease-out;
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
