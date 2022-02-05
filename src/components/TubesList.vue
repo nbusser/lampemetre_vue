@@ -1,19 +1,19 @@
 <template>
     <div class="tubes">
         <div class="header">
-        <h2>Tubes</h2>
-        <div class="btn-group" role="group" aria-label="tubes-control">
-            <button type="button" class="btn btn-dark"
-            @click="this.newTubeModal.show()">
-            <i class="bi-plus-lg"></i>
-            </button>
-            <button type="button" class="btn btn-outline-dark"
-            @click="this.clearTubesModal.show()">
-            <i class="bi-trash"></i>
-            </button>
+          <h2>Tubes</h2>
+          <div class="btn-group" role="group" aria-label="tubes-control">
+              <button type="button" class="btn btn-dark"
+              @click="this.newTubeModal.show()">
+              <i class="bi-plus-lg"></i>
+              </button>
+              <button type="button" class="btn btn-outline-dark"
+              @click="this.clearTubesModal.show()">
+              <i class="bi-trash"></i>
+              </button>
+          </div>
         </div>
-        </div>
-        <ul>
+        <ul class="d-flex flex-wrap">
             <li class="tube" v-for="tube, i in this.tubes" :key="i">
                 <Tube :tube="tube"
                 @selectedCaptureChanged="selectCaptureTube(tube, $event)"
@@ -122,20 +122,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 
 .tube {
-  border: 2px solid black;
-  border-radius: 2%;
-  /*
-   * Bootstrap's grid system is quite stiff and doesn't allow
-   * the user to precisely set the width of the components.
-   * Thus, I decided to reduce the size of each grid by setting
-   * hard-coded width. Also, for some reason, the grid's content
-   * cannot be properly centered and is abnormaly wide in the
-   * right side. Thus, I decided to apply a smaller padding to
-   * the right in order to balance the display.
-   * Consider to use bootstrap's cards in future version.
-   */
   width: 14.5em;
-  padding: 1em 0.3em 1em 1em;
 }
 
 .header {
@@ -148,15 +135,9 @@ export default defineComponent({
 }
 
 ul {
-    list-style: none;
-    margin-top: 0.8em;
-
-    overflow-y: auto;
-    max-height: 30.1em;
-    display: flex;
-    flex-wrap: wrap;
-    padding-left: 1em;
-    gap: 0.5em;
+  list-style: none;
+  row-gap: 0.8em;
+  margin-top: 0.8em;
 }
 
 @media screen and (max-width:1300px) {

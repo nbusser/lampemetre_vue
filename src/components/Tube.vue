@@ -1,118 +1,104 @@
 <template>
-    <div class="container">
-      <div class="row">
-        <div class="col-8">
-          <h4 class="tube_name"
-          :style="setColor()">
-            {{ tube.name }}
-          </h4>
-        </div>
-        <div class="col-4">
-          <button type="button" class="btn btn-outline-dark btn-sm"
-          @click="removeTube()">
-            <i class="bi-trash"></i>
-          </button>
-        </div>
+  <div class="container">
+    <div class="card">
+      <div class="card-header p-0 d-flex justify-content-between"
+      :style="{'border-top': `0.35rem solid ${setColor()}`}">
+        <h5 class="p-2">{{ tube.name }}</h5>
+        <button type="button" class="btn btn-outline-danger border-0"
+        @click="removeTube()">
+          <i class="bi bi-trash"></i>
+        </button>
       </div>
-      <div class="row">
-        <div class="col-8">
-          <h5 class="no_selec">Captures</h5>
-        </div>
-        <div class="col-4">
-          <button type="button" class="btn btn-dark btn-sm"
+      <div class="card-body p-2">
+        <p class="card-text mb-2">
+          <button type="button"
+          class="btn btn-outline-primary w-100 d-flex gap-2 align-items-center"
           @click="this.promptCaptureModal.show()">
-            <i class="bi-plus-lg"></i>
+            <span class="flex-fill">Nouvelle capture</span>
+            <i class="bi bi-plus-circle"></i>
           </button>
-        </div>
-      </div>
-      <div class="row capture" v-for="[uGrid, capture] in tube.captures" :key="uGrid">
-        <div class="col">
-          <input class="form-check-input" type="radio"
-          :checked="tube.selectedUgrid === uGrid"
-          :value="uGrid"
-          @change="selectedCaptureChanged">
-        </div>
-        <div class="col uGrid">
-          {{ capture.toString() }}
-        </div>
-        <div class="col">
-          <button type="button" class="btn btn-outline-dark btn-sm"
+        </p>
+        <ul class="list-group"
+        :class="tube.captures.size > 0 ? 'mb-2' : ''">
+          <li class="capture list-group-item d-flex p-0"
+          v-for="[uGrid, capture] in tube.captures" :key="uGrid">
+            <div class="flex-fill p-2">
+              <label class="form-check-label flex-fill d-flex gap-2 align-items-center">
+                <input type="radio"
+                :checked="tube.selectedUgrid === uGrid"
+                :value="uGrid"
+                @change="selectedCaptureChanged"/>
+                <div>{{ capture.toString() }}</div>
+              </label>
+            </div>
+            <button type="button" class="btn btn-outline-danger border-0"
             @click="removeCapture(uGrid)">
-              <i class="bi-trash"></i>
-          </button>
-        </div>
+              <i class="bi bi-trash"></i>
+            </button>
+          </li>
+        </ul>
+        <ul class="defective_captures list-group">
+          <li class="list-group-item d-flex p-0"
+          v-for="capture, i in defectiveCaptures" :key="i">
+
+            <template
+            v-if="capture.errorMessage === null">
+              <div class="flex-fill p-2">
+                <div class="flex-fill d-flex gap-2">
+                  <div class="spinner-border spinner-border-sm text-primary"
+                  role="status"
+                  v-tooltip
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title="En attente">
+                  </div>
+                  <label class="uGrid">-{{ capture.uGrid }}V</label>
+                </div>
+              </div>
+              <button type="button" class="btn btn-outline-dark border-0"
+              @click="cancelPendingCapture(capture.uGrid)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </template>
+
+            <template v-else>
+              <div class="flex-fill p-2">
+                <div class="flex-fill d-flex gap-2">
+                  <i class="bi-exclamation-triangle-fill text-danger"
+                  v-tooltip
+                  :title="capture.errorMessage"></i>
+                  <label class="uGrid">-{{ capture.uGrid }}V</label>
+                </div>
+              </div>
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-dark border-0"
+                @click="retryCrashedCapture(capture.uGrid)">
+                  <i class="bi bi-arrow-clockwise"></i>
+                </button>
+                <button type="button" class="btn btn-outline-dark border-0"
+                @click="removeCrashedCapture(capture.uGrid)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </template>
+          </li>
+        </ul>
       </div>
-
-    <div class="defective_captures" v-for="capture, i in defectiveCaptures" :key="i">
-
-      <div class="row pending_capture"
-      v-if="capture.errorMessage === null">
-
-        <div class="col">
-          <div class="spinner-border spinner-border-sm text-primary"
-          role="status"
-          v-tooltip
+      <div class="card-footer">
+        <label class="d-flex gap-2">
+          <span v-tooltip
           data-bs-toggle="tooltip"
           data-bs-placement="top"
-          title="En attente">
-          </div>
-          <span class="visually-hidden">Loading...</span>
-        </div>
-
-        <div class="col uGrid">-{{ capture.uGrid }}V</div>
-
-        <div class="col">
-          <button type="button" class="btn btn-outline-dark btn-sm"
-          @click="cancelPendingCapture(capture.uGrid)">
-            <i class="bi-dash-lg"></i>
-          </button>
-        </div>
-
-      </div>
-
-      <div class="row crashed_capture" v-else>
-
-        <div class="col">
-          <i class="bi-exclamation-triangle-fill text-danger"
-          v-tooltip
-          :title="capture.errorMessage"></i>
-        </div>
-
-        <div class="col uGrid">-{{ capture.uGrid }}V</div>
-
-        <div class="col btn-group" role="group">
-          <button type="button" class="btn btn-outline-dark btn-sm"
-          @click="retryCrashedCapture(capture.uGrid)">
-          <i class="bi-arrow-clockwise"></i>
-          </button>
-
-          <button type="button" class="btn btn-outline-dark btn-sm"
-          @click="removeCrashedCapture(capture.uGrid)">
-            <i class="bi-trash"></i>
-          </button>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="row slider">
-      <div class="col-5">
-        <span v-tooltip
-        class="no_selec"
-        data-bs-toggle="tooltip"
-        data-bs-placement="top"
-        title="Détermine la correction de bruit sur les captures.">
-          Lissage
-        </span>
-      </div>
-      <div class="col-7">
-        <input type="range"
-        :min="minSmoothingFactor"
-        :max="maxSmoothingFactor"
-        :value="tube.smoothingFactor"
-        :disabled="!tube.canChangeSmoothingFactor() || pendingCaptures.length > 0"
-        @change="smoothingFactorChanged"
-        >
+          title="Détermine la correction de bruit sur les captures.">
+            Lissage
+          </span>
+          <input type="range" class="form-range"
+          :min="minSmoothingFactor"
+          :max="maxSmoothingFactor"
+          :value="tube.smoothingFactor"
+          :disabled="!tube.canChangeSmoothingFactor() || pendingCaptures.length > 0"
+          @change="smoothingFactorChanged"/>
+        </label>
       </div>
     </div>
   </div>
@@ -225,9 +211,7 @@ export default defineComponent({
       if (this.tube !== undefined) {
         stringColor = (this.$store.state.tubeColors.get(this.tube) as Color).toString();
       }
-      return {
-        color: stringColor,
-      };
+      return stringColor;
     },
     cancelPendingCapture(uGrid: number): void {
       this.$emit('pendingCaptureCanceled', uGrid);
@@ -244,33 +228,14 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-ul {
-  list-style: none;
-}
-
-.tube_name {
-  overflow: auto;
-}
-
 button {
     vertical-align: text-bottom;
-}
-
-.slider {
-    input {
-        vertical-align: middle;
-        max-width: 100%;
-    }
 }
 
 .defective_captures {
   .uGrid {
     opacity: 50%;
   }
-}
-
-.no_selec {
-  user-select: none;
 }
 
 </style>
