@@ -1,12 +1,12 @@
 <template>
   <div class="save_load dropdown">
-      <a class="btn btn-light btn-lg dropdown-toggle" role="button"
+      <button class="btn btn-light btn-lg dropdown-toggle" type="button"
       data-bs-toggle="dropdown"
       data-bs-auto-close="true">
         Projet
         <i class="bi bi-save"></i>
         <i class="bi"></i>
-      </a>
+      </button>
       <ul class="dropdown-menu">
         <li class="dropdown-submenu">
           <a class="dropdown-item"
@@ -121,6 +121,10 @@ export default defineComponent({
 }
 
 // Dropdown submenu hacking
+
+a {
+  cursor: default;
+}
 
 .dropdown-submenu {
     position: relative;

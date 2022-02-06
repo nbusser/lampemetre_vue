@@ -101,4 +101,8 @@ button {
   font-size: 15px;
 }
 
+a {
+  cursor: pointer;
+}
+
 </style>
