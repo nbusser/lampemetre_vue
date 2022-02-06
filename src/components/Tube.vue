@@ -51,7 +51,7 @@
                   data-bs-placement="top"
                   title="En attente">
                   </div>
-                  <label class="uGrid">-{{ capture.uGrid }}V</label>
+                  <label class="opacity-50">-{{ capture.uGrid }}V</label>
                 </div>
               </div>
               <button type="button" class="btn btn-outline-dark border-0"
@@ -66,7 +66,7 @@
                   <i class="bi bi-exclamation-triangle-fill text-danger"
                   v-tooltip
                   :title="capture.errorMessage"></i>
-                  <label class="uGrid">-{{ capture.uGrid }}V</label>
+                  <label class="opacity-50">-{{ capture.uGrid }}V</label>
                 </div>
               </div>
               <div class="btn-group" role="group">
@@ -228,12 +228,6 @@ export default defineComponent({
 
 button {
     vertical-align: text-bottom;
-}
-
-.defective_captures {
-  .uGrid {
-    opacity: 50%;
-  }
 }
 
 </style>
