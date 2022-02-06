@@ -25,11 +25,13 @@ Dans le futur, ces fonctionalités seront sûrement implémentées par d'autres 
 
 ## Installation
 
-Vous pouvez utiliser Lampemetre.Vue en mode en ligne, ou en mode hors ligne. Aucune autre opération n'est requise.
+Vous pouvez utiliser Lampemetre.Vue en mode en ligne, ou en mode hors ligne.
 
 ### Mode en ligne (recommandé)
 
 Suivez [ce lien](https://nbusser.github.io/lampemetre_vue/) pour utiliser Lampemetre.Vue.
+
+Aucune autre opération n'est requise.
 
 ### Mode hors ligne
 
