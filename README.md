@@ -2,9 +2,9 @@
 
 Lampemetre.Vue est un programme permettant la visualisation des mesures acquises par [Module Lampemètre Analyseur Traceur de Courbes](https://www.radioelec.com/module-lampemetre-analyseur-traceur-de-courbes-vacuum-tube-analyzer-xml-352_387-828.html) de [RadioElec](https://www.radioelec.com).
 
-Le programme Liberty BASIC fourni par RadioElec lors de l'achat du module souffre de nombreuses limitations.
+Le programme Liberty BASIC fourni par RadioElec lors de l'achat du module souffre malheureusement de nombreuses limitations.
 
-Ce programme libre et gratuit offre de nombreuses nouvelles fonctionnalités, une meilleure ergonomie et de nombreuses corrections techniques.
+Cette alternative libre et gratuite offre de nombreuses nouvelles fonctionnalités, une meilleure ergonomie et de nombreuses corrections techniques vis-à-vis du programme original.
 
 ## Prérequis
 
@@ -25,9 +25,9 @@ Dans le futur, ces fonctionalités seront sûrement implémentées par d'autres 
 
 ## Installation
 
-Vous pouvez utiliser Lampemetre.Vue en mode en ligne, ou en mode hors ligne.
+Vous pouvez utiliser Lampemetre.Vue en mode en ligne, ou en mode hors ligne. Aucune autre opération n'est requise.
 
-### Mode en ligne
+### Mode en ligne (recommandé)
 
 Suivez [ce lien](https://nbusser.github.io/lampemetre_vue/) pour utiliser Lampemetre.Vue.
 
@@ -45,6 +45,8 @@ Suivez [ce lien](https://nbusser.github.io/lampemetre_vue/) pour utiliser Lampem
 4. Connectez vous à `localhost:8080` sur Google Chrome
 
 ## Utilisation
+
+Avant toute utilisation, pensez à connecter le cable série du lampemètre à votre PC et à mettre sous tension le lampemètre.
 
 ### Création de tube
 
@@ -82,28 +84,33 @@ Vous pouvez également cliquer sur le bouton **+** dans l'onglet mesure pour eff
 
 ### Sauvegarde de l'espace de travail
 
-En utilisant le bouton Sauvegarder, vous pouvez sauvegarder votre espace de travail.
+En utilisant le bouton projet, vous pouvez sauvegarder ou charger votre espace de travail.
 
-Les tubes, captures, mesures et notes personnelles seront sauvegardées dans un fichier json.
+#### Sauvegarde JSON (recommandé)
 
-En utilisant le bouton Charger, vous pouvez alors retrouver votre environnement de travail.
+Nous recommandons l'utilisation de la sauvegarde en .json.
 
-### Importation/exportation Excel
+Dans ce format, les tubes, leurs captures, les mesures ainsi que les notes personnelles seront sauvegardés.
 
-Cliquez sur le bouton Exporter pour compiler les données des courbes et des mesures dans un fichier excel. Le fichier sera alors téléchargé par votre navigateur.
+En utilisant l'option charger depuis un fichier .json, vous pourez alors retrouver votre environnement de travail à l'identique.
 
-Vous pouvez réaliser la manipulation inverse en utilisant le bouton Importer.
-Les mesures ne seront pas importées.
-Pensez à respecter scrupuleusement le format.
+#### Importation/exportation Excel (lacunaire)
 
-Au vu des contraintes quentraine le format de sauvegarde, nous vous recommandons de n'utiliser la fonctionnalité d'importation de fichier Excel uniquement si vous souhaitez entrer votre datasheet à la main.
+L'option de sauvegarde en fichier Excel (.xlsx) permet de compiler les données des courbes et des mesures dans un fichier excel.
+
+**NB:** les notes personnelles ne sont pas sauvegardées
+
+En utilisant l'option charger depuis un fichier Excel, vous pourrez retrouver vos tubes et captures.
+Les éventuelles mesures ne seront **pas** importées.
+
+**NB:** au vu des contraintes qu'entraine le format de sauvegarde, nous vous recommandons de n'utiliser la fonctionnalité d'importation de fichier Excel uniquement si vous souhaitez entrer votre datasheet à la main.
 Dans le cas où vous souhaitez simplement sauvegarder votre espace de travail, référez vous aux boutons Sauvegarder et Charger.
 
 ### Minuterie
 
-Vous pouvez trouver en haut de l'écran un espace dédié à la minuterie.
+Vous pouvez trouver en haut à droite de l'écran un espace dédié à la minuterie.
 
-Ce minuteur vous permet de vous assurer que vos lampes sont bien chaudes avant de lancer les captures.
+Le rôle de ce minuteur est de vous assurer que vos lampes sont bien chaudes avant de lancer les captures.
 
 Pour lancer le minuteur, cliquez sur le bouton **Minuteur** puis réglez le nombre de secondes.
 
